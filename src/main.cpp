@@ -3,6 +3,13 @@
 #include <cstdint>
 #include <raylib.h>
 
+Texture2D load_sprites(const char* path) {
+	Image image = LoadImage(path);
+	Texture2D texture = LoadTextureFromImage(image);
+	UnloadImage(image);
+	return texture;
+};
+
 int main() {
 	//must always respect sprite dimensions
 	int windowX = 1920;
@@ -33,6 +40,8 @@ int main() {
 	SetTargetFPS(60);
 	InitWindow(windowX, windowY, "Sokoban!");
 
+	Texture2D texture = load_sprites("data/sprites/wall.png");
+
 	while(!WindowShouldClose()) {
 		BeginDrawing();
 
@@ -45,7 +54,11 @@ int main() {
 
 			std::cout << "X OFFSET: " << xOffset << " || Y OFFSET: " << yOffset << std::endl;
 
-			DrawRectangle(xOffset * tileSize, yOffset * tileSize, tileSize, tileSize, tileColors[first[i]]);
+			//Texture2D texture = load_sprites("data/sprites/wall.png");
+
+			DrawTexture(texture, xOffset * tileSize, yOffset * tileSize, Color{255, 255, 255, 255});
+
+			//DrawRectangle(xOffset * tileSize, yOffset * tileSize, tileSize, tileSize, tileColors[first[i]]);
 		}
 
 		EndDrawing();
