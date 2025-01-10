@@ -10,24 +10,23 @@ Texture2D load_sprites(const char* path) {
 	return texture;
 };
 
+int getOffset(int tileSize, int puzzleWidth, int windowSize) {
+	return (windowSize - (tileSize * puzzleWidth)) / 2;
+}
+
 int main() {
 	//must always respect sprite dimensions
-	int windowX = 1920;
-	int windowY = 1088;
+	int screenWidth		= 1920;
+	int screenHeight 	= 1088;
+	int tileSize 		= 64;
 
-	int tileSize = 64;
+	SetTargetFPS(60);
+	InitWindow(screenWidth, screenHeight, "Sokoban!");
 
-	//replace with Images for sprites
-	//will need to add handling to scale sprites according to screen size
-	std::vector<Color> tileColors {
-		PINK,
-		PURPLE,
-		RED,
-		RAYWHITE,
-		GREEN,
-		BLUE,
-		DARKBROWN
-	};
+	RenderTexture2D game = LoadRenderTexture(screenWidth, screenHeight);
+		BeginTextureMode(game);
+		ClearBackground(BLACK);
+	EndTextureMode();
 
 	std::vector<int> first{
 		4,5,3,3,4,
@@ -37,31 +36,35 @@ int main() {
 		3,3,3,3,3
 	};
 
-	SetTargetFPS(60);
-	InitWindow(windowX, windowY, "Sokoban!");
-
 	Texture2D texture = load_sprites("data/sprites/wall.png");
 
 	while(!WindowShouldClose()) {
+
+		//Draw game screen to Texture2D
+		BeginTextureMode(game);
+			for (int i = 0; i < first.size(); ++i) {
+				int xOffset = (i % 5);
+				int yOffset = (i) / 5;
+
+				int windowXOffset = getOffset(tileSize, 5, screenWidth);
+				int windowYOffset = getOffset(tileSize, 5, screenHeight);
+
+				std::cout << "X OFFSET: " << xOffset << " || Y OFFSET: " << yOffset << std::endl;
+
+				//Texture2D texture = load_sprites("data/sprites/wall.png");
+
+				DrawTexture(texture, (xOffset * tileSize) + windowXOffset, (yOffset * tileSize) + windowYOffset, RAYWHITE);
+			}
+		EndTextureMode();
+
+
+
+
+		//Draw to window
 		BeginDrawing();
-
-		ClearBackground(BLACK);
-
-		//Draw everything in a grid
-		for (int i = 0; i < first.size(); ++i) {
-			int xOffset = (i % 5);
-			int yOffset = (i) / 5;
-
-			std::cout << "X OFFSET: " << xOffset << " || Y OFFSET: " << yOffset << std::endl;
-
-			//Texture2D texture = load_sprites("data/sprites/wall.png");
-
-			DrawTexture(texture, xOffset * tileSize, yOffset * tileSize, Color{255, 255, 255, 255});
-
-			//DrawRectangle(xOffset * tileSize, yOffset * tileSize, tileSize, tileSize, tileColors[first[i]]);
-		}
-
+			DrawTextureRec(game.texture, (Rectangle){0, 0, (float)game.texture.width, -(float)game.texture.height}, (Vector2){0, 0}, RAYWHITE);
 		EndDrawing();
+
 	}
 
 	CloseWindow();	
