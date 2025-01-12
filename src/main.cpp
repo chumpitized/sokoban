@@ -1,14 +1,9 @@
+#include "sprites.h"
+
 #include <vector>
 #include <iostream>
 #include <cstdint>
 #include <raylib.h>
-
-Texture2D load_sprites(const char* path) {
-	Image image = LoadImage(path);
-	Texture2D texture = LoadTextureFromImage(image);
-	UnloadImage(image);
-	return texture;
-};
 
 int getOffset(int tileSize, int puzzleWidth, int windowSize) {
 	return (windowSize - (tileSize * puzzleWidth)) / 2;
@@ -23,7 +18,9 @@ int main() {
 	int tileSize 		= 192;
 
 	SetTargetFPS(60);
+
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
+	load_sprites();
 
 	RenderTexture2D game = LoadRenderTexture(screenWidth, screenHeight);
 		BeginTextureMode(game);
@@ -31,14 +28,12 @@ int main() {
 	EndTextureMode();
 
 	std::vector<int> first{
-		4,5,3,3,4,
-		4,1,1,1,4,
-		4,1,3,1,4,
-		4,1,1,1,4,
+		4,3,3,3,4,
+		4,1,2,5,4,
+		4,0,3,6,4,
+		4,1,2,1,4,
 		3,3,3,3,3
 	};
-
-	Texture2D texture = load_sprites("data/sprites/wall_horizontal.png");
 
 	while(!WindowShouldClose()) {
 
@@ -51,10 +46,8 @@ int main() {
 				int windowXOffset = getOffset(tileSize, 5, screenWidth);
 				int windowYOffset = getOffset(tileSize, 5, screenHeight);
 
-				//Texture2D texture = load_sprites("data/sprites/wall.png");
-
 				//Draw texture with extended parameters (scale, rotation, etc.)
-				DrawTextureEx(texture, Vector2{(float)(xOffset * tileSize) + windowXOffset, (float)(yOffset * tileSize) + windowYOffset}, 0.0, 12.0, RAYWHITE); 
+				DrawTextureEx(sprites[first[i]], Vector2{(float)(xOffset * tileSize) + windowXOffset, (float)(yOffset * tileSize) + windowYOffset}, 0.0, 12.0, RAYWHITE); 
 			}
 		EndTextureMode();
 
