@@ -19,16 +19,16 @@ int main() {
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
 	load_sprites();
 
-	RenderTexture2D gameTexture = create_game_texture(screenWidth, screenHeight);
+	RenderTexture2D gameRenderTexture2D = create_game_texture(screenWidth, screenHeight);
 
 	while(!WindowShouldClose()) {
 		PuzzleInfo first = PuzzleInfo(5, 5, 0);
 
-		draw_puzzle(first, gameTexture, sprites, tileSize, screenWidth, screenHeight); 
+		draw_puzzle_to_texture(first, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight); 
 
-		//Draw gameTexture to window
+		//Draw gameRenderTexture2D to window
 		BeginDrawing();
-			DrawTextureRec(gameTexture.texture, (Rectangle){0, 0, (float)gameTexture.texture.width, -(float)gameTexture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+			DrawTextureRec(gameRenderTexture2D.texture, (Rectangle){0, 0, (float)gameRenderTexture2D.texture.width, -(float)gameRenderTexture2D.texture.height}, (Vector2){0, 0}, RAYWHITE);
 		EndDrawing();
 
 	}
