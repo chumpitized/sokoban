@@ -11,7 +11,7 @@ void load_sprites();
 extern Texture2D player;
 extern Texture2D black_tile;
 extern Texture2D gray_tile;
-extern Texture2D horizontal_wall;;
+extern Texture2D horizontal_wall;
 extern Texture2D vertical_wall;
 extern Texture2D locked_door;
 extern Texture2D key;
