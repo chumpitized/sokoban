@@ -1,13 +1,10 @@
 #include "sprites.h"
+#include "puzzles.h"
 
 #include <vector>
 #include <iostream>
 #include <cstdint>
 #include <raylib.h>
-
-int getOffset(int tileSize, int puzzleWidth, int windowSize) {
-	return (windowSize - (tileSize * puzzleWidth)) / 2;
-}
 
 int main() {
 	//must always respect sprite dimensions
@@ -15,46 +12,23 @@ int main() {
 	int screenHeight 	= 1088;
 
 	//tileSize should scale with screenHeight
-	int tileSize 		= 192;
+	int tileSize 		= 176;
 
 	SetTargetFPS(60);
 
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
 	load_sprites();
 
-	RenderTexture2D game = LoadRenderTexture(screenWidth, screenHeight);
-		BeginTextureMode(game);
-		ClearBackground(BLACK);
-	EndTextureMode();
-
-	std::vector<int> first{
-		4,3,3,3,4,
-		4,1,2,5,4,
-		4,0,3,6,4,
-		4,1,2,1,4,
-		3,3,3,3,3
-	};
+	RenderTexture2D gameTexture = create_game_texture(screenWidth, screenHeight);
 
 	while(!WindowShouldClose()) {
+		PuzzleInfo first = PuzzleInfo(5, 5, 0);
 
-		//Draw game screen to Texture2D
-		BeginTextureMode(game);
-			for (int i = 0; i < first.size(); ++i) { 
-				int xOffset = (i % 5);
-				int yOffset = (i) / 5;
+		draw_puzzle(first, gameTexture, sprites, tileSize, screenWidth, screenHeight); 
 
-				int windowXOffset = getOffset(tileSize, 5, screenWidth);
-				int windowYOffset = getOffset(tileSize, 5, screenHeight);
-
-				//Draw texture with extended parameters (scale, rotation, etc.)
-				DrawTextureEx(sprites[first[i]], Vector2{(float)(xOffset * tileSize) + windowXOffset, (float)(yOffset * tileSize) + windowYOffset}, 0.0, 12.0, RAYWHITE); 
-			}
-		EndTextureMode();
-
-
-		//Draw to window
+		//Draw gameTexture to window
 		BeginDrawing();
-			DrawTextureRec(game.texture, (Rectangle){0, 0, (float)game.texture.width, -(float)game.texture.height}, (Vector2){0, 0}, RAYWHITE);
+			DrawTextureRec(gameTexture.texture, (Rectangle){0, 0, (float)gameTexture.texture.width, -(float)gameTexture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 		EndDrawing();
 
 	}
