@@ -14,18 +14,20 @@ PuzzleInfo::PuzzleInfo(int width, int height, int index) {
 };
 
 std::vector<std::vector<int>> puzzles = {
-	//example
+	//Microban 1
 	{
-		4,3,3,3,4,
-		4,1,1,1,4,
-		4,0,3,1,4,
-		4,1,1,1,4,
-		3,3,3,3,3
+		4,3,3,4,1,1,
+		4,1,1,4,1,1,
+		4,1,1,3,3,4,
+		4,6,0,1,1,4,
+		4,1,1,6,1,4,
+		4,1,1,4,3,3,
+		3,3,3,3,1,1
 	}
 };
 
 std::vector<PuzzleInfo> puzzleInfos = {
-	PuzzleInfo(5, 5, 0)
+	PuzzleInfo(6, 7, 0)
 };
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
@@ -46,13 +48,10 @@ void draw_puzzle_to_texture(PuzzleInfo& puzzleInfo, RenderTexture2D& texture, st
 	int puzzleWidth 		= puzzleInfo.width;
 	int puzzleHeight 		= puzzleInfo.height;
 
-	//need to do the math to scale the sprites
-	//hardcoded for now
-
 	BeginTextureMode(texture);
 	for (int i = 0; i < puzzleSize; ++i) { 
-		int tileXOffset 	= (i % puzzleWidth);
-		int tileYOffset 	= (i) / puzzleHeight;
+		int tileXOffset 	= i % puzzleWidth;
+		int tileYOffset 	= i / puzzleWidth;
 
 		int windowXOffset 	= get_puzzle_draw_offset(tileSize, puzzleWidth, screenWidth);
 		int windowYOffset 	= get_puzzle_draw_offset(tileSize, puzzleHeight, screenHeight);

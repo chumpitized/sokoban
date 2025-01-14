@@ -5,7 +5,7 @@
 
 #include <vector>
 
-bool is_valid_move(int move, std::vector<int>& puzzle);
-void move(int input, PuzzleInfo& puzzleInfo);
+bool is_possible_move(int move, std::vector<int>& puzzle);
+int try_move(int input, int tile, PuzzleInfo& puzzleInfo);
 
 #endif

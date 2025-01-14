@@ -29,8 +29,9 @@ int main() {
 	while(!WindowShouldClose()) {		
 
 		if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
-			int input = GetKeyPressed();
-			move(input, currPuzzle);
+			int input 			= GetKeyPressed();
+			int newPos 				= try_move(input, currPuzzle.playerIndex, currPuzzle);
+			currPuzzle.playerIndex 	= newPos;
 		}
 		//Only redraw when a state change occurs
 		draw_puzzle_to_texture(currPuzzle, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight); 
