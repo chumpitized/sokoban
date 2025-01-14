@@ -1,5 +1,6 @@
 #include "sprites.h"
 #include "puzzles.h"
+#include "logic.h"
 
 #include <vector>
 #include <iostream>
@@ -21,16 +22,23 @@ int main() {
 
 	RenderTexture2D gameRenderTexture2D = create_game_texture(screenWidth, screenHeight);
 
-	while(!WindowShouldClose()) {
-		PuzzleInfo first = PuzzleInfo(5, 5, 0);
+	int puzzleIndex = 0;
 
-		draw_puzzle_to_texture(first, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight); 
+	PuzzleInfo currPuzzle = puzzleInfos[puzzleIndex];
+
+	while(!WindowShouldClose()) {		
+
+		if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
+			int input = GetKeyPressed();
+			move(input, currPuzzle);
+		}
+		//Only redraw when a state change occurs
+		draw_puzzle_to_texture(currPuzzle, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight); 
 
 		//Draw gameRenderTexture2D to window
 		BeginDrawing();
 			DrawTextureRec(gameRenderTexture2D.texture, (Rectangle){0, 0, (float)gameRenderTexture2D.texture.width, -(float)gameRenderTexture2D.texture.height}, (Vector2){0, 0}, RAYWHITE);
 		EndDrawing();
-
 	}
 
 	CloseWindow();	

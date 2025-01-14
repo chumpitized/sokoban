@@ -4,19 +4,27 @@
 #include <vector>
 #include "raylib.h"
 
+enum Tiles {
+	player,
+	black_tile,
+	gray_tile,
+	horizontal_wall,
+	vertical_wall,
+	locked_door,
+	key
+};
+
 struct PuzzleInfo {
 	int width;
 	int height;
 	int index;
-	
-	PuzzleInfo(int width, int height, int index) {
-		this->width 	= width;
-		this->height 	= height;		
-		this->index 	= index;
-	};
+
+	int playerIndex;
+
+	PuzzleInfo(int width, int height, int index);
 };
 
-extern std::vector<PuzzleInfo> puzzlesInfo;
+extern std::vector<PuzzleInfo> puzzleInfos;
 extern std::vector<std::vector<int>> puzzles;
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight);

@@ -3,22 +3,29 @@
 
 #include <vector>
 
-//These two arrays are synchronized
-//i.e., the index of PuzzleInfo refers to the index of puzzles
-//probably makes index on PuzzleInfo redundant...
-std::vector<PuzzleInfo> puzzlesInfo = {
-	PuzzleInfo(5, 5, 0)
+PuzzleInfo::PuzzleInfo(int width, int height, int index) {
+	this->width 	= width;
+	this->height 	= height;
+	this->index 	= index;
+
+	for(int i = 0; i < puzzles[index].size(); ++i) {
+		if (puzzles[index][i] == 0) playerIndex = i;
+	}
 };
 
 std::vector<std::vector<int>> puzzles = {
 	//example
 	{
 		4,3,3,3,4,
-		4,1,1,5,4,
-		4,0,3,6,4,
+		4,1,1,1,4,
+		4,0,3,1,4,
 		4,1,1,1,4,
 		3,3,3,3,3
 	}
+};
+
+std::vector<PuzzleInfo> puzzleInfos = {
+	PuzzleInfo(5, 5, 0)
 };
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
