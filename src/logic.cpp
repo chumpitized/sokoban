@@ -5,7 +5,7 @@
 #include <vector>
 
 bool is_valid_move(int move, std::vector<int>& puzzle) {
-	return (move >= 0 || move < puzzle.size() || puzzle[move] != Tiles::horizontal_wall || puzzle[move] != Tiles::vertical_wall);
+	return (move >= 0 && move < puzzle.size() && puzzle[move] != Tiles::horizontal_wall && puzzle[move] != Tiles::vertical_wall);
 }
 
 void move(int input, PuzzleInfo& puzzleInfo) {
