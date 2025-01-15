@@ -1,6 +1,7 @@
 #include "puzzles.h"
 #include "raylib.h"
 
+#include <iostream>
 #include <vector>
 
 PuzzleInfo::PuzzleInfo(int width, int height, int index) {
@@ -17,10 +18,10 @@ std::vector<std::vector<int>> puzzles = {
 	//Microban 1
 	{
 		4,3,3,4,1,1,
-		4,1,1,4,1,1,
+		4,1,5,4,1,1,
 		4,1,1,3,3,4,
 		4,6,0,1,1,4,
-		4,1,1,6,1,4,
+		4,5,1,6,1,4,
 		4,1,1,4,3,3,
 		3,3,3,3,1,1
 	}
@@ -42,11 +43,12 @@ int get_puzzle_draw_offset(int tileSize, int axisWidth, int windowSize) {
 	return (windowSize - (tileSize * axisWidth)) / 2;
 }
 
-void draw_puzzle_to_texture(PuzzleInfo& puzzleInfo, RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight) {
-	std::vector<int> puzzle = puzzles[puzzleInfo.index];
+void draw_puzzle_to_texture(std::vector<int>& puzzle, PuzzleInfo& puzzleInfo, RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight) {
+	//std::vector<int> puzzle = puzzles[puzzleInfo.index];
 	int puzzleSize 			= puzzle.size();
 	int puzzleWidth 		= puzzleInfo.width;
 	int puzzleHeight 		= puzzleInfo.height;
+	const std::vector<int> const_puzzle = puzzles[puzzleInfo.index];
 
 	BeginTextureMode(texture);
 	for (int i = 0; i < puzzleSize; ++i) { 
@@ -56,7 +58,18 @@ void draw_puzzle_to_texture(PuzzleInfo& puzzleInfo, RenderTexture2D& texture, st
 		int windowXOffset 	= get_puzzle_draw_offset(tileSize, puzzleWidth, screenWidth);
 		int windowYOffset 	= get_puzzle_draw_offset(tileSize, puzzleHeight, screenHeight);
 
-		//Draw texture with extended parameters (scale, rotation, etc.)
+		//In order to draw each tile properly without creating a ton of additional sprites, 
+		//we just redraw the const_puzzle's tiles, which are original to the puzzle,
+		//beneath the moving elements (which also have transparency). This means we need
+		//to ignore the original locations of the keys (boxes) and player, otherwise we will
+		//draw them again.
+		if ((puzzle[i] == 0 || puzzle[i] == 6) && (const_puzzle[i] == Tiles::key || const_puzzle[i] == Tiles::player)) {
+			std::cout << "hi" << std::endl;
+			DrawTextureEx(sprites[1], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, 11.0, RAYWHITE);
+		} else {
+			DrawTextureEx(sprites[const_puzzle[i]], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, 11.0, RAYWHITE);
+		}
+
 		DrawTextureEx(sprites[puzzle[i]], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, 11.0, RAYWHITE); 
 	}
 	EndTextureMode();

@@ -18,12 +18,12 @@ Texture2D load_sprite(const char* path) {
 //we use this function to load sprites AFTER calling init_window
 void load_sprites() {
 	sprites = {
-		load_sprite("data/sprites/character.png"),
+		load_sprite("data/sprites/character_transparent.png"),
 		load_sprite("data/sprites/black_tile.png"),
 		load_sprite("data/sprites/gray_tile.png"),
 		load_sprite("data/sprites/horizontal_wall.png"),
 		load_sprite("data/sprites/vertical_wall.png"),
 		load_sprite("data/sprites/locked_door.png"),
-		load_sprite("data/sprites/key.png")
+		load_sprite("data/sprites/key_transparent.png")
 	}; 
 };

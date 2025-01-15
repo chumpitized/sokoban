@@ -24,17 +24,20 @@ int main() {
 
 	int puzzleIndex = 0;
 
-	PuzzleInfo currPuzzle = puzzleInfos[puzzleIndex];
+	//need to be able to change the puzzle
+	PuzzleInfo currPuzzleInfo 	= puzzleInfos[puzzleIndex];
+	std::vector<int> currPuzzle = puzzles[currPuzzleInfo.index];
 
 	while(!WindowShouldClose()) {		
 
 		if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
-			int input 			= GetKeyPressed();
-			int newPos 				= try_move(input, currPuzzle.playerIndex, currPuzzle);
-			currPuzzle.playerIndex 	= newPos;
+			int input 				= GetKeyPressed();
+			int newPos 				= try_move(currPuzzle, input, currPuzzleInfo.playerIndex, currPuzzleInfo);
+			currPuzzleInfo.playerIndex 	= newPos;
 		}
-		//Only redraw when a state change occurs
-		draw_puzzle_to_texture(currPuzzle, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight); 
+		//Only redraw the full puzzle when a state change occurs.
+		//Otherwise just draw the texture.
+		draw_puzzle_to_texture(currPuzzle, currPuzzleInfo, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight);
 
 		//Draw gameRenderTexture2D to window
 		BeginDrawing();

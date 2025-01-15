@@ -8,12 +8,12 @@ bool is_possible_move(int move, std::vector<int>& puzzle) {
 	return (move >= 0 && move < puzzle.size() && puzzle[move] != Tiles::horizontal_wall && puzzle[move] != Tiles::vertical_wall);
 }
 
-int try_move(int input, int tile, PuzzleInfo& puzzleInfo) {
+int try_move(std::vector<int>& puzzle, int input, int tile, PuzzleInfo& puzzleInfo) {
 	int width			= puzzleInfo.width;
 	int height			= puzzleInfo.height;
 	int index			= puzzleInfo.index;
 
-	std::vector<int>& puzzle = puzzles[index];
+	const std::vector<int>& const_puzzle = puzzles[index];
 
 	int move = tile;
 	if (input == KEY_W) move += -width;
@@ -24,15 +24,19 @@ int try_move(int input, int tile, PuzzleInfo& puzzleInfo) {
 	if (is_possible_move(move, puzzle)) {
 
 		if (puzzle[move] == Tiles::key && puzzle[tile] != Tiles::key) {
-			try_move(input, move, puzzleInfo);
+			try_move(puzzle, input, move, puzzleInfo);
 		}
 
-		if (puzzle[move] == Tiles::black_tile) {
+		if (puzzle[move] == Tiles::black_tile || puzzle[move] == Tiles::locked_door) {
 			puzzle[move] = puzzle[tile];
-			puzzle[tile] = Tiles::black_tile;
+			if (const_puzzle[tile] == Tiles::player || const_puzzle[tile] == Tiles::key) {
+				puzzle[tile] = Tiles::black_tile;
+			} else {
+				puzzle[tile] = const_puzzle[tile];
+			}
 			return move;
 		}
 	}
-	//return original tile index
+
 	return tile;
 }
