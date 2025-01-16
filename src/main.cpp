@@ -3,7 +3,6 @@
 #include "logic.h"
 #include "undo.h"
 
-
 #include <vector>
 #include <iostream>
 #include <cstdint>
@@ -32,8 +31,7 @@ int main() {
 
 	//need to be able to change the puzzle
 	PuzzleInfo currPuzzleInfo 	= puzzleInfos[puzzleIndex];
-	std::vector<int> currPuzzle = puzzles[currPuzzleInfo.index];
-	
+	std::vector<int> currPuzzle = puzzles[puzzleIndex];
 	//we can divide screenHeight by puzzle height + 2 to add 1-tile padding
 	//on the top and bottom... then black bars above and below for
 	//pixel-perfect padding
@@ -41,6 +39,14 @@ int main() {
 	int tileSize 		= spriteScale * spriteSize;
 
 	while(!WindowShouldClose()) {		
+
+		if (IsKeyPressed(KEY_EQUAL)) {
+			go_next_puzzle(puzzleIndex, currPuzzleInfo, currPuzzle);
+		}
+
+		if (IsKeyPressed(KEY_MINUS)) {
+			go_prev_puzzle(puzzleIndex, currPuzzleInfo, currPuzzle);
+		}
 
 		if (IsKeyPressed(KEY_Z)) {
 			//can use currTime and deltaTime to rewind on press-and-hold
@@ -53,7 +59,10 @@ int main() {
 		}
 
 		if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
-			history.push_back(currPuzzle);
+			//this will double count a position when you push into a wall
+			//and no elements move
+			if (history.empty() || history.back() != currPuzzle) history.push_back(currPuzzle);
+			std::cout << history.size() << std::endl;
 			int input 					= GetKeyPressed();
 			int newPos 					= try_move(currPuzzle, input, currPuzzleInfo.playerIndex, currPuzzleInfo);
 			currPuzzleInfo.playerIndex 	= newPos;

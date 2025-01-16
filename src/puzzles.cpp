@@ -24,12 +24,46 @@ std::vector<std::vector<int>> puzzles = {
 		4,5,1,6,1,4,
 		4,1,1,4,3,3,
 		3,3,3,3,1,1
+	},
+	{
+		4,3,3,3,4,1,
+		4,5,1,1,3,4,
+		4,0,6,6,1,4,
+		3,4,1,1,1,4,
+		1,3,4,1,1,4,
+		1,1,3,4,5,4,
+		1,1,1,3,3,3
 	}
 };
 
 std::vector<PuzzleInfo> puzzleInfos = {
-	PuzzleInfo(6, 7, 0)
+	PuzzleInfo(6, 7, 0),
+	PuzzleInfo(6, 7, 1)
 };
+
+void go_next_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle) {
+	if (index + 1< puzzles.size()) {
+		index++;
+		puzzle 		= puzzles[index];
+		puzzleInfo 	= puzzleInfos[index];
+	} else {
+		std::cout << "LAST PUZZLE" << std::endl;
+	}
+}
+void go_prev_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle) {
+	if (index - 1 >= 0) {
+		index--;
+		puzzle 		= puzzles[index];
+		puzzleInfo 	= puzzleInfos[index];
+	} else {
+		std::cout << "FIRST PUZZLE" << std::endl;
+	}
+}
+
+void adjust_puzzle_dimensions(int screenHeight, int puzzleHeight, int spriteScale, int tileSize, int spriteSize) {
+	spriteScale	= (screenHeight / puzzleHeight) / spriteSize;
+	tileSize 	= spriteScale * spriteSize;
+}
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
 	RenderTexture2D gameTexture = LoadRenderTexture(screenWidth, screenHeight);
