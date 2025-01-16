@@ -10,18 +10,22 @@
 #include <raylib.h>
 
 int main() {
-	//must always respect sprite dimensions
+	//we need to make sure we offset the art by the right amount
+	//in order to make things pixel-perfect
+	int spriteSize 		= 16;
 	int screenWidth		= 1920;
 	int screenHeight 	= 1088;
-
-	//tileSize should scale with screenHeight
-	int tileSize 		= 176;
+	int yPadding 		= (screenHeight % spriteSize) / 2;
+	int xPadding		= (screenWidth % spriteSize) / 2;
 
 	SetTargetFPS(60);
 
+	//We can make the window resizable with this flag, but it's
+	//probably only useful for testing...
+	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
 	load_sprites();
-
 	RenderTexture2D gameRenderTexture2D = create_game_texture(screenWidth, screenHeight);
 
 	int puzzleIndex = 0;
@@ -29,7 +33,12 @@ int main() {
 	//need to be able to change the puzzle
 	PuzzleInfo currPuzzleInfo 	= puzzleInfos[puzzleIndex];
 	std::vector<int> currPuzzle = puzzles[currPuzzleInfo.index];
-	//history.push_back(currPuzzle);
+	
+	//we can divide screenHeight by puzzle height + 2 to add 1-tile padding
+	//on the top and bottom... then black bars above and below for
+	//pixel-perfect padding
+	int spriteScale		= (screenHeight / currPuzzleInfo.height) / spriteSize;
+	int tileSize 		= spriteScale * spriteSize;
 
 	while(!WindowShouldClose()) {		
 
@@ -51,7 +60,7 @@ int main() {
 		}
 		//Only redraw the full puzzle when a state change occurs.
 		//Otherwise just draw the texture.
-		draw_puzzle_to_texture(currPuzzle, currPuzzleInfo, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight);
+		draw_puzzle_to_texture(currPuzzle, currPuzzleInfo, gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight, spriteScale);
 
 		//Draw gameRenderTexture2D to window
 		BeginDrawing();
