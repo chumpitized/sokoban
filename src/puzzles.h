@@ -26,6 +26,8 @@ struct PuzzleInfo {
 
 extern std::vector<PuzzleInfo> puzzleInfos;
 extern std::vector<std::vector<int>> puzzles;
+extern std::vector<int> players;
+extern std::vector<std::vector<int>> boxes;
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight);
 int get_puzzle_draw_offset(int tileSize, int axisWidth, int windowSize);

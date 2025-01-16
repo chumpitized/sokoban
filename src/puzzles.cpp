@@ -64,7 +64,6 @@ void draw_puzzle_to_texture(std::vector<int>& puzzle, PuzzleInfo& puzzleInfo, Re
 		//to ignore the original locations of the keys (boxes) and player, otherwise we will
 		//draw them again.
 		if ((puzzle[i] == 0 || puzzle[i] == 6) && (const_puzzle[i] == Tiles::key || const_puzzle[i] == Tiles::player)) {
-			std::cout << "hi" << std::endl;
 			DrawTextureEx(sprites[1], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, 11.0, RAYWHITE);
 		} else {
 			DrawTextureEx(sprites[const_puzzle[i]], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, 11.0, RAYWHITE);

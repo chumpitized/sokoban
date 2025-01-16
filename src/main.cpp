@@ -1,6 +1,8 @@
 #include "sprites.h"
 #include "puzzles.h"
 #include "logic.h"
+#include "undo.h"
+
 
 #include <vector>
 #include <iostream>
@@ -27,12 +29,24 @@ int main() {
 	//need to be able to change the puzzle
 	PuzzleInfo currPuzzleInfo 	= puzzleInfos[puzzleIndex];
 	std::vector<int> currPuzzle = puzzles[currPuzzleInfo.index];
+	//history.push_back(currPuzzle);
 
 	while(!WindowShouldClose()) {		
 
+		if (IsKeyPressed(KEY_Z)) {
+			//can use currTime and deltaTime to rewind on press-and-hold
+			undo(currPuzzle, currPuzzleInfo);
+		}
+		
+		if (IsKeyPressed(KEY_R)) {
+			restart(currPuzzleInfo, currPuzzle);
+			history.clear();
+		}
+
 		if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
-			int input 				= GetKeyPressed();
-			int newPos 				= try_move(currPuzzle, input, currPuzzleInfo.playerIndex, currPuzzleInfo);
+			history.push_back(currPuzzle);
+			int input 					= GetKeyPressed();
+			int newPos 					= try_move(currPuzzle, input, currPuzzleInfo.playerIndex, currPuzzleInfo);
 			currPuzzleInfo.playerIndex 	= newPos;
 		}
 		//Only redraw the full puzzle when a state change occurs.
