@@ -26,6 +26,7 @@ std::vector<std::vector<int>> puzzles = {
 		3,3,3,3,1,1
 	},
 	{
+		4,4,4,4,4,1,
 		4,3,3,3,4,1,
 		4,5,1,1,3,4,
 		4,0,6,6,1,4,
@@ -38,7 +39,7 @@ std::vector<std::vector<int>> puzzles = {
 
 std::vector<PuzzleInfo> puzzleInfos = {
 	PuzzleInfo(6, 7, 0),
-	PuzzleInfo(6, 7, 1)
+	PuzzleInfo(6, 8, 1)
 };
 
 void go_next_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle) {
@@ -60,14 +61,14 @@ void go_prev_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle
 	}
 }
 
-void adjust_puzzle_dimensions(int screenHeight, int puzzleHeight, int spriteScale, int tileSize, int spriteSize) {
+void adjust_puzzle_dimensions(int screenHeight, int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize) {
 	spriteScale	= (screenHeight / puzzleHeight) / spriteSize;
 	tileSize 	= spriteScale * spriteSize;
 }
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
 	RenderTexture2D gameTexture = LoadRenderTexture(screenWidth, screenHeight);
-		BeginTextureMode(gameTexture);
+	BeginTextureMode(gameTexture);
 		ClearBackground(BLACK);
 	EndTextureMode();
 	return gameTexture;
@@ -75,6 +76,12 @@ RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
 
 int get_puzzle_draw_offset(int tileSize, int axisWidth, int axisScreenWidth) {
 	return (axisScreenWidth - (tileSize * axisWidth)) / 2;
+}
+
+void clear_background(RenderTexture2D& texture) {
+	BeginTextureMode(texture);
+		ClearBackground(BLACK);
+	EndTextureMode();
 }
 
 void draw_puzzle_to_texture(std::vector<int>& puzzle, PuzzleInfo& puzzleInfo, RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale) {

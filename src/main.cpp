@@ -42,11 +42,15 @@ int main() {
 
 		if (IsKeyPressed(KEY_EQUAL)) {
 			go_next_puzzle(puzzleIndex, currPuzzleInfo, currPuzzle);
+			adjust_puzzle_dimensions(screenHeight, currPuzzleInfo.height, spriteScale, tileSize, spriteSize);
+			clear_background(gameRenderTexture2D);
 			history.clear();
 		}
 
 		if (IsKeyPressed(KEY_MINUS)) {
 			go_prev_puzzle(puzzleIndex, currPuzzleInfo, currPuzzle);
+			adjust_puzzle_dimensions(screenHeight, currPuzzleInfo.height, spriteScale, tileSize, spriteSize);
+			clear_background(gameRenderTexture2D);
 			history.clear();
 		}
 
