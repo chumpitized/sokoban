@@ -4,6 +4,9 @@
 #include <raylib.h>
 #include <vector>
 
+int spriteScale();
+int tileSize();
+
 Texture2D load_sprite(const char* path);
 void load_sprites();
 

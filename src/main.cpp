@@ -4,10 +4,10 @@
 #include "undo.h"
 #include "data.h"
 #include "draw.h"
+#include "input.h"
 
 #include <vector>
 #include <iostream>
-#include <cstdint>
 #include <raylib.h>
 
 int main() {
@@ -21,36 +21,14 @@ int main() {
 	load_sprites();
 	RenderTexture2D gameRenderTexture2D = create_game_texture(screenWidth, screenHeight);
 
-	//PuzzleInfo currPuzzleInfo 	= puzzleInfos[puzzleIndex];
-	//std::vector<int> currPuzzle = puzzles[puzzleIndex];
-
-	int spriteScale	= (screenHeight / puzzleInfos[puzzleIndex].height) / spriteSize;
-	int tileSize 	= spriteScale * spriteSize;
-
 	while(!WindowShouldClose()) {
 		PuzzleInfo& currPuzzleInfo = puzzleInfos[puzzleIndex];
 		std::vector<int>& currPuzzle = puzzles[puzzleIndex];
 
-
 		if (gameMode == GameMode::Play) {
-			if (IsKeyPressed(KEY_EQUAL)) {
-				increment_puzzle_index();
-				adjust_puzzle_dimensions(screenHeight, puzzleInfos[puzzleIndex].height, spriteScale, tileSize, spriteSize);
-				clear_background(gameRenderTexture2D);
-				history.clear();
-			}
-
-			if (IsKeyPressed(KEY_MINUS)) {
-				decrement_puzzle_index();
-				adjust_puzzle_dimensions(screenHeight, puzzleInfos[puzzleIndex].height, spriteScale, tileSize, spriteSize);
-				clear_background(gameRenderTexture2D);
-				history.clear();
-			}
-
-			if (IsKeyPressed(KEY_Z)) {
-				//can use currTime and deltaTime to rewind on press-and-hold
-				undo();
-			}
+			go_next_puzzle(gameRenderTexture2D);
+			go_prev_puzzle(gameRenderTexture2D);
+			undo();
 		
 			if (IsKeyPressed(KEY_R)) {
 				restart();
@@ -72,7 +50,7 @@ int main() {
 
 		//Only redraw the full puzzle when a state change occurs.
 		//Otherwise just draw the texture.
-		draw_puzzle_to_texture(gameRenderTexture2D, sprites, tileSize, screenWidth, screenHeight, spriteScale);
+		draw_puzzle_to_texture(gameRenderTexture2D, sprites, tileSize(), screenWidth, screenHeight, spriteScale());
 
 		//Draw gameRenderTexture2D to window
 		BeginDrawing();

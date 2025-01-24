@@ -5,7 +5,7 @@
 
 extern std::vector<std::vector<int>> history;
 
-void undo();
+void undo_last_move();
 void restart();
 
 #endif

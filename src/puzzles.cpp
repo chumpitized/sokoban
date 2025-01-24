@@ -43,17 +43,25 @@ std::vector<PuzzleInfo> puzzleInfos = {
 	PuzzleInfo(6, 8, 1)
 };
 
-void increment_puzzle_index() {
+int get_puzzle_height() {
+	return puzzleInfos[puzzleIndex].height;
+}
+
+int try_increment_puzzle() {
 	if (puzzleIndex + 1 < puzzles.size()) {
 		puzzleIndex++;
+		return 1;
 	} else {
-		std::cout << "LAST PUZZLE" << std::endl;
+		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
+		return 0;
 	}
 }
-void decrement_puzzle_index() {
+int try_decrement_puzzle() {
 	if (puzzleIndex - 1 >= 0) {
 		puzzleIndex--;
+		return 1;
 	} else {
-		std::cout << "FIRST PUZZLE" << std::endl;
+		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
+		return 0;
 	}
 }

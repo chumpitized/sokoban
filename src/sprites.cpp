@@ -1,4 +1,5 @@
 #include "sprites.h"
+#include "puzzles.h"
 
 #include <raylib.h>
 #include <vector>
@@ -6,6 +7,14 @@
 using namespace std;
 
 std::vector<Texture2D> sprites;
+
+int spriteScale() {
+	return (screenHeight / get_puzzle_height()) / spriteSize;
+}
+int tileSize() {
+	return spriteScale() * spriteSize;
+}
+
 
 Texture2D load_sprite(const char* path) {
 	Image image = LoadImage(path);

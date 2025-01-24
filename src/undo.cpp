@@ -5,7 +5,7 @@
 
 std::vector<std::vector<int>> history;
 
-void undo() {
+void undo_last_move() {
 	std::vector<int>& puzzle = puzzles[puzzleIndex]; 
 	PuzzleInfo& puzzleInfo = puzzleInfos[puzzleIndex];
 
