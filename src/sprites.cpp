@@ -8,7 +8,6 @@ using namespace std;
 std::vector<Texture2D> sprites;
 
 Texture2D load_sprite(const char* path) {
-	cout << path << endl;
 	Image image = LoadImage(path);
 	Texture2D texture = LoadTextureFromImage(image);
 	UnloadImage(image);
