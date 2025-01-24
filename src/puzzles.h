@@ -32,7 +32,7 @@ extern std::vector<std::vector<int>> puzzles;
 extern std::vector<int> players;
 extern std::vector<std::vector<int>> boxes;
 
-int try_increment_puzzle();
-int try_decrement_puzzle();
+bool try_increment_puzzle();
+bool try_decrement_puzzle();
 
 #endif

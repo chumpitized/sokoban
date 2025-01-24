@@ -47,21 +47,21 @@ int get_puzzle_height() {
 	return puzzleInfos[puzzleIndex].height;
 }
 
-int try_increment_puzzle() {
+bool try_increment_puzzle() {
 	if (puzzleIndex + 1 < puzzles.size()) {
 		puzzleIndex++;
-		return 1;
+		return true;
 	} else {
 		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
-		return 0;
+		return false;
 	}
 }
-int try_decrement_puzzle() {
+bool try_decrement_puzzle() {
 	if (puzzleIndex - 1 >= 0) {
 		puzzleIndex--;
-		return 1;
+		return true;
 	} else {
 		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
-		return 0;
+		return false;
 	}
 }

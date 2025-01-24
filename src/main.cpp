@@ -19,28 +19,23 @@ int main() {
 
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
 	load_sprites();
-	RenderTexture2D gameRenderTexture2D = create_game_texture(screenWidth, screenHeight);
+	RenderTexture2D game_texture = create_game_texture(screenWidth, screenHeight);
+
+	//we need a "current_puzzle" that we mutate
 
 	while(!WindowShouldClose()) {
 		PuzzleInfo& currPuzzleInfo = puzzleInfos[puzzleIndex];
 		std::vector<int>& currPuzzle = puzzles[puzzleIndex];
 
 		if (gameMode == GameMode::Play) {
-			go_next_puzzle(gameRenderTexture2D);
-			go_prev_puzzle(gameRenderTexture2D);
+			go_next_puzzle(game_texture);
+			go_prev_puzzle(game_texture);
 			undo();
-		
-			if (IsKeyPressed(KEY_R)) {
-				restart();
-				history.clear();
-			}
+			restart();
 
 			if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
 				//this will double count a position when you push into a wall
 				//and no elements move
-				//PuzzleInfo& currPuzzleInfo = puzzleInfos[puzzleIndex];
-				//std::vector<int>& currPuzzle = puzzles[puzzleIndex];
-
 				if (history.empty() || history.back() != currPuzzle) history.push_back(currPuzzle);		
 				int input 					= GetKeyPressed();
 				int newPos 					= try_move(currPuzzle, input, currPuzzleInfo.playerIndex, currPuzzleInfo);
@@ -50,11 +45,11 @@ int main() {
 
 		//Only redraw the full puzzle when a state change occurs.
 		//Otherwise just draw the texture.
-		draw_puzzle_to_texture(gameRenderTexture2D, sprites, tileSize(), screenWidth, screenHeight, spriteScale());
+		draw_puzzle_to_texture(game_texture, sprites, tileSize(), screenWidth, screenHeight, spriteScale());
 
-		//Draw gameRenderTexture2D to window
+		//Draw game_texture to window
 		BeginDrawing();
-			DrawTextureRec(gameRenderTexture2D.texture, (Rectangle){0, 0, (float)gameRenderTexture2D.texture.width, -(float)gameRenderTexture2D.texture.height}, (Vector2){0, 0}, RAYWHITE);
+			DrawTextureRec(game_texture.texture, (Rectangle){0, 0, (float)game_texture.texture.width, -(float)game_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 			DrawFPS(0, 0);
 		EndDrawing();
 	}

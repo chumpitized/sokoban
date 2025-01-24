@@ -58,3 +58,10 @@ void undo() {
 		undo_last_move();
 	}	
 }
+
+void restart() {
+	if (IsKeyPressed(KEY_R)) {
+		restart_level();
+		history.clear();
+	}
+}

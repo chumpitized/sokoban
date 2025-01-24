@@ -6,6 +6,6 @@
 extern std::vector<std::vector<int>> history;
 
 void undo_last_move();
-void restart();
+void restart_level();
 
 #endif

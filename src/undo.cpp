@@ -23,7 +23,7 @@ void undo_last_move() {
 	}
 }
 
-void restart() {
+void restart_level() {
 	std::vector<int>& puzzle = puzzles[puzzleIndex]; 
 	PuzzleInfo& puzzleInfo = puzzleInfos[puzzleIndex];
 
