@@ -1,6 +1,7 @@
 #include "puzzles.h"
-#include "raylib.h"
+#include "data.h"
 
+#include <raylib.h>
 #include <iostream>
 #include <vector>
 
@@ -42,20 +43,16 @@ std::vector<PuzzleInfo> puzzleInfos = {
 	PuzzleInfo(6, 8, 1)
 };
 
-void go_next_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle) {
-	if (index + 1< puzzles.size()) {
-		index++;
-		puzzle 		= puzzles[index];
-		puzzleInfo 	= puzzleInfos[index];
+void increment_puzzle_index() {
+	if (puzzleIndex + 1 < puzzles.size()) {
+		puzzleIndex++;
 	} else {
 		std::cout << "LAST PUZZLE" << std::endl;
 	}
 }
-void go_prev_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle) {
-	if (index - 1 >= 0) {
-		index--;
-		puzzle 		= puzzles[index];
-		puzzleInfo 	= puzzleInfos[index];
+void decrement_puzzle_index() {
+	if (puzzleIndex - 1 >= 0) {
+		puzzleIndex--;
 	} else {
 		std::cout << "FIRST PUZZLE" << std::endl;
 	}

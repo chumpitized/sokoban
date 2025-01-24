@@ -29,13 +29,7 @@ extern std::vector<std::vector<int>> puzzles;
 extern std::vector<int> players;
 extern std::vector<std::vector<int>> boxes;
 
-void go_next_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle);
-void go_prev_puzzle(int& index, PuzzleInfo& puzzleInfo, std::vector<int>& puzzle);
-
-void clear_background(RenderTexture2D& texture);
-void adjust_puzzle_dimensions(int screenHeight, int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize);
-RenderTexture2D create_game_texture(int screenWidth, int screenHeight);
-int get_puzzle_draw_offset(int tileSize, int axisWidth, int windowSize);
-void draw_puzzle_to_texture(std::vector<int>& puzzle, PuzzleInfo& puzzleInfo, RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale);
+void increment_puzzle_index();
+void decrement_puzzle_index();
 
 #endif

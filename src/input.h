@@ -1,7 +1,7 @@
-//#ifndef INPUT_H
-//#define INPUT_H
+#ifndef INPUT_H
+#define INPUT_H
 
-//void handle_play_input(int input);
-//void handle_editor_input(int input);
+void go_next_puzzle();
 
-//#endif
+
+#endif

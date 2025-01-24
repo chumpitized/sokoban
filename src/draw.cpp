@@ -1,4 +1,6 @@
 #include "draw.h"
+#include "data.h"
+#include "puzzles.h"
 
 void adjust_puzzle_dimensions(int screenHeight, int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize) {
 	spriteScale	= (screenHeight / puzzleHeight) / spriteSize;
@@ -23,12 +25,15 @@ void clear_background(RenderTexture2D& texture) {
 	EndTextureMode();
 }
 
-void draw_puzzle_to_texture(std::vector<int>& puzzle, PuzzleInfo& puzzleInfo, RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale) {
+void draw_puzzle_to_texture(RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale) {
 	//std::vector<int> puzzle = puzzles[puzzleInfo.index];
+	PuzzleInfo puzzleInfo 	= puzzleInfos[puzzleIndex];
+	std::vector<int> puzzle = puzzles[puzzleIndex];
+
 	int puzzleSize 			= puzzle.size();
 	int puzzleWidth 		= puzzleInfo.width;
 	int puzzleHeight 		= puzzleInfo.height;
-	const std::vector<int> const_puzzle = puzzles[puzzleInfo.index];
+	const std::vector<int> const_puzzle = puzzles[puzzleIndex];
 
 	BeginTextureMode(texture);
 	for (int i = 0; i < puzzleSize; ++i) { 
