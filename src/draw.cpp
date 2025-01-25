@@ -1,5 +1,6 @@
 #include "draw.h"
 #include "data.h"
+#include "sprites.h"
 
 //void adjust_puzzle_dimensions(int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize) {
 //	spriteScale	= (screenHeight / puzzleHeight) / spriteSize;
@@ -25,14 +26,13 @@ void clear_background(RenderTexture2D& texture) {
 }
 
 void draw_puzzle_to_texture(RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale) {
-	//std::vector<int> puzzle = puzzles[puzzleInfo.index];
 	PuzzleInfo puzzleInfo 	= puzzleInfos[puzzleIndex];
-	std::vector<int> puzzle = puzzles[puzzleIndex];
+	std::vector<u16> puzzle = puzzles[puzzleIndex];
 
 	int puzzleSize 			= puzzle.size();
 	int puzzleWidth 		= puzzleInfo.width;
 	int puzzleHeight 		= puzzleInfo.height;
-	const std::vector<int> const_puzzle = puzzles[puzzleIndex];
+	const std::vector<u16> const_puzzle = puzzles[puzzleIndex];
 
 	BeginTextureMode(texture);
 	for (int i = 0; i < puzzleSize; ++i) { 
@@ -42,14 +42,20 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, std::vector<Texture2D>& sp
 		int windowXOffset 	= get_puzzle_draw_offset(tileSize, puzzleWidth, screenWidth);
 		int windowYOffset 	= get_puzzle_draw_offset(tileSize, puzzleHeight, screenHeight);
 
-		//we'll only need to parse the u16s for this...
-		if ((puzzle[i] == 0 || puzzle[i] == 6) && (const_puzzle[i] == Tiles::key || const_puzzle[i] == Tiles::player)) {
-			DrawTextureEx(sprites[1], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
-		} else {
-			DrawTextureEx(sprites[const_puzzle[i]], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
-		}
+		u8 entity 	= puzzle[i] >> 8;
+		u8 tile 	= puzzle[i]; 
+		
+		Texture2D tile_texture;
+		Texture2D entity_texture;
 
-		DrawTextureEx(sprites[puzzle[i]], Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE); 
+		if (tile < tiles.size() && tile >= 0) {
+			tile_texture 	= tiles[tile];
+			DrawTextureEx(tile_texture, Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
+		}
+		if (entity < tiles.size() && entity >= 0) {
+			entity_texture	= entities[entity];
+			DrawTextureEx(entity_texture, Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
+		}
 	}
 	EndTextureMode();
 };

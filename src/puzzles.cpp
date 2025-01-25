@@ -15,32 +15,21 @@ PuzzleInfo::PuzzleInfo(int width, int height, int index) {
 	}
 };
 
-std::vector<std::vector<int>> puzzles = {
-	//Microban 1
+
+std::vector<std::vector<u16>> puzzles = {
 	{
-		4,3,3,4,1,1,
-		4,1,5,4,1,1,
-		4,1,1,3,3,4,
-		4,6,0,1,1,4,
-		4,5,1,6,1,4,
-		4,1,1,4,3,3,
-		3,3,3,3,1,1
-	},
-	{
-		4,4,4,4,4,1,
-		4,3,3,3,4,1,
-		4,5,1,1,3,4,
-		4,0,6,6,1,4,
-		3,4,1,1,1,4,
-		1,3,4,1,1,4,
-		1,1,3,4,5,4,
-		1,1,1,3,3,3
+		0xff03,0xff02,0xff02, 0xff03, 0xff00, 0xff00,
+		0xff03,0xff01,0xff04, 0xff03, 0xff00, 0xff00,
+		0xff03,0xff00,0xff01, 0xff02, 0xff02, 0xff03,
+		0xff03,0x0104,0x0000, 0xff01, 0xff00, 0xff03,
+		0xff03,0xff00,0xff01, 0x0100, 0xff01, 0xff03,
+		0xff03,0xff01,0xff00, 0xff03, 0xff02, 0xff02,
+		0xff02,0xff02,0xff02, 0xff02, 0xff00, 0xff00
 	}
 };
 
 std::vector<PuzzleInfo> puzzleInfos = {
-	PuzzleInfo(6, 7, 0),
-	PuzzleInfo(6, 8, 1)
+	PuzzleInfo(6, 7, 0)
 };
 
 int get_puzzle_height() {

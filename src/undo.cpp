@@ -3,14 +3,14 @@
 
 #include <vector>
 
-std::vector<std::vector<int>> history;
+std::vector<std::vector<u16>> history;
 
 void undo_last_move() {
-	std::vector<int>& puzzle = puzzles[puzzleIndex]; 
+	std::vector<u16>& puzzle = puzzles[puzzleIndex]; 
 	PuzzleInfo& puzzleInfo = puzzleInfos[puzzleIndex];
 
 	if (!history.empty()) {
-		std::vector<int> prev = history.back();
+		std::vector<u16> prev = history.back();
 		history.pop_back();
 	
 		for (int i = 0; i < prev.size(); ++i) {
@@ -24,7 +24,7 @@ void undo_last_move() {
 }
 
 void restart_level() {
-	std::vector<int>& puzzle = puzzles[puzzleIndex]; 
+	std::vector<u16>& puzzle = puzzles[puzzleIndex]; 
 	PuzzleInfo& puzzleInfo = puzzleInfos[puzzleIndex];
 
 	puzzle = puzzles[puzzleInfo.index];

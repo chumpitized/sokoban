@@ -16,19 +16,22 @@ struct PuzzleInfo {
 	PuzzleInfo(int width, int height, int index);
 };
 
-enum Tiles {
+enum Entities {
 	player,
+	key
+};
+
+enum Tiles {
 	black_tile,
 	gray_tile,
 	horizontal_wall,
 	vertical_wall,
-	locked_door,
-	key
+	locked_door
 };
 
 extern int get_puzzle_height();
 extern std::vector<PuzzleInfo> puzzleInfos;
-extern std::vector<std::vector<int>> puzzles;
+extern std::vector<std::vector<u16>> puzzles;
 extern std::vector<int> players;
 extern std::vector<std::vector<int>> boxes;
 

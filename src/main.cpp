@@ -25,7 +25,7 @@ int main() {
 
 	while(!WindowShouldClose()) {
 		PuzzleInfo& currPuzzleInfo = puzzleInfos[puzzleIndex];
-		std::vector<int>& currPuzzle = puzzles[puzzleIndex];
+		std::vector<u16>& currPuzzle = puzzles[puzzleIndex];
 
 		if (gameMode == GameMode::Play) {
 			go_next_puzzle(game_texture);
@@ -42,7 +42,7 @@ int main() {
 				currPuzzleInfo.playerIndex 	= newPos;
 			}
 		}
-
+		
 		//Only redraw the full puzzle when a state change occurs.
 		//Otherwise just draw the texture.
 		draw_puzzle_to_texture(game_texture, sprites, tileSize(), screenWidth, screenHeight, spriteScale());

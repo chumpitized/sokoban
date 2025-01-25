@@ -3,7 +3,7 @@
 
 #include <vector>
 
-extern std::vector<std::vector<int>> history;
+extern std::vector<std::vector<u16>> history;
 
 void undo_last_move();
 void restart_level();
