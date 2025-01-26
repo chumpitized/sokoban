@@ -6,16 +6,7 @@
 #include <vector>
 #include <raylib.h>
 
-struct PuzzleInfo {
-	int width;
-	int height;
-	int index;
-
-	int playerIndex;
-
-	PuzzleInfo(int width, int height, int index);
-};
-
+//Data
 enum Entities {
 	player,
 	key
@@ -29,13 +20,35 @@ enum Tiles {
 	locked_door
 };
 
-extern int get_puzzle_height();
-extern std::vector<PuzzleInfo> puzzleInfos;
+struct PuzzleInfo {
+	int width;
+	int height;
+	int index;
+
+	int playerIndex;
+
+	PuzzleInfo(int width, int height, int index);
+};
+
+extern std::vector<std::vector<u16>> history;
 extern std::vector<std::vector<u16>> puzzles;
-extern std::vector<int> players;
-extern std::vector<std::vector<int>> boxes;
+extern std::vector<PuzzleInfo> puzzleInfos;
+
+extern int puzzle_index;
+extern std::vector<u16> current_puzzle;
+extern PuzzleInfo current_puzzle_info;
+
+//Methods
+std::vector<u16> get_current_puzzle();
+PuzzleInfo get_current_puzzle_info();
 
 bool try_increment_puzzle();
 bool try_decrement_puzzle();
+
+void undo_last_move();
+void restart_level();
+
+bool is_possible_move(int move);
+int try_move(int input, int currentCellIndex);
 
 #endif

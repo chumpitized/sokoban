@@ -27,7 +27,7 @@ void clear_background(RenderTexture2D& texture) {
 
 void draw_puzzle_to_texture(RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale) {
 	PuzzleInfo puzzleInfo 	= puzzleInfos[puzzleIndex];
-	std::vector<u16> puzzle = puzzles[puzzleIndex];
+	std::vector<u16> puzzle = current_puzzle;
 
 	int puzzleSize 			= puzzle.size();
 	int puzzleWidth 		= puzzleInfo.width;

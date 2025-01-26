@@ -1,38 +1,19 @@
 #include "input.h"
 #include "puzzles.h"
 #include "draw.h"
-#include "undo.h"
 
-//if (IsKeyPressed(KEY_EQUAL)) {
-//	increment_puzzle_index();
-//	//adjust_puzzle_dimensions(currPuzzleInfo.height, spriteScale(), tileSize(), spriteSize);
-//	clear_background(gameRenderTexture2D);
-//	history.clear();
-//}
+void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
+	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
+		//this will double count a position when you push into a wall
+		//and no elements move
 
-//if (IsKeyPressed(KEY_MINUS)) {
-//	decrement_puzzle_index();
-//	//adjust_puzzle_dimensions(currPuzzleInfo.height, spriteScale(), tileSize(), spriteSize);
-//	clear_background(gameRenderTexture2D);
-//	history.clear();
-//}
-
-//if (IsKeyPressed(KEY_Z)) {
-//	//can use currTime and deltaTime to rewind on press-and-hold
-//	undo();
-//}
-		
-//if (IsKeyPressed(KEY_R)) {
-//	restart();
-//	history.clear();
-//}
-
-
-
-
-
-
-
+		//pushing to history should be api call...
+		if (history.empty() || history.back() != puzzle) history.push_back(puzzle);		
+		int input 					= GetKeyPressed();
+		int newPos 					= try_move(input, puzzleInfo.playerIndex);
+		puzzleInfo.playerIndex 		= newPos;
+	}
+}
 
 void go_next_puzzle(RenderTexture2D& game_texture) {
 	if (IsKeyPressed(KEY_EQUAL)) {
@@ -54,7 +35,7 @@ void go_prev_puzzle(RenderTexture2D& game_texture) {
 
 void undo() {
 	if (IsKeyPressed(KEY_Z)) {
-		//can use currTime and deltaTime to rewind on press-and-hold
+		//can undo on hold...
 		undo_last_move();
 	}	
 }

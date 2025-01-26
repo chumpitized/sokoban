@@ -11,7 +11,7 @@ std::vector<Texture2D> tiles;
 std::vector<Texture2D> sprites;
 
 int spriteScale() {
-	return (screenHeight / get_puzzle_height()) / spriteSize;
+	return (screenHeight / get_current_puzzle_info().height) / spriteSize;
 }
 int tileSize() {
 	return spriteScale() * spriteSize;
