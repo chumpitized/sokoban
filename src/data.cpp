@@ -8,4 +8,4 @@ int screenHeight 	= 1088;
 int yPadding 		= (screenHeight % spriteSize) / 2;
 int xPadding		= (screenWidth % spriteSize) / 2;
 
-int puzzleIndex = 0;
+//int puzzleIndex = 0;

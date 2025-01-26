@@ -46,8 +46,8 @@ PuzzleInfo get_current_puzzle_info() {
 }
 
 bool try_increment_puzzle() {
-	if (puzzleIndex + 1 < puzzles.size()) {
-		puzzleIndex++;
+	if (puzzle_index + 1 < puzzles.size()) {
+		puzzle_index++;
 		return true;
 	} else {
 		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -55,8 +55,8 @@ bool try_increment_puzzle() {
 	}
 }
 bool try_decrement_puzzle() {
-	if (puzzleIndex - 1 >= 0) {
-		puzzleIndex--;
+	if (puzzle_index - 1 >= 0) {
+		puzzle_index--;
 		return true;
 	} else {
 		std::cout << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -133,5 +133,3 @@ int try_move(int input, int currentCellIndex) {
 
 	return currentCellIndex;
 }
-
-

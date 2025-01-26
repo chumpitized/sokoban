@@ -21,6 +21,6 @@ extern int screenHeight;
 extern int yPadding;
 extern int xPadding;
 
-extern int puzzleIndex;
+//extern int puzzleIndex;
 
 #endif

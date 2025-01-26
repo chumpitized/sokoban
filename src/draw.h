@@ -6,8 +6,20 @@
 #include <raylib.h>
 #include <vector>
 
+//Sprite Array
+extern std::vector<Texture2D> entities;
+extern std::vector<Texture2D> tiles;
+extern std::vector<Texture2D> sprites;
+
+int get_sprite_scale();
+int get_tile_size();
+
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight);
-void draw_puzzle_to_texture(RenderTexture2D& texture, std::vector<Texture2D>& sprites, int tileSize, int screenWidth, int screenHeight, int spriteScale);
+
+Texture2D load_sprite(const char* path);
+void load_sprites();
+
+void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int screenHeight);
 
 //void adjust_puzzle_dimensions(int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize);
 int get_puzzle_draw_offset(int tileSize, int axisWidth, int axisScreenWidth);

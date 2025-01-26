@@ -1,7 +1,4 @@
-#include "sprites.h"
 #include "puzzles.h"
-#include "logic.h"
-#include "undo.h"
 #include "data.h"
 #include "draw.h"
 #include "input.h"
@@ -35,7 +32,7 @@ int main() {
 
 		//Only redraw the full puzzle when a state change occurs.
 		//Otherwise just draw the texture.
-		draw_puzzle_to_texture(game_texture, sprites, tileSize(), screenWidth, screenHeight, spriteScale());
+		draw_puzzle_to_texture(game_texture, screenWidth, screenHeight);
 
 		//Draw game_texture to window
 		BeginDrawing();
