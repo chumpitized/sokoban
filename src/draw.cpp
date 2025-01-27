@@ -67,7 +67,6 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int scree
 	int puzzleSize 			= puzzle.size();
 	int puzzleWidth 		= puzzleInfo.width;
 	int puzzleHeight 		= puzzleInfo.height;
-	const std::vector<u16> const_puzzle = puzzles[puzzle_index];
 
 	BeginTextureMode(texture);
 	for (int i = 0; i < puzzleSize; ++i) { 
@@ -87,7 +86,7 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int scree
 			tile_texture 	= tiles[tile];
 			DrawTextureEx(tile_texture, Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
 		}
-		if (entity < tiles.size() && entity >= 0) {
+		if (entity < entities.size() && entity >= 0) {
 			entity_texture	= entities[entity];
 			DrawTextureEx(entity_texture, Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
 		}

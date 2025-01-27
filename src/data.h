@@ -15,12 +15,10 @@ enum GameMode {
 
 extern GameMode gameMode;
 
-extern int spriteSize; 
-extern int screenWidth;
-extern int screenHeight;
-extern int yPadding;
-extern int xPadding;
-
-//extern int puzzleIndex;
+extern const int spriteSize; 
+extern const int screenWidth;
+extern const int screenHeight;
+extern const int yPadding;
+extern const int xPadding;
 
 #endif

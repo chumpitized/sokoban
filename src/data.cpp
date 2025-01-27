@@ -2,10 +2,8 @@
 
 GameMode gameMode = GameMode::Play;
 
-int spriteSize 		= 16;
-int screenWidth		= 1920;
-int screenHeight 	= 1088;
-int yPadding 		= (screenHeight % spriteSize) / 2;
-int xPadding		= (screenWidth % spriteSize) / 2;
-
-//int puzzleIndex = 0;
+const int spriteSize 	= 16;
+const int screenWidth	= 1920;
+const int screenHeight 	= 1088;
+const int yPadding 		= (screenHeight % spriteSize) / 2;
+const int xPadding		= (screenWidth % spriteSize) / 2;
