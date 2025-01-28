@@ -21,7 +21,6 @@ void load_sprites();
 
 void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int screenHeight);
 
-//void adjust_puzzle_dimensions(int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize);
 int get_puzzle_draw_offset(int tileSize, int axisWidth, int axisScreenWidth);
 void clear_background(RenderTexture2D& texture);
 

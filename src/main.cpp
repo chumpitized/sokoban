@@ -15,8 +15,12 @@ int main() {
 	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
+
 	load_sprites();
 	RenderTexture2D game_texture = create_game_texture(screenWidth, screenHeight);
+	load_puzzles_from_file();
+
+	std::cout << "all good" << std::endl;
 
 	while(!WindowShouldClose()) {
 		std::vector<u16> currPuzzle = get_current_puzzle();

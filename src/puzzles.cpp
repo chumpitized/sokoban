@@ -2,39 +2,18 @@
 #include "data.h"
 
 #include <raylib.h>
+#include <fstream>
 #include <iostream>
 #include <vector>
 
 //Data
-PuzzleInfo::PuzzleInfo(int width, int height, int index) {
-	this->width 	= width;
-	this->height 	= height;
-	this->index 	= index;
-
-	for(int i = 0; i < puzzles[index].size(); ++i) {
-		if (puzzles[index][i] == 0) playerIndex = i;
-	}
-};
-
 std::vector<std::vector<u16>> history;
-std::vector<std::vector<u16>> puzzles = {
-	{
-		0xff03,0xff02,0xff02, 0xff03, 0xff00, 0xff00,
-		0xff03,0xff01,0xff04, 0xff03, 0xff00, 0xff00,
-		0xff03,0xff00,0xff01, 0xff02, 0xff02, 0xff03,
-		0xff03,0x0104,0x0000, 0xff01, 0xff00, 0xff03,
-		0xff03,0xff00,0xff01, 0x0100, 0xff01, 0xff03,
-		0xff03,0xff01,0xff00, 0xff03, 0xff02, 0xff02,
-		0xff02,0xff02,0xff02, 0xff02, 0xff00, 0xff00
-	}
-};
-std::vector<PuzzleInfo> puzzleInfos = {
-	PuzzleInfo(6, 7, 0)
-};
+std::vector<std::vector<u16>> puzzles;
+std::vector<PuzzleInfo> puzzleInfos;
 
-int puzzle_index 				= 0;
-std::vector<u16> current_puzzle = puzzles[puzzle_index];
-PuzzleInfo current_puzzle_info	= puzzleInfos[puzzle_index];
+int puzzle_index = 0;
+std::vector<u16> current_puzzle;
+PuzzleInfo current_puzzle_info;
 
 //Methods
 std::vector<u16> get_current_puzzle() {
@@ -45,9 +24,66 @@ PuzzleInfo get_current_puzzle_info() {
 	return current_puzzle_info;
 }
 
+void load_puzzles_from_file() {
+	std::fstream file;
+	file.open("data/puzzles/new_puzzle", std::ios::in | std::ios::binary);
+	std::vector<u16> puzzle;
+
+	if (!file) {
+		std::cerr << "Failed to open file!" << std::endl;
+		return;
+	}
+
+	file.seekg(0, file.end);
+	int length = file.tellg();
+	file.seekg(0, file.beg);
+
+	if (length & 1) {
+		std::cerr << "File length is not even!" << std::endl;
+		return;
+	}
+
+	int puzzle_count = 0;
+	int player_index = 0;
+
+	u8 buffer[length];
+
+	file.read(reinterpret_cast<char*>(buffer), length);
+	file.close();
+
+	for (int i = 0; i < length; i+=2) {
+		u16 left = buffer[i] << 8;
+		u16 right = buffer[i + 1];
+		u16 tile = left | right;
+
+		if (tile == 0xffff) {
+			if (!puzzle.empty()) {
+				u16 last = puzzle.back();
+				puzzle.pop_back();
+				puzzles.push_back(puzzle);
+
+				u8 width 	= last >> 8;
+				u8 height 	= last;
+
+				puzzleInfos.push_back(PuzzleInfo{width, height, puzzle_count++, player_index});
+				puzzle.clear();
+			}
+		} else {
+			if (right == 0x00) player_index = puzzle.size();
+			puzzle.push_back(tile);
+		}
+	}
+
+	current_puzzle = puzzles[puzzle_index];
+	current_puzzle_info = puzzleInfos[puzzle_index]; 
+}
+
+
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
 		puzzle_index++;
+		current_puzzle = puzzles[puzzle_index];
+		current_puzzle_info	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -57,6 +93,8 @@ bool try_increment_puzzle() {
 bool try_decrement_puzzle() {
 	if (puzzle_index - 1 >= 0) {
 		puzzle_index--;
+		current_puzzle = puzzles[puzzle_index];
+		current_puzzle_info	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cout << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;

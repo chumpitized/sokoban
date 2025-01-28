@@ -2,11 +2,6 @@
 #include "data.h"
 #include "puzzles.h"
 
-//void adjust_puzzle_dimensions(int puzzleHeight, int& spriteScale, int& tileSize, int spriteSize) {
-//	spriteScale	= (screenHeight / puzzleHeight) / spriteSize;
-//	tileSize 	= spriteScale * spriteSize;
-//}
-
 std::vector<Texture2D> entities;
 std::vector<Texture2D> tiles;
 
@@ -18,11 +13,11 @@ int get_tile_size() {
 }
 
 RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
-	RenderTexture2D gameTexture = LoadRenderTexture(screenWidth, screenHeight);
-	BeginTextureMode(gameTexture);
+	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
+	BeginTextureMode(texture);
 	ClearBackground(BLACK);
 	EndTextureMode();
-	return gameTexture;
+	return texture;
 }
 
 Texture2D load_sprite(const char* path) {

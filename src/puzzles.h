@@ -24,10 +24,9 @@ struct PuzzleInfo {
 	int width;
 	int height;
 	int index;
-
 	int playerIndex;
 
-	PuzzleInfo(int width, int height, int index);
+	//PuzzleInfo(int width, int height, int index);
 };
 
 extern std::vector<std::vector<u16>> history;
@@ -41,6 +40,8 @@ extern PuzzleInfo current_puzzle_info;
 //Methods
 std::vector<u16> get_current_puzzle();
 PuzzleInfo get_current_puzzle_info();
+
+void load_puzzles_from_file();
 
 bool try_increment_puzzle();
 bool try_decrement_puzzle();
