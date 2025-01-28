@@ -87,7 +87,7 @@ bool try_increment_puzzle() {
 		current_puzzle_info	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
-		std::cout << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
+		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
 		return false;
 	}
 }
@@ -98,7 +98,7 @@ bool try_decrement_puzzle() {
 		current_puzzle_info	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
-		std::cout << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
+		std::cerr << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
 		return false;
 	}
 }
