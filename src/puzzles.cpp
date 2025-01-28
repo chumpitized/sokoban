@@ -66,10 +66,11 @@ void load_puzzles_from_file() {
 				u8 height 	= last;
 
 				puzzleInfos.push_back(PuzzleInfo{width, height, puzzle_count++, player_index});
+				player_index = 0;
 				puzzle.clear();
 			}
 		} else {
-			if (right == 0x00) player_index = puzzle.size();
+			if (left == 0x00) player_index = puzzle.size();
 			puzzle.push_back(tile);
 		}
 	}

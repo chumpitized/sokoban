@@ -20,8 +20,6 @@ int main() {
 	RenderTexture2D game_texture = create_game_texture(screenWidth, screenHeight);
 	load_puzzles_from_file();
 
-	std::cout << "all good" << std::endl;
-
 	while(!WindowShouldClose()) {
 		std::vector<u16> currPuzzle = get_current_puzzle();
 		PuzzleInfo currPuzzleInfo 	= get_current_puzzle_info();
