@@ -2,6 +2,8 @@
 #include "puzzles.h"
 #include "draw.h"
 
+#include <iostream>
+
 void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
 	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
 		//this will double count a position when you push into a wall
@@ -44,5 +46,12 @@ void restart() {
 	if (IsKeyPressed(KEY_R)) {
 		restart_level();
 		history.clear();
+	}
+}
+
+void switchMode() {
+	if (IsKeyPressed(KEY_E)) {
+		if (gameMode == GameMode::Play) gameMode = GameMode::Edit;
+		else gameMode = GameMode::Play;
 	}
 }

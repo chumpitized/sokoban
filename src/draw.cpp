@@ -12,7 +12,7 @@ int get_tile_size() {
 	return get_sprite_scale() * spriteSize;
 }
 
-RenderTexture2D create_game_texture(int screenWidth, int screenHeight) {
+RenderTexture2D create_texture(int screenWidth, int screenHeight) {
 	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
 	BeginTextureMode(texture);
 	ClearBackground(BLACK);

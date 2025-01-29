@@ -10,7 +10,7 @@ typedef uint16_t u16;
 
 enum GameMode {
 	Play,
-	Editor
+	Edit
 };
 
 extern GameMode gameMode;

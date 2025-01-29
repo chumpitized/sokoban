@@ -10,4 +10,8 @@ void go_prev_puzzle(RenderTexture2D& game_texture);
 void undo();
 void restart();
 
+
+
+void switchMode();
+
 #endif

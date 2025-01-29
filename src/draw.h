@@ -14,7 +14,7 @@ extern std::vector<Texture2D> sprites;
 int get_sprite_scale();
 int get_tile_size();
 
-RenderTexture2D create_game_texture(int screenWidth, int screenHeight);
+RenderTexture2D create_texture(int screenWidth, int screenHeight);
 
 Texture2D load_sprite(const char* path);
 void load_sprites();

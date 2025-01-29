@@ -91,6 +91,7 @@ bool try_increment_puzzle() {
 		return false;
 	}
 }
+
 bool try_decrement_puzzle() {
 	if (puzzle_index - 1 >= 0) {
 		puzzle_index--;
