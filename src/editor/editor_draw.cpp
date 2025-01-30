@@ -4,21 +4,8 @@
 #include <raylib.h>
 #include <vector>
 
-void draw_selected_palette_square() {
-	if (storedTile.isEntity) {
-		int index = storedTile.storedIndex;
-		float y = ((index / paletteWidth) * tileSize) + yEntitiesOffset;
-		float x = ((index % paletteWidth) * tileSize) + xEntitiesOffset;
-
-		DrawRectangleLinesEx(Rectangle{x, y, 64, 64}, 4, RED);
-	} else {
-		int index = storedTile.storedIndex;
-		float y = ((index / paletteWidth) * tileSize) + yTilesOffset;
-		float x = ((index % paletteWidth) * tileSize) + xTilesOffset;
-
-		DrawRectangleLinesEx(Rectangle{x, y, 64, 64}, 4, RED);
-	}
-}
+std::vector<Texture2D> editor_entities;
+std::vector<Texture2D> editor_tiles;
 
 RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight) {
 	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
@@ -39,6 +26,22 @@ RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight) {
 	return texture;
 }
 
+void draw_selected_palette_square() {
+	if (storedTile.isEntity) {
+		int index = storedTile.storedIndex;
+		float y = ((index / paletteWidth) * tileSize) + yEntitiesOffset;
+		float x = ((index % paletteWidth) * tileSize) + xEntitiesOffset;
+
+		DrawRectangleLinesEx(Rectangle{x, y, 64, 64}, 4, RED);
+	} else {
+		int index = storedTile.storedIndex;
+		float y = ((index / paletteWidth) * tileSize) + yTilesOffset;
+		float x = ((index % paletteWidth) * tileSize) + xTilesOffset;
+
+		DrawRectangleLinesEx(Rectangle{x, y, 64, 64}, 4, RED);
+	}
+}
+
 Texture2D load_editor_sprite(const char* path) {
 	Image image = LoadImage(path);
 	Texture2D texture = LoadTextureFromImage(image);
@@ -46,13 +49,13 @@ Texture2D load_editor_sprite(const char* path) {
 	return texture;
 };
 
-void load_editor_sprites(std::vector<Texture2D>& entities, std::vector<Texture2D>& tiles) {
-	entities = {
+void load_editor_sprites() {
+	editor_entities = {
 		load_editor_sprite("data/sprites/character_transparent.png"),
 		load_editor_sprite("data/sprites/key_transparent.png")
 	};
 
-	tiles = {
+	editor_tiles = {
 		load_editor_sprite("data/sprites/black_tile.png"),
 		load_editor_sprite("data/sprites/gray_tile.png"),
 		load_editor_sprite("data/sprites/horizontal_wall.png"),
@@ -67,7 +70,21 @@ void draw_canvas_border() {
 	DrawRectangleLinesEx(Rectangle{xOffset - thickness, yOffset - thickness, width, width}, 3.0, BLACK);
 }
 
-void draw_canvas(RenderTexture2D& texture, std::vector<u16>& canvas, std::vector<Texture2D>& entities, std::vector<Texture2D>& tiles, int width, int x, int y, int tileSize) {
+
+void load_puzzle_into_canvas(std::vector<u16>& canvas, std::vector<u16>& puzzle, int puzzleWidth, int puzzleHeight) {
+	if (puzzle.size() <= canvas.size()) {
+		for (int i = 0; i < puzzle.size(); ++i) {
+			int row = (i / puzzleWidth) + ((canvasTileWidth - puzzleHeight) / 2);
+			int col = (i % puzzleWidth) + ((canvasTileWidth - puzzleWidth) / 2);
+
+			int cell = (row * canvasTileWidth) + col;
+
+			canvas[cell] = puzzle[i];
+		}
+	}	
+}
+
+void draw_canvas(RenderTexture2D& texture, std::vector<u16>& canvas, int width, int x, int y, int tileSize) {
 	BeginTextureMode(texture);
 	for (int i = 0; i < canvas.size(); ++i) {
 		int row = i / width;
@@ -76,25 +93,21 @@ void draw_canvas(RenderTexture2D& texture, std::vector<u16>& canvas, std::vector
 		float xTileOffset = x + (col * tileSize);
 		float yTileOffset = y + (row * tileSize);
 		
-		//if (canvas[i] == 0xffff) {
-			Rectangle tile = Rectangle{xTileOffset, yTileOffset, (float)tileSize, (float)tileSize};
+		Rectangle tile = Rectangle{xTileOffset, yTileOffset, (float)tileSize, (float)tileSize};
 
-			if (row + col & 1) DrawRectangleRec(tile, RAYWHITE);
-			else DrawRectangleRec(tile, LIGHTGRAY);
+		if (row + col & 1) DrawRectangleRec(tile, RAYWHITE);
+		else DrawRectangleRec(tile, LIGHTGRAY);
 
-			u16 canvasTile 	= canvas[i];
-			u8 tileByte 	= canvasTile;
-			u8 entityByte 	= canvasTile >> 8;
+		u16 canvasTile 	= canvas[i];
+		u8 tileByte 	= canvasTile;
+		u8 entityByte 	= canvasTile >> 8;
 
-			if (tileByte != 0xff) DrawTextureEx(tiles[tileByte], Vector2{xTileOffset, yTileOffset}, (float)0, (float)4, RAYWHITE);
-			if (entityByte != 0xff) DrawTextureEx(entities[entityByte], Vector2{xTileOffset, yTileOffset}, (float)0, (float)4, RAYWHITE);
-
-		//}
+		if (tileByte != 0xff) DrawTextureEx(editor_tiles[tileByte], Vector2{xTileOffset, yTileOffset}, (float)0, (float)4, RAYWHITE);
+		if (entityByte != 0xff) DrawTextureEx(editor_entities[entityByte], Vector2{xTileOffset, yTileOffset}, (float)0, (float)4, RAYWHITE);
 	}
 	EndTextureMode();
 }
 
-//can rename to palette...
 void draw_palette(std::vector<Texture2D>& palette, int width, int x, int y, int tileSize) {
 	for (int i = 0; i < palette.size(); ++i) {
 		int row = i / width;

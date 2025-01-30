@@ -1,7 +1,9 @@
 #ifndef EDITOR_SAVE_H
 #define EDITOR_SAVE_H
 
-void save();
+#include "editor_data.h"
+
+void save(std::vector<u16>& canvas);
 void read();
 
 

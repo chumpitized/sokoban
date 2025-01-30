@@ -33,6 +33,6 @@ int xTilesOffset	= xTilesFont;
 int yTilesOffset	= yTilesFont + fontSize + 10;
 
 //Arrays
-std::vector<Texture2D> editor_entities;
-std::vector<Texture2D> editor_tiles;
+//std::vector<Texture2D> editor_entities;
+//std::vector<Texture2D> editor_tiles;
 std::vector<u16> canvas(canvasTileWidth * canvasTileWidth, 0xffff);

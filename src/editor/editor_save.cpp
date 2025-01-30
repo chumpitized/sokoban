@@ -1,5 +1,5 @@
 #include "editor_save.h"
-#include "editor_data.h"
+//#include "editor_data.h"
 #include "editor_input.h"
 
 #include <fstream>
@@ -7,7 +7,7 @@
 #include <vector>
 
 //draw error message when invalid...
-void save() {
+void save(std::vector<u16>& canvas) {
 	std::vector<u16> trimmedCanvas;
 	u8 rowWidth 		= 0;
 	u8 expectedWidth 	= 0;

@@ -13,9 +13,18 @@ std::vector<PuzzleInfo> puzzleInfos;
 
 int puzzle_index = 0;
 std::vector<u16> current_puzzle;
+std::vector<u16> current_edit_puzzle;
 PuzzleInfo current_puzzle_info;
 
 //Methods
+std::vector<u16> get_const_puzzle() {
+	return puzzles[puzzle_index];
+}
+
+std::vector<u16> get_current_edit_puzzle() {
+	return current_edit_puzzle;
+}
+
 std::vector<u16> get_current_puzzle() {
 	return current_puzzle;
 }
@@ -76,6 +85,7 @@ void load_puzzles_from_file() {
 	}
 
 	current_puzzle = puzzles[puzzle_index];
+	current_edit_puzzle = puzzles[puzzle_index];
 	current_puzzle_info = puzzleInfos[puzzle_index]; 
 }
 

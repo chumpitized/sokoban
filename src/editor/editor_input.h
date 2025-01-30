@@ -1,8 +1,12 @@
 #ifndef EDITOR_INPUT_H
 #define EDITOR_INPUT_H
 
+#include "editor_data.h"
+
 #include <vector>
 #include <raylib.h>
+
+extern std::vector<std::vector<u16>> editor_history;
 
 void editor_undo();
 void reset_canvas();

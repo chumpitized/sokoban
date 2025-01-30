@@ -38,7 +38,9 @@ extern std::vector<u16> current_puzzle;
 extern PuzzleInfo current_puzzle_info;
 
 //Methods
+std::vector<u16> get_const_puzzle();
 std::vector<u16> get_current_puzzle();
+std::vector<u16> get_current_edit_puzzle();
 PuzzleInfo get_current_puzzle_info();
 
 void load_puzzles_from_file();

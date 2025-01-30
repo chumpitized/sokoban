@@ -22,14 +22,16 @@ int main() {
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
 
 	load_sprites();
-	load_editor_sprites(editor_entities, editor_tiles);
+	load_editor_sprites();
 	RenderTexture2D game_texture = create_texture(screenWidth, screenHeight);
 	RenderTexture2D edit_texture = draw_editor_setup(screenWidth, screenHeight);
 	load_puzzles_from_file();
 
 	while(!WindowShouldClose()) {
-		std::vector<u16> currPuzzle = get_current_puzzle();
-		PuzzleInfo currPuzzleInfo 	= get_current_puzzle_info();
+		std::vector<u16> currPuzzle 	= get_current_puzzle();
+		std::vector<u16> currEditPuzzle	= get_current_edit_puzzle();
+		std::vector<u16> constPuzzle 	= get_const_puzzle();
+		PuzzleInfo currPuzzleInfo 		= get_current_puzzle_info();
 
 		if (mode == Mode::Play) {
 			switchMode();
@@ -64,16 +66,17 @@ int main() {
 			
 			//Draw
 			if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S)) {
-				save();
+				save(canvas);
 			}
 
 			//if we want, we can call this only when update...
-			draw_canvas(edit_texture, canvas, entities, tiles, canvasTileWidth, xOffset, yOffset, tileSize);
+			load_puzzle_into_canvas(canvas, currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+			draw_canvas(edit_texture, canvas, canvasTileWidth, xOffset, yOffset, tileSize);
 
 			BeginDrawing();
 				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 				DrawFPS(0, 0);
-				//handle_mouse_hover();
+				handle_mouse_hover();
 				draw_selected_palette_square();
 			EndDrawing();
 

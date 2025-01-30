@@ -1,16 +1,18 @@
 #include "editor_input.h"
 #include "editor_data.h"
-#include "editor_undo.h"
+#include "editor_draw.h"
 
 #include <raylib.h>
 #include <vector>
 #include <iostream>
 
+std::vector<std::vector<u16>> editor_history;
+
 void editor_undo() {
 	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_Z)) {
-		if (!history.empty()) {
-			canvas = history.back();
-			history.pop_back();
+		if (!editor_history.empty()) {
+			canvas = editor_history.back();
+			editor_history.pop_back();
 		}
 	}
 }
@@ -20,7 +22,7 @@ void reset_canvas() {
 		for (int i = 0; i < canvas.size(); ++i) {
 			canvas[i] = 0xffff;
 		}
-		history.clear();
+		editor_history.clear();
 	}
 }
 
@@ -52,7 +54,7 @@ void handle_right_mouse_click() {
 		
 		int index = in_canvas(mousePos);
 		if (index >= 0) {
-			history.push_back(canvas);
+			editor_history.push_back(canvas);
 		}
 	}
 }
@@ -75,7 +77,7 @@ void handle_left_mouse_click() {
 
 		int index = in_canvas(mousePos);
 		if (index >= 0) {
-			history.push_back(canvas);
+			editor_history.push_back(canvas);
 			return;
 		}
 
@@ -103,21 +105,20 @@ void handle_left_mouse_held() {
 		//Canvas
 		int index = in_canvas(mousePos);
 		if (index >= 0) {
+			u16 replacement;
 			if (storedTile.isEntity) {
-				u16 canvasTile 	= canvas[index];
-				u16 mask 		= 0x00ff; 
-				u16 masked 		= canvasTile & mask;
-				u16 replacement	= storedTile.storedIndex << 8 | masked;
-				
-				canvas[index] = replacement;
+				u16 cell	= canvas[index];
+				u16 mask 	= 0x00ff; 
+				u16 masked 	= cell & mask;
+				replacement	= storedTile.storedIndex << 8 | masked;
 			} else {
-				u16 canvasTile 	= canvas[index];
-				u16 mask 		= 0xff00;
-				u16 masked		= canvas[index] & mask;
-				u16 replacement = masked | storedTile.storedIndex;
-
-				canvas[index] = replacement;
+				u16 cell	= canvas[index];
+				u16 mask 	= 0xff00;
+				u16 masked	= cell & mask;
+				replacement = masked | storedTile.storedIndex;
 			}
+
+			canvas[index] = replacement;
 		}
 	}
 }

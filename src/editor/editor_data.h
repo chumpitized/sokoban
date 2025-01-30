@@ -49,8 +49,8 @@ extern int xTilesOffset;
 extern int yTilesOffset;
 
 //Arrays
-extern std::vector<Texture2D> editor_entities;
-extern std::vector<Texture2D> editor_tiles;
+//extern std::vector<Texture2D> editor_entities;
+//extern std::vector<Texture2D> editor_tiles;
 extern std::vector<u16> canvas;
 
 #endif
