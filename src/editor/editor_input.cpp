@@ -110,11 +110,13 @@ u8 get_puzzle_width(std::vector<u16>& canvas) {
 		potential_gap 	= 0;
 
 		for (int j = 0; j < canvasTileWidth; ++j) {
-			u8 index = (i * canvasTileWidth) + j;
+			u8 index 	= (i * canvasTileWidth) + j;
+			u8 high 	= canvas[index] >> 8;
+			u8 low 		= canvas[index];
 
 			if (canvas[index] != 0xffff && potential_gap > 0) return 0;
 			if (canvas[index] != 0xffff) row_width++;
-			if (row_width > 0 && canvas[index] == 0xffff) potential_gap++;
+			if (row_width > 0 && low == 0xff) potential_gap++;
 		}
 
 		if (expected_width == 0) expected_width = row_width;
