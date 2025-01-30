@@ -100,38 +100,62 @@ void handle_left_mouse_click() {
 
 //if valid, returns width
 //if invalid, returns 0
-u8 get_puzzle_width(std::vector<u16>& canvas) {
+bool is_puzzle_valid(std::vector<u16>& canvas) {
 	u8 expected_width	= 0;
 	u8 row_width		= 0;
 	u8 potential_gap 	= 0;
 
-	for (int i = 0; i < canvas.size(); ++i) {
+	u8 players			= 0;
+	u8 keys				= 0;
+	u8 locks			= 0;
+
+	for (int i = 0; i < canvasTileWidth; ++i) {
 		row_width		= 0;
 		potential_gap 	= 0;
 
 		for (int j = 0; j < canvasTileWidth; ++j) {
 			u8 index 	= (i * canvasTileWidth) + j;
-			u8 high 	= canvas[index] >> 8;
-			u8 low 		= canvas[index];
+			u16 value	= canvas[index];
 
-			if (canvas[index] != 0xffff && potential_gap > 0) return 0;
+			u8 high 	= value >> 8;
+			u8 low 		= value;
+
+			if (high == 0x0) players++;
+			if (high == 0x1) keys++;
+			if (low == 0x04) locks++;
+
+			if (canvas[index] != 0xffff && potential_gap > 0) return false;
 			if (canvas[index] != 0xffff) row_width++;
 			if (row_width > 0 && low == 0xff) potential_gap++;
 		}
 
 		if (expected_width == 0) expected_width = row_width;
 		//have to handle empty rows by checking that row_width is greater than 0
-		if (row_width > 0 && row_width != expected_width) return 0;
+		if (row_width > 0 && row_width != expected_width) return false;
 	}
+
+	if (players != 1 || keys < locks) return false;
 
 	std::cout << "GOOD" << std::endl;
 
-	return expected_width;
+	return true;
+}
+
+u8 get_puzzle_width(std::vector<u16>& canvas) {
+	int width = 0;
+	
+	for (auto cell : canvas) {
+		if (width > 0 && cell == 0xffff) return width;
+		if (cell != 0xffff) width++;
+	}
+
+	return width;
 }
 
 std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas, std::vector<u16>& current_edit_puzzle) {
+	if (!is_puzzle_valid(canvas)) return {};
+
 	u8 width = get_puzzle_width(canvas);
-	if (!width) return {};
 
 	std::vector<u16> trimmed_canvas;
 	
@@ -147,15 +171,6 @@ std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas, std::vector<u16>& c
 
 	return trimmed_canvas;
 }
-
-//void set_play_puzzle_to_edit_puzzle(std::vector<u16>& playPuzzle, std::vector<u16>& editPuzzle) {
-//	if (is_puzzle_valid(canvas)) {
-//		playPuzzle = editPuzzle;
-//	}
-
-//}
-
-
 
 void handle_left_mouse_held() {
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
