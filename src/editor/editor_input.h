@@ -11,9 +11,9 @@ extern std::vector<std::vector<u16>> editor_history;
 void editor_undo();
 void reset_canvas();
 
-bool is_puzzle_valid(std::vector<u16>& canvas);
-u8 get_puzzle_width(std::vector<u16>& canvas);
-std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas);
+//bool is_puzzle_valid(std::vector<u16>& canvas);
+//u8 get_puzzle_width(std::vector<u16>& canvas);
+//std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas);
 
 void handle_mouse_hover();
 void handle_left_mouse_click();

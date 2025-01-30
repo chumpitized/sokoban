@@ -25,9 +25,9 @@ std::vector<u16> get_current_edit_puzzle() {
 	return current_edit_puzzle;
 }
 
-void set_current_edit_puzzle(std::vector<u16> new_edit_puzzle) {
-	current_edit_puzzle = new_edit_puzzle;
-}
+//void update_current_edit_puzzle(std::vector<u16> new_edit_puzzle) {
+//	current_edit_puzzle = new_edit_puzzle;
+//}
 
 std::vector<u16> get_current_puzzle() {
 	return current_puzzle;
@@ -41,9 +41,87 @@ PuzzleInfo get_current_puzzle_info() {
 	return current_puzzle_info;
 }
 
-//void set_play_puzzle_to_edit_puzzle(std::vector<u16>& playPuzzle, std::vector<u16>& editPuzzle) {
-//	current_puzzle = current_edit_puzzle;
-//}
+bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
+	u8 expected_width	= 0;
+	u8 row_width		= 0;
+	u8 potential_gap 	= 0;
+
+	u8 players			= 0;
+	u8 keys				= 0;
+	u8 locks			= 0;
+
+	for (int i = 0; i < canvas_tile_width; ++i) {
+		row_width		= 0;
+		potential_gap 	= 0;
+
+		for (int j = 0; j < canvas_tile_width; ++j) {
+			u8 index 	= (i * canvas_tile_width) + j;
+			u16 value	= canvas[index];
+
+			u8 high 	= value >> 8;
+			u8 low 		= value;
+
+			if (high == 0x0) players++;
+			if (high == 0x1) keys++;
+			if (low == 0x04) locks++;
+
+			if (canvas[index] != 0xffff && potential_gap > 0) return false;
+			if (canvas[index] != 0xffff) row_width++;
+			if (row_width > 0 && low == 0xff) potential_gap++;
+		}
+
+		if (expected_width == 0) expected_width = row_width;
+		//have to handle empty rows by checking that row_width is greater than 0
+		if (row_width > 0 && row_width != expected_width) return false;
+	}
+
+	if (players != 1 || keys < locks) return false;
+
+	std::cout << "GOOD" << std::endl;
+
+	return true;
+}
+
+u8 get_edit_puzzle_width(std::vector<u16>& canvas) {
+	int width = 0;
+	
+	for (auto cell : canvas) {
+		if (width > 0 && cell == 0xffff) return width;
+		if (cell != 0xffff) width++;
+	}
+
+	return width;
+}
+
+
+void get_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width) {
+	if (!is_edit_puzzle_valid(canvas, canvas_tile_width)) return;
+
+	u8 player_index = 0;
+	u8 width = get_edit_puzzle_width(canvas);
+
+	std::vector<u16> puzzle_cutout;
+	
+	for (int i = 0; i < canvas.size(); ++i) {
+		if ((u8)(canvas[i] >> 8) == 0x0) player_index = puzzle_cutout.size();
+		if (canvas[i] != 0xffff) puzzle_cutout.push_back(canvas[i]);
+	}
+	
+	u8 height = puzzle_cutout.size() / width;	
+	u16 dimensions = width << 8 | height;
+	
+	//gotta add handling for this... maybe... or we just update PuzzleInfo
+	//trimmed_canvas.push_back(dimensions);
+	//trimmed_canvas.push_back(0xffff);
+
+	current_edit_puzzle = puzzle_cutout;
+	current_puzzle = puzzle_cutout;
+	current_puzzle_info.width = width;
+	current_puzzle_info.height = height;
+	current_puzzle_info.playerIndex = player_index;
+
+	std::cout << current_puzzle_info.playerIndex << std::endl;
+}
 
 void load_puzzles_from_file() {
 	std::fstream file;

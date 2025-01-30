@@ -69,21 +69,16 @@ int main() {
 				save(canvas);
 			}
 
-			//we also need a reset edit puzzle function!
-
-			//we can do this once on mode switch...
-			//load_puzzle_into_canvas(canvas, currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
-
 			//update the edit puzzle
-			std::vector<u16> new_edit_puzzle = get_edited_puzzle(canvas);
-			if (new_edit_puzzle.size()) set_current_edit_puzzle(new_edit_puzzle);
+			get_edit_puzzle(canvas, canvasTileWidth);
+			//if (new_edit_puzzle.size()) update_current_edit_puzzle(new_edit_puzzle);
 
 			//if we want, we can call this only when update...
 			draw_canvas(edit_texture, canvas, canvasTileWidth, xOffset, yOffset, tileSize);
 
 			BeginDrawing();
 				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
-				if (is_puzzle_valid(canvas)) {
+				if (is_edit_puzzle_valid(canvas, canvasTileWidth)) {
 					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, GREEN);
 				} else {
 					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, RED);
