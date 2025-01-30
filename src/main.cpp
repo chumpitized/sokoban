@@ -69,9 +69,16 @@ int main() {
 				save(canvas);
 			}
 
-			//if we want, we can call this only when update...
+			//we also need a reset edit puzzle function!
+
+			//we can do this once on mode switch...
 			load_puzzle_into_canvas(canvas, currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
-			is_puzzle_valid(canvas);
+
+			//update the edit puzzle 
+			std::vector<u16> new_edit_puzzle = get_edited_puzzle(canvas, currEditPuzzle);
+			if (new_edit_puzzle.size()) set_current_edit_puzzle(new_edit_puzzle);
+
+			//if we want, we can call this only when update...
 			draw_canvas(edit_texture, canvas, canvasTileWidth, xOffset, yOffset, tileSize);
 
 			BeginDrawing();

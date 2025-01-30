@@ -25,13 +25,25 @@ std::vector<u16> get_current_edit_puzzle() {
 	return current_edit_puzzle;
 }
 
+void set_current_edit_puzzle(std::vector<u16> new_edit_puzzle) {
+	current_edit_puzzle = new_edit_puzzle;
+}
+
 std::vector<u16> get_current_puzzle() {
 	return current_puzzle;
+}
+
+void set_current_puzzle(std::vector<u16> new_puzzle) {
+	current_puzzle = new_puzzle;
 }
 
 PuzzleInfo get_current_puzzle_info() {
 	return current_puzzle_info;
 }
+
+//void set_play_puzzle_to_edit_puzzle(std::vector<u16>& playPuzzle, std::vector<u16>& editPuzzle) {
+//	current_puzzle = current_edit_puzzle;
+//}
 
 void load_puzzles_from_file() {
 	std::fstream file;
