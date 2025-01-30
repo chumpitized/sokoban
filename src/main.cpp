@@ -71,6 +71,7 @@ int main() {
 
 			//if we want, we can call this only when update...
 			load_puzzle_into_canvas(canvas, currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+			is_puzzle_valid(canvas);
 			draw_canvas(edit_texture, canvas, canvasTileWidth, xOffset, yOffset, tileSize);
 
 			BeginDrawing();

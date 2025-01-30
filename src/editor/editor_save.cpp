@@ -20,6 +20,7 @@ void save(std::vector<u16>& canvas) {
 		
 		if (val == 0xffff && rowWidth > 0) {
 			//BUGGED!!! If you draw two disconnected 2x2 squares and save, it will work!
+			//there must be canvasTileWidth cells between each row of filled cells!
 			if (expectedWidth > 0 && rowWidth != expectedWidth) {
 				std::cout << "SAVE FAILED" << std::endl;
 				std::cout << "ERROR: PUZZLE IS NOT A RECTANGLE" << std::endl;

@@ -98,6 +98,32 @@ void handle_left_mouse_click() {
 	}
 }
 
+bool is_puzzle_valid(std::vector<u16>& canvas) {
+	u8 expected_width	= 0;
+	u8 row_width		= 0;
+	u8 potential_gap 	= 0;
+
+	for (int i = 0; i < canvas.size(); ++i) {
+		row_width		= 0;
+		potential_gap 	= 0;
+
+		for (int j = 0; j < canvasTileWidth; ++j) {
+			u8 index = (i * canvasTileWidth) + j;
+
+			if (canvas[index] != 0xffff && potential_gap > 0) return false;
+			if (canvas[index] != 0xffff) row_width++;
+			if (row_width > 0 && canvas[index] == 0xffff) potential_gap++;
+		}
+
+		if (expected_width == 0) expected_width = row_width;
+		//have to handle empty rows by checking that row_width is greater than 0
+		if (row_width > 0 && row_width != expected_width) return false;
+	}
+
+	return true;
+}
+
+
 void handle_left_mouse_held() {
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
 		Vector2 mousePos = GetMousePosition();
