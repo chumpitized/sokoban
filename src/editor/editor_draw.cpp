@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include <vector>
 
-void draw_selected_palette_tile() {
+void draw_selected_palette_square() {
 	if (storedTile.isEntity) {
 		int index = storedTile.storedIndex;
 		float y = ((index / paletteWidth) * tileSize) + yEntitiesOffset;

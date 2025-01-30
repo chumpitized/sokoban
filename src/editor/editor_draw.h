@@ -5,7 +5,7 @@
 #include <raylib.h>
 #include <vector>
 
-void draw_selected_palette_tile();
+void draw_selected_palette_square();
 
 RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight);
 Texture2D load_editor_sprite(const char* path);

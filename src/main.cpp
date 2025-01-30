@@ -31,7 +31,7 @@ int main() {
 		std::vector<u16> currPuzzle = get_current_puzzle();
 		PuzzleInfo currPuzzleInfo 	= get_current_puzzle_info();
 
-		if (gameMode == GameMode::Play) {
+		if (mode == Mode::Play) {
 			switchMode();
 
 			go_next_puzzle(game_texture);
@@ -50,7 +50,7 @@ int main() {
 
 		}
 
-		if (gameMode == GameMode::Edit) {
+		if (mode == Mode::Edit) {
 			switchMode();
 
 			//Input
@@ -74,7 +74,7 @@ int main() {
 				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 				DrawFPS(0, 0);
 				//handle_mouse_hover();
-				draw_selected_palette_tile();
+				draw_selected_palette_square();
 			EndDrawing();
 
 		}

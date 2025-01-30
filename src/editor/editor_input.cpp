@@ -76,6 +76,7 @@ void handle_left_mouse_click() {
 		int index = in_canvas(mousePos);
 		if (index >= 0) {
 			history.push_back(canvas);
+			return;
 		}
 
 		//Entities
@@ -83,6 +84,7 @@ void handle_left_mouse_click() {
 		if (index >= 0) {
 			storedTile.storedIndex 	= index;
 			storedTile.isEntity 	= true;
+			return;
 		}
 
 		//Tiles

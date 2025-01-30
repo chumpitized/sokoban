@@ -21,10 +21,6 @@ struct StoredTile {
 //Draw
 extern StoredTile storedTile;
 
-//Window
-//extern int screenWidth;
-//extern int screenHeight;
-
 //Canvas
 extern float tileSize;
 extern float canvasWidth;

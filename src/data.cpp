@@ -1,6 +1,6 @@
 #include "data.h"
 
-GameMode gameMode = GameMode::Play;
+Mode mode = Mode::Play;
 
 const int spriteSize 	= 16;
 const int screenWidth	= 1920;

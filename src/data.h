@@ -8,12 +8,12 @@
 typedef uint8_t u8;
 typedef uint16_t u16;
 
-enum GameMode {
+enum Mode {
 	Play,
 	Edit
 };
 
-extern GameMode gameMode;
+extern Mode mode;
 
 extern const int spriteSize; 
 extern const int screenWidth;

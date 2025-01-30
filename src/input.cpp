@@ -51,7 +51,7 @@ void restart() {
 
 void switchMode() {
 	if (IsKeyPressed(KEY_E)) {
-		if (gameMode == GameMode::Play) gameMode = GameMode::Edit;
-		else gameMode = GameMode::Play;
+		if (mode == Mode::Play) mode = Mode::Edit;
+		else mode = Mode::Play;
 	}
 }

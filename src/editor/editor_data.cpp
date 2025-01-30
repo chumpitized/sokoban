@@ -5,10 +5,6 @@
 //Draw
 StoredTile storedTile = StoredTile(false, 0);
 
-//Window
-////int screenWidth 	= 1295;
-//int screenHeight 	= 1080;
-
 //Canvas
 float tileSize		= 64;
 float canvasWidth	= 1024;
