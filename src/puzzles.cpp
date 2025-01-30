@@ -105,8 +105,9 @@ void load_puzzles_from_file() {
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
 		puzzle_index++;
-		current_puzzle = puzzles[puzzle_index];
-		current_puzzle_info	= puzzleInfos[puzzle_index];
+		current_puzzle 		= puzzles[puzzle_index];
+		current_edit_puzzle = puzzles[puzzle_index];
+		current_puzzle_info	= puzzleInfos[puzzle_index]; 
 		return true;
 	} else {
 		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -117,7 +118,8 @@ bool try_increment_puzzle() {
 bool try_decrement_puzzle() {
 	if (puzzle_index - 1 >= 0) {
 		puzzle_index--;
-		current_puzzle = puzzles[puzzle_index];
+		current_puzzle 		= puzzles[puzzle_index];
+		current_edit_puzzle = puzzles[puzzle_index];
 		current_puzzle_info	= puzzleInfos[puzzle_index];
 		return true;
 	} else {

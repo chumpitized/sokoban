@@ -34,7 +34,7 @@ int main() {
 		PuzzleInfo currPuzzleInfo 		= get_current_puzzle_info();
 
 		if (mode == Mode::Play) {
-			switchMode();
+			switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
 
 			go_next_puzzle(game_texture);
 			go_prev_puzzle(game_texture);
@@ -53,7 +53,7 @@ int main() {
 		}
 
 		if (mode == Mode::Edit) {
-			switchMode();
+			switch_to_play_mode();
 
 			//Input
 			handle_left_mouse_click();
@@ -72,10 +72,10 @@ int main() {
 			//we also need a reset edit puzzle function!
 
 			//we can do this once on mode switch...
-			load_puzzle_into_canvas(canvas, currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+			//load_puzzle_into_canvas(canvas, currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
 
-			//update the edit puzzle 
-			std::vector<u16> new_edit_puzzle = get_edited_puzzle(canvas, currEditPuzzle);
+			//update the edit puzzle
+			std::vector<u16> new_edit_puzzle = get_edited_puzzle(canvas);
 			if (new_edit_puzzle.size()) set_current_edit_puzzle(new_edit_puzzle);
 
 			//if we want, we can call this only when update...
@@ -83,6 +83,11 @@ int main() {
 
 			BeginDrawing();
 				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+				if (is_puzzle_valid(canvas)) {
+					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, GREEN);
+				} else {
+					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, RED);
+				}
 				DrawFPS(0, 0);
 				handle_mouse_hover();
 				draw_selected_palette_square();

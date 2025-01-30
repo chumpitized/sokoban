@@ -10,8 +10,7 @@ void go_prev_puzzle(RenderTexture2D& game_texture);
 void undo();
 void restart();
 
-
-
-void switchMode();
+void switch_to_play_mode();
+void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_width, int edit_puzzle_height);
 
 #endif

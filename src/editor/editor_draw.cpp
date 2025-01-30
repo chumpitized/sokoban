@@ -77,9 +77,9 @@ void load_puzzle_into_canvas(std::vector<u16>& canvas, std::vector<u16>& puzzle,
 			int row = (i / puzzleWidth) + ((canvasTileWidth - puzzleHeight) / 2);
 			int col = (i % puzzleWidth) + ((canvasTileWidth - puzzleWidth) / 2);
 
-			int cell = (row * canvasTileWidth) + col;
+			int index = (row * canvasTileWidth) + col;
 
-			canvas[cell] = puzzle[i];
+			canvas[index] = puzzle[i];
 		}
 	}	
 }

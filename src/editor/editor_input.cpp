@@ -98,8 +98,6 @@ void handle_left_mouse_click() {
 	}
 }
 
-//if valid, returns width
-//if invalid, returns 0
 bool is_puzzle_valid(std::vector<u16>& canvas) {
 	u8 expected_width	= 0;
 	u8 row_width		= 0;
@@ -152,7 +150,7 @@ u8 get_puzzle_width(std::vector<u16>& canvas) {
 	return width;
 }
 
-std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas, std::vector<u16>& current_edit_puzzle) {
+std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas) {
 	if (!is_puzzle_valid(canvas)) return {};
 
 	u8 width = get_puzzle_width(canvas);
@@ -160,14 +158,15 @@ std::vector<u16> get_edited_puzzle(std::vector<u16>& canvas, std::vector<u16>& c
 	std::vector<u16> trimmed_canvas;
 	
 	for (auto cell : canvas) {
-		trimmed_canvas.push_back(cell);
+		if (cell != 0xffff) trimmed_canvas.push_back(cell);
 	}
 	
 	u8 height = trimmed_canvas.size() / width;	
 	u16 dimensions = width << 8 | height;
 	
-	trimmed_canvas.push_back(dimensions);
-	trimmed_canvas.push_back(0xffff);
+	//gotta add handling for this...
+	//trimmed_canvas.push_back(dimensions);
+	//trimmed_canvas.push_back(0xffff);
 
 	return trimmed_canvas;
 }
