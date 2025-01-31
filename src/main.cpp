@@ -53,7 +53,7 @@ int main() {
 		}
 
 		if (mode == Mode::Edit) {
-			switch_to_play_mode();
+			switch_to_play_mode(game_texture);
 
 			//Input
 			handle_left_mouse_click();
@@ -70,7 +70,7 @@ int main() {
 			}
 
 			//update the edit puzzle
-			get_edit_puzzle(canvas, canvasTileWidth);
+			set_current_puzzle_to_edit_puzzle(canvas, canvasTileWidth);
 			//if (new_edit_puzzle.size()) update_current_edit_puzzle(new_edit_puzzle);
 
 			//if we want, we can call this only when update...

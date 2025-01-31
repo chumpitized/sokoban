@@ -35,14 +35,16 @@ extern std::vector<PuzzleInfo> puzzleInfos;
 
 extern int puzzle_index;
 extern std::vector<u16> current_puzzle;
+extern std::vector<u16> current_edit_puzzle;
 extern PuzzleInfo current_puzzle_info;
+extern PuzzleInfo current_edit_puzzle_info;
 
 //Methods
 //void set_play_puzzle_to_edit_puzzle(std::vector<u16>& playPuzzle, std::vector<u16>& editPuzzle);
 
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width);
 u8 get_edit_puzzle_width(std::vector<u16>& canvas);
-void get_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width);
+void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width);
 
 
 
@@ -50,8 +52,8 @@ std::vector<u16> get_const_puzzle();
 std::vector<u16> get_current_puzzle();
 void set_current_puzzle(std::vector<u16> new_puzzle);
 std::vector<u16> get_current_edit_puzzle();
-//void update_current_edit_puzzle(std::vector<u16> new_edit_puzzle);
 PuzzleInfo get_current_puzzle_info();
+PuzzleInfo get_current_edit_puzzle_info();
 
 void load_puzzles_from_file();
 

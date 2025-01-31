@@ -53,9 +53,12 @@ void restart() {
 	}
 }
 
-void switch_to_play_mode() {
+void switch_to_play_mode(RenderTexture2D& game_texture) {
 	if (IsKeyPressed(KEY_E)) {
 		mode = Mode::Play;
+		clear_background(game_texture);
+		restart_level();
+		history.clear();
 	}
 }
 
@@ -66,7 +69,7 @@ void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_
 		for (int i = 0; i < canvas.size(); ++i) {
 			canvas[i] = 0xffff;
 		}
-		editor_history.clear();
+		//editor_history.clear();
 
 		load_puzzle_into_canvas(canvas, current_edit_puzzle, edit_puzzle_width, edit_puzzle_height);
 	}

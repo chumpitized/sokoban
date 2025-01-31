@@ -12,9 +12,12 @@ std::vector<std::vector<u16>> puzzles;
 std::vector<PuzzleInfo> puzzleInfos;
 
 int puzzle_index = 0;
+
 std::vector<u16> current_puzzle;
 std::vector<u16> current_edit_puzzle;
+
 PuzzleInfo current_puzzle_info;
+PuzzleInfo current_edit_puzzle_info;
 
 //Methods
 std::vector<u16> get_const_puzzle() {
@@ -24,10 +27,6 @@ std::vector<u16> get_const_puzzle() {
 std::vector<u16> get_current_edit_puzzle() {
 	return current_edit_puzzle;
 }
-
-//void update_current_edit_puzzle(std::vector<u16> new_edit_puzzle) {
-//	current_edit_puzzle = new_edit_puzzle;
-//}
 
 std::vector<u16> get_current_puzzle() {
 	return current_puzzle;
@@ -40,6 +39,11 @@ void set_current_puzzle(std::vector<u16> new_puzzle) {
 PuzzleInfo get_current_puzzle_info() {
 	return current_puzzle_info;
 }
+
+PuzzleInfo get_current_edit_puzzle_info() {
+	return current_edit_puzzle_info;
+}
+
 
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
 	u8 expected_width	= 0;
@@ -94,7 +98,7 @@ u8 get_edit_puzzle_width(std::vector<u16>& canvas) {
 }
 
 
-void get_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width) {
+void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width) {
 	if (!is_edit_puzzle_valid(canvas, canvas_tile_width)) return;
 
 	u8 player_index = 0;
@@ -116,11 +120,10 @@ void get_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width) {
 
 	current_edit_puzzle = puzzle_cutout;
 	current_puzzle = puzzle_cutout;
-	current_puzzle_info.width = width;
-	current_puzzle_info.height = height;
-	current_puzzle_info.playerIndex = player_index;
-
-	std::cout << current_puzzle_info.playerIndex << std::endl;
+	current_edit_puzzle_info.width = width;
+	current_edit_puzzle_info.height = height;
+	current_edit_puzzle_info.playerIndex = player_index;
+	current_puzzle_info = current_edit_puzzle_info;
 }
 
 void load_puzzles_from_file() {
@@ -176,7 +179,8 @@ void load_puzzles_from_file() {
 
 	current_puzzle = puzzles[puzzle_index];
 	current_edit_puzzle = puzzles[puzzle_index];
-	current_puzzle_info = puzzleInfos[puzzle_index]; 
+	current_puzzle_info = puzzleInfos[puzzle_index];
+	current_edit_puzzle_info = puzzleInfos[puzzle_index];
 }
 
 
@@ -185,7 +189,8 @@ bool try_increment_puzzle() {
 		puzzle_index++;
 		current_puzzle 		= puzzles[puzzle_index];
 		current_edit_puzzle = puzzles[puzzle_index];
-		current_puzzle_info	= puzzleInfos[puzzle_index]; 
+		current_puzzle_info	= puzzleInfos[puzzle_index];
+		current_edit_puzzle_info = puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -199,6 +204,7 @@ bool try_decrement_puzzle() {
 		current_puzzle 		= puzzles[puzzle_index];
 		current_edit_puzzle = puzzles[puzzle_index];
 		current_puzzle_info	= puzzleInfos[puzzle_index];
+		current_edit_puzzle_info = puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -224,8 +230,8 @@ void undo_last_move() {
 }
 
 void restart_level() {
-	current_puzzle 		= puzzles[puzzle_index];
-	current_puzzle_info = puzzleInfos[puzzle_index];
+	current_puzzle 		= current_edit_puzzle;
+	current_puzzle_info = current_edit_puzzle_info;
 	history.clear();
 }
 
