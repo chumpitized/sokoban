@@ -20,16 +20,20 @@ PuzzleInfo current_puzzle_info;
 PuzzleInfo current_edit_puzzle_info;
 
 //Methods
+std::vector<std::vector<u16>> get_puzzles() {
+	return puzzles;
+}
+
 std::vector<u16> get_const_puzzle() {
 	return puzzles[puzzle_index];
 }
 
-std::vector<u16> get_current_edit_puzzle() {
-	return current_edit_puzzle;
-}
-
 std::vector<u16> get_current_puzzle() {
 	return current_puzzle;
+}
+
+std::vector<u16> get_current_edit_puzzle() {
+	return current_edit_puzzle;
 }
 
 void set_current_puzzle(std::vector<u16> new_puzzle) {
@@ -43,7 +47,6 @@ PuzzleInfo get_current_puzzle_info() {
 PuzzleInfo get_current_edit_puzzle_info() {
 	return current_edit_puzzle_info;
 }
-
 
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
 	u8 expected_width	= 0;
@@ -81,8 +84,6 @@ bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
 
 	if (players != 1 || keys < locks) return false;
 
-	std::cout << "GOOD" << std::endl;
-
 	return true;
 }
 
@@ -96,7 +97,6 @@ u8 get_edit_puzzle_width(std::vector<u16>& canvas) {
 
 	return width;
 }
-
 
 void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width) {
 	if (!is_edit_puzzle_valid(canvas, canvas_tile_width)) return;

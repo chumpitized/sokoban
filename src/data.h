@@ -10,7 +10,8 @@ typedef uint16_t u16;
 
 enum Mode {
 	Play,
-	Edit
+	Edit,
+	Level_Menu
 };
 
 extern Mode mode;

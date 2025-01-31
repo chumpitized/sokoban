@@ -47,7 +47,7 @@ u8 get_edit_puzzle_width(std::vector<u16>& canvas);
 void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width);
 
 
-
+std::vector<std::vector<u16>> get_puzzles();
 std::vector<u16> get_const_puzzle();
 std::vector<u16> get_current_puzzle();
 void set_current_puzzle(std::vector<u16> new_puzzle);

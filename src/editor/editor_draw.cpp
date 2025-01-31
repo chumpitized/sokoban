@@ -7,6 +7,16 @@
 std::vector<Texture2D> editor_entities;
 std::vector<Texture2D> editor_tiles;
 
+void draw_save_status() {
+	bool save_status = false;
+
+	if (save_status) {
+		DrawText("Saved!", xTilesOffset, yTilesOffset + 200, fontSize, GREEN);
+	} else {
+		DrawText("Unsaved", xTilesOffset, yTilesOffset + 200, fontSize, RED);
+	}
+}
+
 RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight) {
 	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
 	

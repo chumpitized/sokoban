@@ -8,6 +8,8 @@
 extern std::vector<Texture2D> editor_entities;
 extern std::vector<Texture2D> editor_tiles;
 
+void draw_save_status();
+
 RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight);
 
 void draw_selected_palette_square();

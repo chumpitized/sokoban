@@ -12,5 +12,6 @@ void restart();
 
 void switch_to_play_mode(RenderTexture2D& game_texture);
 void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_width, int edit_puzzle_height);
+void switch_to_level_menu();
 
 #endif

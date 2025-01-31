@@ -20,11 +20,13 @@ int main() {
 	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
+	//SetExitKey(KEY_NULL);
 
 	load_sprites();
 	load_editor_sprites();
-	RenderTexture2D game_texture = create_texture(screenWidth, screenHeight);
-	RenderTexture2D edit_texture = draw_editor_setup(screenWidth, screenHeight);
+	RenderTexture2D game_texture 		= create_texture(screenWidth, screenHeight);
+	RenderTexture2D edit_texture 		= draw_editor_setup(screenWidth, screenHeight);
+	//RenderTexture2d level_menu_texture 	= 
 	load_puzzles_from_file();
 
 	while(!WindowShouldClose()) {
@@ -33,6 +35,7 @@ int main() {
 		std::vector<u16> constPuzzle 	= get_const_puzzle();
 		PuzzleInfo currPuzzleInfo 		= get_current_puzzle_info();
 
+		//Play
 		if (mode == Mode::Play) {
 			switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
 
@@ -52,9 +55,10 @@ int main() {
 
 		}
 
+		//Puzzle Editor
 		if (mode == Mode::Edit) {
 			switch_to_play_mode(game_texture);
-
+			switch_to_level_menu();
 			//Input
 			handle_left_mouse_click();
 			handle_left_mouse_held();
@@ -83,9 +87,28 @@ int main() {
 				} else {
 					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, RED);
 				}
+				draw_save_status();
 				DrawFPS(0, 0);
 				handle_mouse_hover();
 				draw_selected_palette_square();
+			EndDrawing();
+
+		}
+
+		//Puzzle Selection Menu -- UNFINISHED
+		if (mode == Mode::Level_Menu) {
+			std::vector<std::vector<u16>> puzzles = get_puzzles();
+
+			int xOffset = screenWidth / 10;
+			int yOffset = screenHeight / 10;
+			clear_background(edit_texture);
+
+			BeginDrawing();
+				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+
+				for (int i = 0; i < puzzles.size(); i++) {
+					DrawRectangle(xOffset + (100 * i), yOffset, 100, 100, RED);
+				}
 			EndDrawing();
 
 		}

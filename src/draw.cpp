@@ -48,7 +48,7 @@ int get_puzzle_draw_offset(int tileSize, int axisWidth, int axisScreenWidth) {
 
 void clear_background(RenderTexture2D& texture) {
 	BeginTextureMode(texture);
-	ClearBackground(BLACK);
+		ClearBackground(BLACK);
 	EndTextureMode();
 }
 

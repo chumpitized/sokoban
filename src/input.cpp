@@ -71,7 +71,24 @@ void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_
 		}
 		//editor_history.clear();
 
+
+		//this can actually be done once when we select a puzzle,
+		// then we can just display the canvas on mode switch...
 		load_puzzle_into_canvas(canvas, current_edit_puzzle, edit_puzzle_width, edit_puzzle_height);
 	}
 
+}
+
+void switch_to_level_menu() {
+	if (IsKeyPressed(KEY_L)) {
+		mode = Mode::Level_Menu;
+		
+		//std::vector<Texture2D> puzzle_previews;
+		//std::vector<u16> first_puzzle = get_puzzles()[0];
+
+		//int xOffset = screenWidth / 10;
+		//int yOffset = screenHeight / 10;
+
+		//DrawRectangle(xOffset, yOffset, 100, 100, RED);
+	}
 }
