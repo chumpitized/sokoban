@@ -50,6 +50,8 @@ std::vector<u16> get_current_edit_puzzle();
 PuzzleInfo get_current_puzzle_info();
 PuzzleInfo get_current_edit_puzzle_info();
 
+void create_new_puzzle_and_update_vals();
+
 bool is_edit_puzzle_same_as_saved_puzzle();
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width);
 

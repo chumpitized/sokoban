@@ -4,6 +4,7 @@
 #include "puzzles.h"
 #include <raylib.h>
 
+void create_new_puzzle();
 void try_save(std::vector<u16>& puzzle, int index, bool valid_save);
 
 void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle);

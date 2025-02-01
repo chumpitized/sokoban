@@ -24,8 +24,9 @@ int main() {
 
 	load_sprites();
 	load_editor_sprites();
-	RenderTexture2D game_texture 		= create_texture(screenWidth, screenHeight);
-	RenderTexture2D edit_texture 		= draw_editor_setup(screenWidth, screenHeight);
+	RenderTexture2D game_texture = create_texture(screenWidth, screenHeight);
+	RenderTexture2D edit_texture = draw_editor_setup(screenWidth, screenHeight);
+	RenderTexture2D menu_texture = draw_menu_setup(screenWidth, screenHeight);	
 	//RenderTexture2d level_menu_texture 	= 
 	load_puzzles_from_file();
 
@@ -72,6 +73,8 @@ int main() {
 			bool save_status = is_edit_valid && is_edit_puzzle_same_as_saved_puzzle();
 			try_save(currEditPuzzle, currPuzzleInfo.index, is_edit_valid);
 
+			create_new_puzzle();
+
 			//update the edit puzzle
 			set_current_puzzle_to_edit_puzzle(canvas, canvasTileWidth);
 
@@ -98,14 +101,15 @@ int main() {
 
 		//Puzzle Selection Menu -- UNFINISHED
 		if (mode == Mode::Level_Menu) {
+			switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+
 			std::vector<std::vector<u16>> puzzles = get_puzzles();
 
 			int xOffset = screenWidth / 10;
 			int yOffset = screenHeight / 10;
-			clear_background(edit_texture);
 
 			BeginDrawing();
-				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+				DrawTextureRec(menu_texture.texture, (Rectangle){0, 0, (float)menu_texture.texture.width, -(float)menu_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 
 				for (int i = 0; i < puzzles.size(); i++) {
 					DrawRectangle(xOffset + (100 * i), yOffset, 100, 100, RED);

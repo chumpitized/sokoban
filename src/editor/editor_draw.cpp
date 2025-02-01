@@ -15,6 +15,16 @@ void draw_save_status(bool save_status) {
 	}
 }
 
+RenderTexture2D draw_menu_setup(int screenWidth, int screenHeight) {
+	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
+	
+	BeginTextureMode(texture);
+		ClearBackground(BLACK);
+	EndTextureMode();
+
+	return texture;
+}
+
 RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight) {
 	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
 	

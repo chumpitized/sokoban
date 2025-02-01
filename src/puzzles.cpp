@@ -52,6 +52,17 @@ bool is_edit_puzzle_same_as_saved_puzzle() {
 	return current_edit_puzzle == puzzles[current_edit_puzzle_info.index];
 }
 
+void create_new_puzzle_and_update_vals() {
+	puzzles.push_back(current_edit_puzzle);
+
+	puzzle_index = puzzles.size() - 1;
+
+	current_puzzle_info.index = puzzle_index;
+	current_edit_puzzle_info.index = puzzle_index;
+
+	puzzleInfos.push_back(current_edit_puzzle_info);
+}
+
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
 	u8 expected_width	= 0;
 	u8 row_width		= 0;
@@ -227,10 +238,10 @@ void save_puzzles_to_file() {
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
 		puzzle_index++;
-		current_puzzle 		= puzzles[puzzle_index];
-		current_edit_puzzle = puzzles[puzzle_index];
-		current_puzzle_info	= puzzleInfos[puzzle_index];
-		current_edit_puzzle_info = puzzleInfos[puzzle_index];
+		current_puzzle 				= puzzles[puzzle_index];
+		current_edit_puzzle 		= puzzles[puzzle_index];
+		current_puzzle_info			= puzzleInfos[puzzle_index];
+		current_edit_puzzle_info 	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -241,10 +252,10 @@ bool try_increment_puzzle() {
 bool try_decrement_puzzle() {
 	if (puzzle_index - 1 >= 0) {
 		puzzle_index--;
-		current_puzzle 		= puzzles[puzzle_index];
-		current_edit_puzzle = puzzles[puzzle_index];
-		current_puzzle_info	= puzzleInfos[puzzle_index];
-		current_edit_puzzle_info = puzzleInfos[puzzle_index];
+		current_puzzle 				= puzzles[puzzle_index];
+		current_edit_puzzle 		= puzzles[puzzle_index];
+		current_puzzle_info			= puzzleInfos[puzzle_index];
+		current_edit_puzzle_info 	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;

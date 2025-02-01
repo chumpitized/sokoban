@@ -10,6 +10,7 @@ extern std::vector<Texture2D> editor_tiles;
 
 void draw_save_status(bool save_status);
 
+RenderTexture2D draw_menu_setup(int screenWidth, int screenHeight);
 RenderTexture2D draw_editor_setup(int screenWidth, int screenHeight);
 
 void draw_selected_palette_square();

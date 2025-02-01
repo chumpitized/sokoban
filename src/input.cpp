@@ -8,6 +8,15 @@
 #include <vector>
 #include <iostream>
 
+void create_new_puzzle() {
+	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_N)) {
+		std::cout << "creating new puzzle" << std::endl;
+		create_new_puzzle_and_update_vals();
+	}
+}
+
+
+
 void try_save(std::vector<u16>& puzzle, int index, bool valid_save) {
 	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S) && valid_save) {
 		std::cout << "trying to save!" << std::endl;
