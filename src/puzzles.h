@@ -7,6 +7,7 @@
 #include <raylib.h>
 
 //Data
+//synced with sprite arrays for the same elements...
 enum Entities {
 	player,
 	key
@@ -25,8 +26,6 @@ struct PuzzleInfo {
 	int height;
 	int index;
 	int playerIndex;
-
-	//PuzzleInfo(int width, int height, int index);
 };
 
 extern std::vector<std::vector<u16>> history;
@@ -40,12 +39,8 @@ extern PuzzleInfo current_puzzle_info;
 extern PuzzleInfo current_edit_puzzle_info;
 
 //Methods
-//void set_play_puzzle_to_edit_puzzle(std::vector<u16>& playPuzzle, std::vector<u16>& editPuzzle);
-
-bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width);
 u8 get_edit_puzzle_width(std::vector<u16>& canvas);
 void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width);
-
 
 std::vector<std::vector<u16>> get_puzzles();
 std::vector<u16> get_const_puzzle();
@@ -55,7 +50,12 @@ std::vector<u16> get_current_edit_puzzle();
 PuzzleInfo get_current_puzzle_info();
 PuzzleInfo get_current_edit_puzzle_info();
 
+bool is_edit_puzzle_same_as_saved_puzzle();
+bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width);
+
+void overwrite_puzzle_in_puzzles(std::vector<u16>& puzzle, int index);
 void load_puzzles_from_file();
+void save_puzzles_to_file();
 
 bool try_increment_puzzle();
 bool try_decrement_puzzle();

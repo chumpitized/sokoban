@@ -8,6 +8,14 @@
 #include <vector>
 #include <iostream>
 
+void try_save(std::vector<u16>& puzzle, int index, bool valid_save) {
+	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S) && valid_save) {
+		std::cout << "trying to save!" << std::endl;
+		overwrite_puzzle_in_puzzles(puzzle, index);
+		save_puzzles_to_file();
+	}
+}
+
 void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
 	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
 		//this will double count a position when you push into a wall
@@ -69,8 +77,6 @@ void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_
 		for (int i = 0; i < canvas.size(); ++i) {
 			canvas[i] = 0xffff;
 		}
-		//editor_history.clear();
-
 
 		//this can actually be done once when we select a puzzle,
 		// then we can just display the canvas on mode switch...

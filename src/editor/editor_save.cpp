@@ -7,65 +7,65 @@
 #include <vector>
 
 //draw error message when invalid...
-void save(std::vector<u16>& canvas) {
-	std::vector<u16> trimmedCanvas;
-	u8 rowWidth 		= 0;
-	u8 expectedWidth 	= 0;
+//void save(std::vector<u16>& canvas) {
+//	std::vector<u16> trimmedCanvas;
+//	u8 rowWidth 		= 0;
+//	u8 expectedWidth 	= 0;
 
-	for (auto val : canvas) {
-		if (val != 0xffff) {
-			rowWidth++;
-			trimmedCanvas.push_back(val);
-		}
+//	for (auto val : canvas) {
+//		if (val != 0xffff) {
+//			rowWidth++;
+//			trimmedCanvas.push_back(val);
+//		}
 		
-		if (val == 0xffff && rowWidth > 0) {
-			//BUGGED!!! If you draw two disconnected 2x2 squares and save, it will work!
-			//there must be canvasTileWidth cells between each row of filled cells!
-			if (expectedWidth > 0 && rowWidth != expectedWidth) {
-				std::cout << "SAVE FAILED" << std::endl;
-				std::cout << "ERROR: PUZZLE IS NOT A RECTANGLE" << std::endl;
-				return;
-			}
-			expectedWidth = rowWidth;
-			rowWidth = 0;
-		}
-	}
+//		if (val == 0xffff && rowWidth > 0) {
+//			//BUGGED!!! If you draw two disconnected 2x2 squares and save, it will work!
+//			//there must be canvasTileWidth cells between each row of filled cells!
+//			if (expectedWidth > 0 && rowWidth != expectedWidth) {
+//				std::cout << "SAVE FAILED" << std::endl;
+//				std::cout << "ERROR: PUZZLE IS NOT A RECTANGLE" << std::endl;
+//				return;
+//			}
+//			expectedWidth = rowWidth;
+//			rowWidth = 0;
+//		}
+//	}
 
-	u8 height = (trimmedCanvas.size() / expectedWidth);
-	u16 widthAndHeight = expectedWidth << 8 | height;
-	trimmedCanvas.push_back(widthAndHeight);
-	trimmedCanvas.push_back(0xffff);
+//	u8 height = (trimmedCanvas.size() / expectedWidth);
+//	u16 widthAndHeight = expectedWidth << 8 | height;
+//	trimmedCanvas.push_back(widthAndHeight);
+//	trimmedCanvas.push_back(0xffff);
 
-	std::fstream file;
-    file.open("save/new_puzzle", std::ios::app | std::ios::binary);
+//	std::fstream file;
+//    file.open("save/new_puzzle", std::ios::app | std::ios::binary);
  
-	//save puzzle to file
-	if (file) {
-		int length = (trimmedCanvas.size() * 2);
-		u8 buffer[length];
+//	//save puzzle to file
+//	if (file) {
+//		int length = (trimmedCanvas.size() * 2);
+//		u8 buffer[length];
 
-		int bufferIndex = 0;
-		for (int i = 0; i < trimmedCanvas.size(); ++i) {
-			bufferIndex = i * 2;
-			buffer[bufferIndex] 	= (u8)(trimmedCanvas[i] >> 8);
-			buffer[bufferIndex + 1] = (u8)(trimmedCanvas[i]); 
-		}
+//		int bufferIndex = 0;
+//		for (int i = 0; i < trimmedCanvas.size(); ++i) {
+//			bufferIndex = i * 2;
+//			buffer[bufferIndex] 	= (u8)(trimmedCanvas[i] >> 8);
+//			buffer[bufferIndex + 1] = (u8)(trimmedCanvas[i]); 
+//		}
  
-		std::cout << "buffer length: " << length << std::endl;
-		for (auto num : buffer) {
-			std::cout << "buffer contents: " << +num << std::endl;
-		}
+//		std::cout << "buffer length: " << length << std::endl;
+//		for (auto num : buffer) {
+//			std::cout << "buffer contents: " << +num << std::endl;
+//		}
 
-		file.write(reinterpret_cast<char*>(buffer), length);
-		file.close();
-	}
+//		file.write(reinterpret_cast<char*>(buffer), length);
+//		file.close();
+//	}
 
-	std::cout << "~~~SAVING~~~" << std::endl;
-	std::cout << "WIDTH: " << +expectedWidth << std::endl;
-	std::cout << "HEIGHT: " << +height << std::endl;
+//	std::cout << "~~~SAVING~~~" << std::endl;
+//	std::cout << "WIDTH: " << +expectedWidth << std::endl;
+//	std::cout << "HEIGHT: " << +height << std::endl;
 
-	read();
-}
+//	read();
+//}
 
 void read() {
 	std::fstream file;

@@ -7,9 +7,7 @@
 std::vector<Texture2D> editor_entities;
 std::vector<Texture2D> editor_tiles;
 
-void draw_save_status() {
-	bool save_status = false;
-
+void draw_save_status(bool save_status) {
 	if (save_status) {
 		DrawText("Saved!", xTilesOffset, yTilesOffset + 200, fontSize, GREEN);
 	} else {

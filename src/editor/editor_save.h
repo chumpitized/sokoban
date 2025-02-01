@@ -3,7 +3,7 @@
 
 #include "editor_data.h"
 
-void save(std::vector<u16>& canvas);
+//void save(std::vector<u16>& canvas);
 void read();
 
 

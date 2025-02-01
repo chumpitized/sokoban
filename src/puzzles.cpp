@@ -48,6 +48,10 @@ PuzzleInfo get_current_edit_puzzle_info() {
 	return current_edit_puzzle_info;
 }
 
+bool is_edit_puzzle_same_as_saved_puzzle() {
+	return current_edit_puzzle == puzzles[current_edit_puzzle_info.index];
+}
+
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
 	u8 expected_width	= 0;
 	u8 row_width		= 0;
@@ -126,9 +130,13 @@ void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile
 	current_puzzle_info = current_edit_puzzle_info;
 }
 
+void overwrite_puzzle_in_puzzles(std::vector<u16>& puzzle, int index) {
+	puzzles[index] = puzzle;
+}
+
 void load_puzzles_from_file() {
 	std::fstream file;
-	file.open("data/puzzles/new_puzzle", std::ios::in | std::ios::binary);
+	file.open("data/puzzles/saved_puzzles", std::ios::in | std::ios::binary);
 	std::vector<u16> puzzle;
 
 	if (!file) {
@@ -181,6 +189,38 @@ void load_puzzles_from_file() {
 	current_edit_puzzle = puzzles[puzzle_index];
 	current_puzzle_info = puzzleInfos[puzzle_index];
 	current_edit_puzzle_info = puzzleInfos[puzzle_index];
+}
+
+void save_puzzles_to_file() {
+	std::fstream file;
+    file.open("data/puzzles/saved_puzzles", std::ios::out | std::ios::binary);
+ 
+	if (!file) {
+		std::cerr << "ERROR: FAILED TO OPEN FILE" << std::endl;
+		return;
+	}
+
+	for (int i = 0; i < puzzles.size(); ++i) {
+		std::vector<u16> puzzle = puzzles[i];
+	
+		u16 dimensions = (u8)puzzleInfos[i].width << 8 | (u8)puzzleInfos[i].height;
+		puzzle.push_back(dimensions);
+		puzzle.push_back(0xffff);
+	
+		int length = (puzzle.size() * 2);
+		u8 buffer[length];
+	
+		int bufferIndex = 0;
+		for (int i = 0; i < puzzle.size(); ++i) {
+			bufferIndex = i * 2;
+			buffer[bufferIndex] 	= (u8)(puzzle[i] >> 8);
+			buffer[bufferIndex + 1] = (u8)(puzzle[i]); 
+		}
+	
+		file.write(reinterpret_cast<char*>(buffer), length);
+	}		
+	
+	file.close();
 }
 
 

@@ -52,14 +52,14 @@ int main() {
 				DrawTextureRec(game_texture.texture, (Rectangle){0, 0, (float)game_texture.texture.width, -(float)game_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 				DrawFPS(0, 0);
 			EndDrawing();
-
 		}
 
 		//Puzzle Editor
 		if (mode == Mode::Edit) {
+			//Input
 			switch_to_play_mode(game_texture);
 			switch_to_level_menu();
-			//Input
+
 			handle_left_mouse_click();
 			handle_left_mouse_held();
 			handle_left_mouse_release();
@@ -67,32 +67,33 @@ int main() {
 			handle_right_mouse_held();
 			reset_canvas();
 			editor_undo();
-			
-			//Draw
-			if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S)) {
-				save(canvas);
-			}
+
+			bool is_edit_valid = is_edit_puzzle_valid(canvas, canvasTileWidth);
+			bool save_status = is_edit_valid && is_edit_puzzle_same_as_saved_puzzle();
+			try_save(currEditPuzzle, currPuzzleInfo.index, is_edit_valid);
 
 			//update the edit puzzle
 			set_current_puzzle_to_edit_puzzle(canvas, canvasTileWidth);
-			//if (new_edit_puzzle.size()) update_current_edit_puzzle(new_edit_puzzle);
 
 			//if we want, we can call this only when update...
 			draw_canvas(edit_texture, canvas, canvasTileWidth, xOffset, yOffset, tileSize);
 
 			BeginDrawing();
 				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
-				if (is_edit_puzzle_valid(canvas, canvasTileWidth)) {
+
+				draw_save_status(save_status);
+
+				if (is_edit_valid) {
 					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, GREEN);
 				} else {
 					DrawCircle(xOffset + (tileSize / 2), yOffset + (tileSize / 2), 15, RED);
 				}
-				draw_save_status();
+
 				DrawFPS(0, 0);
+
 				handle_mouse_hover();
 				draw_selected_palette_square();
 			EndDrawing();
-
 		}
 
 		//Puzzle Selection Menu -- UNFINISHED
@@ -110,7 +111,6 @@ int main() {
 					DrawRectangle(xOffset + (100 * i), yOffset, 100, 100, RED);
 				}
 			EndDrawing();
-
 		}
 
 	}
