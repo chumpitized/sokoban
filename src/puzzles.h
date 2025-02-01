@@ -39,6 +39,7 @@ extern PuzzleInfo current_puzzle_info;
 extern PuzzleInfo current_edit_puzzle_info;
 
 //Methods
+int get_puzzle_index();
 u8 get_edit_puzzle_width(std::vector<u16>& canvas);
 void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile_width);
 

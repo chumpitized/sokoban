@@ -20,6 +20,10 @@ PuzzleInfo current_puzzle_info;
 PuzzleInfo current_edit_puzzle_info;
 
 //Methods
+int get_puzzle_index() {
+	return puzzle_index;
+}
+
 std::vector<std::vector<u16>> get_puzzles() {
 	return puzzles;
 }
@@ -165,7 +169,7 @@ void load_puzzles_from_file() {
 	}
 
 	int puzzle_count = 0;
-	int player_index = 0;
+	u16 player_index = 0;
 
 	u8 buffer[length];
 
@@ -181,6 +185,9 @@ void load_puzzles_from_file() {
 			if (!puzzle.empty()) {
 				u16 last = puzzle.back();
 				puzzle.pop_back();
+				//puzzle.push_back(player_index);
+				//puzzle.push_back(0xffff);
+
 				puzzles.push_back(puzzle);
 
 				u8 width 	= last >> 8;

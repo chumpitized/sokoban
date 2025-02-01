@@ -3,11 +3,6 @@
 #include "draw.h"
 #include "input.h"
 
-#include "editor/editor_draw.h"
-#include "editor/editor_input.h"
-#include "editor/editor_data.h"
-#include "editor/editor_save.h"
-
 #include <vector>
 #include <iostream>
 #include <raylib.h>
@@ -24,11 +19,10 @@ int main() {
 
 	load_sprites();
 	load_editor_sprites();
+	load_puzzles_from_file();
 	RenderTexture2D game_texture = create_texture(screenWidth, screenHeight);
 	RenderTexture2D edit_texture = draw_editor_setup(screenWidth, screenHeight);
 	RenderTexture2D menu_texture = draw_menu_setup(screenWidth, screenHeight);	
-	//RenderTexture2d level_menu_texture 	= 
-	load_puzzles_from_file();
 
 	while(!WindowShouldClose()) {
 		std::vector<u16> currPuzzle 	= get_current_puzzle();
@@ -52,6 +46,12 @@ int main() {
 			BeginDrawing();
 				DrawTextureRec(game_texture.texture, (Rectangle){0, 0, (float)game_texture.texture.width, -(float)game_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 				DrawFPS(0, 0);
+
+				int puzzleidx = get_puzzle_index(); // Example integer
+				char numStr[10]; // Buffer to hold the converted number
+				sprintf(numStr, "%d", puzzleidx);
+
+				DrawText(numStr, 100, 100, 60, RED);
 			EndDrawing();
 		}
 
@@ -93,7 +93,7 @@ int main() {
 				}
 
 				DrawFPS(0, 0);
-
+				
 				handle_mouse_hover();
 				draw_selected_palette_square();
 			EndDrawing();
