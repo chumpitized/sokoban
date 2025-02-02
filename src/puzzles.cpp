@@ -36,6 +36,18 @@ std::vector<u16> get_current_puzzle() {
 	return current_puzzle;
 }
 
+u8 get_current_puzzle_width() {
+	return current_puzzle[current_puzzle.size() - 3] >> 8;
+}
+
+u8 get_current_puzzle_height() {
+	return current_puzzle[current_puzzle.size() - 3];
+}
+
+u8 get_current_puzzle_player_index() {
+	return current_puzzle[current_puzzle.size() - 2];
+}
+
 std::vector<u16> get_current_edit_puzzle() {
 	return current_edit_puzzle;
 }
@@ -132,10 +144,10 @@ void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile
 	
 	u8 height = puzzle_cutout.size() / width;	
 	u16 dimensions = width << 8 | height;
-	
-	//gotta add handling for this... maybe... or we just update PuzzleInfo
-	//trimmed_canvas.push_back(dimensions);
-	//trimmed_canvas.push_back(0xffff);
+
+	puzzle_cutout.push_back(dimensions);
+	puzzle_cutout.push_back((u16)player_index);
+	puzzle_cutout.push_back(0xffff);
 
 	current_edit_puzzle = puzzle_cutout;
 	current_puzzle = puzzle_cutout;
@@ -184,9 +196,9 @@ void load_puzzles_from_file() {
 		if (tile == 0xffff) {
 			if (!puzzle.empty()) {
 				u16 last = puzzle.back();
-				puzzle.pop_back();
-				//puzzle.push_back(player_index);
-				//puzzle.push_back(0xffff);
+				//puzzle.pop_back();
+				puzzle.push_back(player_index);
+				puzzle.push_back(0xffff);
 
 				puzzles.push_back(puzzle);
 
@@ -203,6 +215,7 @@ void load_puzzles_from_file() {
 		}
 	}
 
+	//this sets all of our puzzle things...
 	current_puzzle = puzzles[puzzle_index];
 	current_edit_puzzle = puzzles[puzzle_index];
 	current_puzzle_info = puzzleInfos[puzzle_index];
@@ -221,6 +234,10 @@ void save_puzzles_to_file() {
 	for (int i = 0; i < puzzles.size(); ++i) {
 		std::vector<u16> puzzle = puzzles[i];
 	
+		//this is saving the wrong dimensions?? I think it's saving the dimensions of the previous version of the puzzle...
+		//i.e., the version used to create the "new puzzle"... something like that?
+		//Yeah, it's using the original puzzle info width and height to store the new edit... this obviously fucks everything up...
+		//i.e., it's SAVING the wrong dimensions and using those wrong dimensions to render the puzzle incorrectly...
 		u16 dimensions = (u8)puzzleInfos[i].width << 8 | (u8)puzzleInfos[i].height;
 		puzzle.push_back(dimensions);
 		puzzle.push_back(0xffff);

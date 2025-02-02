@@ -2,6 +2,8 @@
 #include "data.h"
 #include "puzzles.h"
 
+#include <iostream>
+
 //////////
 // Play //
 //////////
@@ -60,20 +62,21 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int scree
 	int spriteScale = get_sprite_scale();
 	int tileSize	= get_tile_size();
 
-	PuzzleInfo puzzleInfo 	= get_current_puzzle_info();
-	std::vector<u16> puzzle = get_current_puzzle();
+	std::vector<u16> puzzle = get_current_puzzle(); 
 
-	int puzzleSize 			= puzzle.size();
-	int puzzleWidth 		= puzzleInfo.width;
-	int puzzleHeight 		= puzzleInfo.height;
+	int puzzle_size 	= puzzle.size();
+	u8 puzzle_width 	= get_current_puzzle_width();
+	u8 puzzle_height 	= get_current_puzzle_height();
+	u8 player_index		= get_current_puzzle_player_index();
 
 	BeginTextureMode(texture);
-	for (int i = 0; i < puzzleSize; ++i) { 
-		int tileXOffset 	= i % puzzleWidth;
-		int tileYOffset 	= i / puzzleWidth;
+	for (int i = 0; i < puzzle_size - 3; ++i) {
 
-		int windowXOffset 	= get_puzzle_draw_offset(tileSize, puzzleWidth, screenWidth);
-		int windowYOffset 	= get_puzzle_draw_offset(tileSize, puzzleHeight, screenHeight);
+		int tile_x_offset 	= i % puzzle_width;
+		int tile_y_offset 	= i / puzzle_width;
+
+		int window_x_offset = get_puzzle_draw_offset(tileSize, puzzle_width, screenWidth);
+		int window_y_offset = get_puzzle_draw_offset(tileSize, puzzle_height, screenHeight);
 
 		u8 entity 	= puzzle[i] >> 8;
 		u8 tile 	= puzzle[i]; 
@@ -83,13 +86,14 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int scree
 
 		if (tile < tiles.size() && tile >= 0) {
 			tile_texture 	= tiles[tile];
-			DrawTextureEx(tile_texture, Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
+			DrawTextureEx(tile_texture, Vector2{(float)(tile_x_offset * tileSize) + window_x_offset, (float)(tile_y_offset * tileSize) + window_y_offset}, 0.0, spriteScale, RAYWHITE);
 		}
 		if (entity < entities.size() && entity >= 0) {
 			entity_texture	= entities[entity];
-			DrawTextureEx(entity_texture, Vector2{(float)(tileXOffset * tileSize) + windowXOffset, (float)(tileYOffset * tileSize) + windowYOffset}, 0.0, spriteScale, RAYWHITE);
+			DrawTextureEx(entity_texture, Vector2{(float)(tile_x_offset * tileSize) + window_x_offset, (float)(tile_y_offset * tileSize) + window_y_offset}, 0.0, spriteScale, RAYWHITE);
 		}
 	}
+
 	EndTextureMode();
 };
 
@@ -184,7 +188,7 @@ void draw_canvas_border() {
 
 void load_puzzle_into_canvas(std::vector<u16>& canvas, std::vector<u16>& puzzle, int puzzleWidth, int puzzleHeight) {
 	if (puzzle.size() <= canvas.size()) {
-		for (int i = 0; i < puzzle.size(); ++i) {
+		for (int i = 0; i < puzzle.size() - 3; ++i) {
 			int row = (i / puzzleWidth) + ((canvasTileWidth - puzzleHeight) / 2);
 			int col = (i % puzzleWidth) + ((canvasTileWidth - puzzleWidth) / 2);
 

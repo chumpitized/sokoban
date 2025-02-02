@@ -27,12 +27,18 @@ int main() {
 	while(!WindowShouldClose()) {
 		std::vector<u16> currPuzzle 	= get_current_puzzle();
 		std::vector<u16> currEditPuzzle	= get_current_edit_puzzle();
+
+		u8 current_puzzle_width = get_current_puzzle_width();
+		u8 current_puzzle_height = get_current_puzzle_height();
+
 		std::vector<u16> constPuzzle 	= get_const_puzzle();
 		PuzzleInfo currPuzzleInfo 		= get_current_puzzle_info();
 
 		//Play
 		if (mode == Mode::Play) {
-			switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+			switch_to_edit_mode(currEditPuzzle, current_puzzle_width, current_puzzle_height);
+			//switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+
 
 			go_next_puzzle(game_texture);
 			go_prev_puzzle(game_texture);

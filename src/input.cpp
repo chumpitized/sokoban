@@ -33,6 +33,7 @@ void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
 		if (history.empty() || history.back() != puzzle) history.push_back(puzzle);		
 		int input 					= GetKeyPressed();
 		int newPos 					= try_move(input, puzzleInfo.playerIndex);
+		//puzzle[puzzle.size() - 2] 	= (u16)newPos;
 		puzzleInfo.playerIndex 		= newPos;
 	}
 }
