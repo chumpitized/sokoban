@@ -197,7 +197,7 @@ void load_puzzles_from_file() {
 			if (!puzzle.empty()) {
 				u16 last = puzzle.back();
 				//puzzle.pop_back();
-				puzzle.push_back(player_index);
+				//puzzle.push_back(player_index);
 				puzzle.push_back(0xffff);
 
 				puzzles.push_back(puzzle);
@@ -234,14 +234,9 @@ void save_puzzles_to_file() {
 	for (int i = 0; i < puzzles.size(); ++i) {
 		std::vector<u16> puzzle = puzzles[i];
 	
-		//this is saving the wrong dimensions?? I think it's saving the dimensions of the previous version of the puzzle...
-		//i.e., the version used to create the "new puzzle"... something like that?
-		//Yeah, it's using the original puzzle info width and height to store the new edit... this obviously fucks everything up...
-		//i.e., it's SAVING the wrong dimensions and using those wrong dimensions to render the puzzle incorrectly...
-		u16 dimensions = (u8)puzzleInfos[i].width << 8 | (u8)puzzleInfos[i].height;
-		puzzle.push_back(dimensions);
-		puzzle.push_back(0xffff);
-	
+		//puzzle.push_back(dimensions);
+		//puzzle.push_back(0xffff);
+		
 		int length = (puzzle.size() * 2);
 		u8 buffer[length];
 	
@@ -257,7 +252,6 @@ void save_puzzles_to_file() {
 	
 	file.close();
 }
-
 
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
@@ -321,9 +315,13 @@ bool is_possible_move(int newPos) {
 }
 
 int try_move(int input, int currentCellIndex) {
-	int width	= current_puzzle_info.width;
-	int height	= current_puzzle_info.height;
-	int index	= current_puzzle_info.index;
+	u8 width = get_current_puzzle_width();
+	u8 height = get_current_puzzle_height();
+	u8 index = get_puzzle_index();
+
+	//int width	= current_puzzle_info.width;
+	//int height	= current_puzzle_info.height;
+	//int index	= current_puzzle_info.index;
 
 	int newPos = currentCellIndex;
 	if (input == KEY_W) newPos += -width;
@@ -350,6 +348,7 @@ int try_move(int input, int currentCellIndex) {
 			current_puzzle[newPos] 				= entityAtCurrPos << 8 | tileAtNewPos;
 			current_puzzle[currentCellIndex] 	= 0xff00 | tileAtCurrPos;
 			current_puzzle_info.playerIndex 	= newPos;
+			current_puzzle[current_puzzle.size() - 2] = (u16)newPos;
 			return newPos;
 		}
 	}

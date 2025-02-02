@@ -29,10 +29,12 @@ void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
 		//this will double count a position when you push into a wall
 		//and no elements move
 
+		int player_index = get_current_puzzle_player_index();
+
 		//pushing to history should be api call...
 		if (history.empty() || history.back() != puzzle) history.push_back(puzzle);		
 		int input 					= GetKeyPressed();
-		int newPos 					= try_move(input, puzzleInfo.playerIndex);
+		int newPos 					= try_move(input, player_index);
 		//puzzle[puzzle.size() - 2] 	= (u16)newPos;
 		puzzleInfo.playerIndex 		= newPos;
 	}
