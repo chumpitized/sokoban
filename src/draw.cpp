@@ -5,6 +5,7 @@
 //////////
 // Play //
 //////////
+
 std::vector<Texture2D> entities;
 std::vector<Texture2D> tiles;
 
@@ -95,6 +96,7 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int scree
 ////////////
 // Editor //
 ////////////
+
 std::vector<Texture2D> editor_entities;
 std::vector<Texture2D> editor_tiles;
 
