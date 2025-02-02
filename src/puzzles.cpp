@@ -73,9 +73,6 @@ void create_new_puzzle_and_update_vals() {
 
 	puzzle_index = puzzles.size() - 1;
 
-	current_puzzle_info.index = puzzle_index;
-	current_edit_puzzle_info.index = puzzle_index;
-
 	puzzleInfos.push_back(current_edit_puzzle_info);
 }
 
@@ -151,10 +148,6 @@ void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile
 
 	current_edit_puzzle = puzzle_cutout;
 	current_puzzle = puzzle_cutout;
-	current_edit_puzzle_info.width = width;
-	current_edit_puzzle_info.height = height;
-	current_edit_puzzle_info.playerIndex = player_index;
-	current_puzzle_info = current_edit_puzzle_info;
 }
 
 void overwrite_puzzle_in_puzzles(std::vector<u16>& puzzle, int index) {
@@ -196,8 +189,8 @@ void load_puzzles_from_file() {
 		if (tile == 0xffff) {
 			if (!puzzle.empty()) {
 				u16 last = puzzle.back();
-				//puzzle.pop_back();
-				//puzzle.push_back(player_index);
+
+				//this is gonna go!
 				puzzle.push_back(0xffff);
 
 				puzzles.push_back(puzzle);
@@ -205,7 +198,6 @@ void load_puzzles_from_file() {
 				u8 width 	= last >> 8;
 				u8 height 	= last;
 
-				puzzleInfos.push_back(PuzzleInfo{width, height, puzzle_count++, player_index});
 				player_index = 0;
 				puzzle.clear();
 			}
@@ -215,11 +207,8 @@ void load_puzzles_from_file() {
 		}
 	}
 
-	//this sets all of our puzzle things...
 	current_puzzle = puzzles[puzzle_index];
 	current_edit_puzzle = puzzles[puzzle_index];
-	current_puzzle_info = puzzleInfos[puzzle_index];
-	current_edit_puzzle_info = puzzleInfos[puzzle_index];
 }
 
 void save_puzzles_to_file() {
@@ -233,9 +222,6 @@ void save_puzzles_to_file() {
 
 	for (int i = 0; i < puzzles.size(); ++i) {
 		std::vector<u16> puzzle = puzzles[i];
-	
-		//puzzle.push_back(dimensions);
-		//puzzle.push_back(0xffff);
 		
 		int length = (puzzle.size() * 2);
 		u8 buffer[length];
@@ -258,8 +244,6 @@ bool try_increment_puzzle() {
 		puzzle_index++;
 		current_puzzle 				= puzzles[puzzle_index];
 		current_edit_puzzle 		= puzzles[puzzle_index];
-		current_puzzle_info			= puzzleInfos[puzzle_index];
-		current_edit_puzzle_info 	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -272,8 +256,6 @@ bool try_decrement_puzzle() {
 		puzzle_index--;
 		current_puzzle 				= puzzles[puzzle_index];
 		current_edit_puzzle 		= puzzles[puzzle_index];
-		current_puzzle_info			= puzzleInfos[puzzle_index];
-		current_edit_puzzle_info 	= puzzleInfos[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -286,21 +268,12 @@ void undo_last_move() {
 		std::vector<u16> prev = history.back();
 		history.pop_back();
 	
-		for (int i = 0; i < prev.size(); ++i) {
-			u8 entity = prev[i] >> 8;
-
-			if (entity == 0) {
-				current_puzzle_info.playerIndex = i;
-				break;
-			}
-		}
 		current_puzzle = prev;
 	}
 }
 
 void restart_level() {
 	current_puzzle 		= current_edit_puzzle;
-	current_puzzle_info = current_edit_puzzle_info;
 	history.clear();
 }
 
@@ -318,10 +291,6 @@ int try_move(int input, int currentCellIndex) {
 	u8 width = get_current_puzzle_width();
 	u8 height = get_current_puzzle_height();
 	u8 index = get_puzzle_index();
-
-	//int width	= current_puzzle_info.width;
-	//int height	= current_puzzle_info.height;
-	//int index	= current_puzzle_info.index;
 
 	int newPos = currentCellIndex;
 	if (input == KEY_W) newPos += -width;
@@ -347,7 +316,6 @@ int try_move(int input, int currentCellIndex) {
 		if (entityAtNewPos == 0xff) {
 			current_puzzle[newPos] 				= entityAtCurrPos << 8 | tileAtNewPos;
 			current_puzzle[currentCellIndex] 	= 0xff00 | tileAtCurrPos;
-			current_puzzle_info.playerIndex 	= newPos;
 			current_puzzle[current_puzzle.size() - 2] = (u16)newPos;
 			return newPos;
 		}

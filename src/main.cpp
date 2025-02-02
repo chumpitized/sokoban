@@ -25,26 +25,25 @@ int main() {
 	RenderTexture2D menu_texture = draw_menu_setup(screenWidth, screenHeight);	
 
 	while(!WindowShouldClose()) {
+		int current_puzzle_index 		= get_puzzle_index();
+
 		std::vector<u16> currPuzzle 	= get_current_puzzle();
 		std::vector<u16> currEditPuzzle	= get_current_edit_puzzle();
 
-		u8 current_puzzle_width = get_current_puzzle_width();
-		u8 current_puzzle_height = get_current_puzzle_height();
+		u8 current_puzzle_width 		= get_current_puzzle_width();
+		u8 current_puzzle_height 		= get_current_puzzle_height();
 
 		std::vector<u16> constPuzzle 	= get_const_puzzle();
-		PuzzleInfo currPuzzleInfo 		= get_current_puzzle_info();
 
 		//Play
 		if (mode == Mode::Play) {
 			switch_to_edit_mode(currEditPuzzle, current_puzzle_width, current_puzzle_height);
-			//switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
-
 
 			go_next_puzzle(game_texture);
 			go_prev_puzzle(game_texture);
 			undo();
 			restart();
-			move(currPuzzleInfo, currPuzzle);
+			move(currPuzzle);
 			
 			draw_puzzle_to_texture(game_texture, screenWidth, screenHeight);
 
@@ -77,7 +76,7 @@ int main() {
 
 			bool is_edit_valid = is_edit_puzzle_valid(canvas, canvasTileWidth);
 			bool save_status = is_edit_valid && is_edit_puzzle_same_as_saved_puzzle();
-			try_save(currEditPuzzle, currPuzzleInfo.index, is_edit_valid);
+			try_save(currEditPuzzle, current_puzzle_index, is_edit_valid);
 
 			create_new_puzzle();
 
@@ -107,7 +106,7 @@ int main() {
 
 		//Puzzle Selection Menu -- UNFINISHED
 		if (mode == Mode::Level_Menu) {
-			switch_to_edit_mode(currEditPuzzle, currPuzzleInfo.width, currPuzzleInfo.height);
+			switch_to_edit_mode(currEditPuzzle, current_puzzle_width, current_puzzle_height);
 
 			std::vector<std::vector<u16>> puzzles = get_puzzles();
 

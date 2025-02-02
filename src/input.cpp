@@ -24,7 +24,7 @@ void try_save(std::vector<u16>& puzzle, int index, bool valid_save) {
 	}
 }
 
-void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
+void move(std::vector<u16>& puzzle) {
 	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
 		//this will double count a position when you push into a wall
 		//and no elements move
@@ -36,7 +36,7 @@ void move(PuzzleInfo& puzzleInfo, std::vector<u16>& puzzle) {
 		int input 					= GetKeyPressed();
 		int newPos 					= try_move(input, player_index);
 		//puzzle[puzzle.size() - 2] 	= (u16)newPos;
-		puzzleInfo.playerIndex 		= newPos;
+		//puzzleInfo.playerIndex 		= newPos;
 	}
 }
 
