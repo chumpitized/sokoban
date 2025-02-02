@@ -21,22 +21,12 @@ enum Tiles {
 	locked_door
 };
 
-struct PuzzleInfo {
-	int width;
-	int height;
-	int index;
-	int playerIndex;
-};
-
 extern std::vector<std::vector<u16>> history;
 extern std::vector<std::vector<u16>> puzzles;
-extern std::vector<PuzzleInfo> puzzleInfos;
 
 extern int puzzle_index;
 extern std::vector<u16> current_puzzle;
 extern std::vector<u16> current_edit_puzzle;
-extern PuzzleInfo current_puzzle_info;
-extern PuzzleInfo current_edit_puzzle_info;
 
 //Methods
 int get_puzzle_index();
@@ -53,8 +43,6 @@ u8 get_current_puzzle_player_index();
 
 void set_current_puzzle(std::vector<u16> new_puzzle);
 std::vector<u16> get_current_edit_puzzle();
-PuzzleInfo get_current_puzzle_info();
-PuzzleInfo get_current_edit_puzzle_info();
 
 void create_new_puzzle_and_update_vals();
 

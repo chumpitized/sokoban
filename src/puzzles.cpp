@@ -8,17 +8,12 @@
 
 //Data
 std::vector<std::vector<u16>> history;
-std::vector<std::vector<u16>> puzzles;
-std::vector<PuzzleInfo> puzzleInfos;
+std::vector<std::vector<u16>> puzzles;;
 
 int puzzle_index = 0;
 
 std::vector<u16> current_puzzle;
 std::vector<u16> current_edit_puzzle;
-
-PuzzleInfo current_puzzle_info;
-PuzzleInfo current_edit_puzzle_info;
-
 //Methods
 int get_puzzle_index() {
 	return puzzle_index;
@@ -56,24 +51,14 @@ void set_current_puzzle(std::vector<u16> new_puzzle) {
 	current_puzzle = new_puzzle;
 }
 
-PuzzleInfo get_current_puzzle_info() {
-	return current_puzzle_info;
-}
-
-PuzzleInfo get_current_edit_puzzle_info() {
-	return current_edit_puzzle_info;
-}
-
 bool is_edit_puzzle_same_as_saved_puzzle() {
-	return current_edit_puzzle == puzzles[current_edit_puzzle_info.index];
+	return current_edit_puzzle == puzzles[puzzle_index];
 }
 
 void create_new_puzzle_and_update_vals() {
 	puzzles.push_back(current_edit_puzzle);
 
 	puzzle_index = puzzles.size() - 1;
-
-	puzzleInfos.push_back(current_edit_puzzle_info);
 }
 
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {

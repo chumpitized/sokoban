@@ -35,7 +35,9 @@ int main() {
 
 		std::vector<u16> constPuzzle 	= get_const_puzzle();
 
-		//Play
+		////////////
+		//  Play  //
+		////////////
 		if (mode == Mode::Play) {
 			switch_to_edit_mode(currEditPuzzle, current_puzzle_width, current_puzzle_height);
 
@@ -47,20 +49,21 @@ int main() {
 			
 			draw_puzzle_to_texture(game_texture, screenWidth, screenHeight);
 
-			//Draw game_texture to window
 			BeginDrawing();
 				DrawTextureRec(game_texture.texture, (Rectangle){0, 0, (float)game_texture.texture.width, -(float)game_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
 				DrawFPS(0, 0);
 
-				int puzzleidx = get_puzzle_index(); // Example integer
-				char numStr[10]; // Buffer to hold the converted number
+				int puzzleidx = get_puzzle_index();
+				char numStr[10];
 				sprintf(numStr, "%d", puzzleidx);
 
 				DrawText(numStr, 100, 100, 60, RED);
 			EndDrawing();
 		}
 
-		//Puzzle Editor
+		////////////
+		// Editor //
+		////////////
 		if (mode == Mode::Edit) {
 			//Input
 			switch_to_play_mode(game_texture);
@@ -104,7 +107,9 @@ int main() {
 			EndDrawing();
 		}
 
-		//Puzzle Selection Menu -- UNFINISHED
+		//////////////////
+		//  Level Menu  // UNFINISHED
+		//////////////////
 		if (mode == Mode::Level_Menu) {
 			switch_to_edit_mode(currEditPuzzle, current_puzzle_width, current_puzzle_height);
 
