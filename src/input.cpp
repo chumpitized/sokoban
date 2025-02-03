@@ -273,3 +273,23 @@ int in_palette(std::vector<Texture2D>& palette, int xOffset, int yOffset, Vector
 	}
 	return -1;
 }
+
+//////////////////
+//  Level Menu  //
+//////////////////
+
+void select_puzzle_from_menu() {
+	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+		Vector2 mouse_position = GetMousePosition();
+
+		int x_coord = mouse_position.x / 160;
+		int y_coord = mouse_position.y / 160;
+
+		int index = (y_coord * 12) + x_coord;
+
+		set_current_puzzle_and_index(index);
+
+		std::cout << "selected puzzle index: " << index << std::endl;
+	}
+	
+}

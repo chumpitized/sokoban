@@ -41,4 +41,11 @@ void handle_right_mouse_held();
 int in_canvas(Vector2 mousePos);
 int in_palette(std::vector<Texture2D>& palette, int xOffset, int yOffset, Vector2 mousePos);
 
+
+//////////////////
+//  Level Menu  //
+//////////////////
+
+void select_puzzle_from_menu();
+
 #endif

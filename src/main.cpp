@@ -108,8 +108,14 @@ int main() {
 		//////////////////
 
 		if (mode == Mode::Level_Menu) {
-			int xOffset = screenWidth / 10;
-			int yOffset = screenHeight / 10;
+			//int xOffset = screenWidth / 10;
+			//int yOffset = screenHeight / 10;
+
+			int x_offset = 0;
+			int y_offset = 0;
+			int texture_size = 160;
+
+			select_puzzle_from_menu();
 
 			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
 
@@ -117,9 +123,11 @@ int main() {
 				ClearBackground(WHITE);
 			
 				for (int i = 0; i < puzzle_previews.size(); ++i) {
-					DrawTextureRec(puzzle_previews[i].texture, (Rectangle){0, 0, (float)puzzle_previews[i].texture.width, -(float)puzzle_previews[i].texture.height}, (Vector2){(float)xOffset + (138 * i), (float)yOffset}, WHITE);
-				}
+					int y_additional_offset = (y_offset + (texture_size * i) / screenWidth) * texture_size;
+					int x_additional_offset = x_offset + (texture_size * i) % screenWidth;
 
+					DrawTextureRec(puzzle_previews[i].texture, (Rectangle){0, 0, (float)puzzle_previews[i].texture.width, -(float)puzzle_previews[i].texture.height}, (Vector2){(float)x_additional_offset, (float)y_additional_offset}, WHITE);
+				}
 			EndDrawing();
 		}
 

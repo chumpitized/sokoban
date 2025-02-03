@@ -43,17 +43,21 @@ u8 get_current_puzzle_player_index() {
 	return current_puzzle[current_puzzle.size() - 2];
 }
 
-void set_current_puzzle(std::vector<u16> new_puzzle) {
-	current_puzzle = new_puzzle;
+//this doesn't update the puzzle index...
+void set_current_puzzle_and_index(int index) {
+	if (index < puzzles.size() && index >= 0) {
+		puzzle_index = index;
+		current_puzzle = puzzles[puzzle_index];
+	}
 }
 
 bool is_edit_puzzle_same_as_saved_puzzle() {
 	return current_puzzle == puzzles[puzzle_index];
 }
 
+//this DOES NOT save
 void create_new_puzzle_and_update_vals() {
 	puzzles.push_back(current_puzzle);
-
 	puzzle_index = puzzles.size() - 1;
 }
 
