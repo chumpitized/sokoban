@@ -117,12 +117,11 @@ int main() {
 
 			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
 
-
 			BeginDrawing();
 				ClearBackground(WHITE);
 			
 				for (int i = 0; i < puzzle_previews.size(); ++i) {
-					DrawTexture(puzzle_previews[i].texture, xOffset + (100 * i), yOffset, WHITE);
+					DrawTextureRec(puzzle_previews[i].texture, (Rectangle){0, 0, (float)puzzle_previews[i].texture.width, -(float)puzzle_previews[i].texture.height}, (Vector2){(float)xOffset + (130 * i), (float)yOffset}, WHITE);
 				}
 
 			EndDrawing();

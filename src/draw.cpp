@@ -248,21 +248,67 @@ std::vector<RenderTexture2D> get_puzzle_previews() {
 }
 
 RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle) {
-	RenderTexture2D texture = LoadRenderTexture(100, 100);
+	//u8 texture_width 	= 160;
+	//u8 texture_height 	= 160;
+
+	u8 texture_width 	= 120;
+	u8 texture_height 	= 120;
+
+	RenderTexture2D texture = LoadRenderTexture(texture_width, texture_height);
 	
 	BeginTextureMode(texture);
-		ClearBackground(RED);
+		ClearBackground(BLACK);
+		draw_puzzle_to_preview_texture(texture, texture_width, texture_height, puzzle);
 	EndTextureMode();
 	
 	return texture;
 }
 
 std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles) {
+	for (auto preview : puzzle_previews) {
+		UnloadRenderTexture(preview);
+	}
 	puzzle_previews.clear();
-	
+
 	for (auto puzzle : puzzles) {
 		puzzle_previews.push_back(load_puzzle_preview(puzzle));
 	}
 
 	return puzzle_previews;
 }
+
+void draw_puzzle_to_preview_texture(RenderTexture2D& texture, int texture_width, int texture_height, std::vector<u16> puzzle) {
+	int puzzle_size 	= puzzle.size();
+	u8 puzzle_width 	= puzzle[puzzle_size - 3] >> 8;
+	u8 puzzle_height 	= puzzle[puzzle_size - 3];
+
+	int spriteScale = (texture_height / puzzle_height) / spriteSize;
+	int tileSize	= spriteScale * spriteSize;
+
+	BeginTextureMode(texture);
+	for (int i = 0; i < puzzle_size - 3; ++i) {
+
+		int tile_x_offset 	= i % puzzle_width;
+		int tile_y_offset 	= i / puzzle_width;
+
+		int window_x_offset = get_puzzle_draw_offset(tileSize, puzzle_width, texture_width);
+		int window_y_offset = get_puzzle_draw_offset(tileSize, puzzle_height, texture_height);
+
+		u8 entity 	= puzzle[i] >> 8;
+		u8 tile 	= puzzle[i]; 
+		
+		Texture2D tile_texture;
+		Texture2D entity_texture;
+
+		if (tile < tiles.size() && tile >= 0) {
+			tile_texture = tiles[tile];
+			DrawTextureEx(tile_texture, Vector2{(float)(tile_x_offset * tileSize) + window_x_offset, (float)(tile_y_offset * tileSize) + window_y_offset}, 0.0, spriteScale, RAYWHITE);
+		}
+		if (entity < entities.size() && entity >= 0) {
+			entity_texture = entities[entity];
+			DrawTextureEx(entity_texture, Vector2{(float)(tile_x_offset * tileSize) + window_x_offset, (float)(tile_y_offset * tileSize) + window_y_offset}, 0.0, spriteScale, RAYWHITE);
+		}
+	}
+
+	EndTextureMode();
+};

@@ -56,4 +56,6 @@ extern std::vector<RenderTexture2D> puzzle_previews;
 std::vector<RenderTexture2D> get_puzzle_previews();
 RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle);
 std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles);
+void draw_puzzle_to_preview_texture(RenderTexture2D& texture, int texture_width, int texture_height, std::vector<u16> puzzle);
+
 #endif
