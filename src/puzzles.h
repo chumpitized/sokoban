@@ -26,7 +26,6 @@ extern std::vector<std::vector<u16>> puzzles;
 
 extern int puzzle_index;
 extern std::vector<u16> current_puzzle;
-extern std::vector<u16> current_edit_puzzle;
 
 //Methods
 int get_puzzle_index();
@@ -42,7 +41,6 @@ u8 get_current_puzzle_height();
 u8 get_current_puzzle_player_index();
 
 void set_current_puzzle(std::vector<u16> new_puzzle);
-std::vector<u16> get_current_edit_puzzle();
 
 void create_new_puzzle_and_update_vals();
 

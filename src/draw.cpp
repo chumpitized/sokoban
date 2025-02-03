@@ -69,12 +69,6 @@ void draw_puzzle_to_texture(RenderTexture2D& texture, int screenWidth, int scree
 	u8 puzzle_height 	= get_current_puzzle_height();
 	u8 player_index		= get_current_puzzle_player_index();
 
-	std::cout << "PUZZLE WIDTH: " << +puzzle_width << std::endl;
-	std::cout << "PUZZLE HEIGHT: " << +puzzle_height << std::endl;
-
-	std::cout << "PUZZLE INDEX: " << +player_index << std::endl;
-	std::cout << "PUZZLE SIZE: " << +puzzle_size << std::endl;
-
 	BeginTextureMode(texture);
 	for (int i = 0; i < puzzle_size - 3; ++i) {
 

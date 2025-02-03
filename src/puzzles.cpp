@@ -13,14 +13,14 @@ std::vector<std::vector<u16>> puzzles;;
 int puzzle_index = 0;
 
 std::vector<u16> current_puzzle;
-std::vector<u16> current_edit_puzzle;
-//Methods
-int get_puzzle_index() {
-	return puzzle_index;
-}
 
+//Methods
 std::vector<std::vector<u16>> get_puzzles() {
 	return puzzles;
+}
+
+int get_puzzle_index() {
+	return puzzle_index;
 }
 
 std::vector<u16> get_const_puzzle() {
@@ -43,20 +43,16 @@ u8 get_current_puzzle_player_index() {
 	return current_puzzle[current_puzzle.size() - 2];
 }
 
-std::vector<u16> get_current_edit_puzzle() {
-	return current_edit_puzzle;
-}
-
 void set_current_puzzle(std::vector<u16> new_puzzle) {
 	current_puzzle = new_puzzle;
 }
 
 bool is_edit_puzzle_same_as_saved_puzzle() {
-	return current_edit_puzzle == puzzles[puzzle_index];
+	return current_puzzle == puzzles[puzzle_index];
 }
 
 void create_new_puzzle_and_update_vals() {
-	puzzles.push_back(current_edit_puzzle);
+	puzzles.push_back(current_puzzle);
 
 	puzzle_index = puzzles.size() - 1;
 }
@@ -131,7 +127,6 @@ void set_current_puzzle_to_edit_puzzle(std::vector<u16>& canvas, int canvas_tile
 	puzzle_cutout.push_back((u16)player_index);
 	puzzle_cutout.push_back(0xffff);
 
-	current_edit_puzzle = puzzle_cutout;
 	current_puzzle = puzzle_cutout;
 }
 
@@ -193,7 +188,6 @@ void load_puzzles_from_file() {
 	}
 
 	current_puzzle = puzzles[puzzle_index];
-	current_edit_puzzle = puzzles[puzzle_index];
 }
 
 void save_puzzles_to_file() {
@@ -228,7 +222,6 @@ bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
 		puzzle_index++;
 		current_puzzle 				= puzzles[puzzle_index];
-		current_edit_puzzle 		= puzzles[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -240,7 +233,6 @@ bool try_decrement_puzzle() {
 	if (puzzle_index - 1 >= 0) {
 		puzzle_index--;
 		current_puzzle 				= puzzles[puzzle_index];
-		current_edit_puzzle 		= puzzles[puzzle_index];
 		return true;
 	} else {
 		std::cerr << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -258,7 +250,10 @@ void undo_last_move() {
 }
 
 void restart_level() {
-	current_puzzle 		= current_edit_puzzle;
+	if (!history.empty()) {
+		std::cout << "restarting without edit puzzle" << std::endl;
+		current_puzzle = history[0];
+	}
 	history.clear();
 }
 

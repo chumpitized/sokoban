@@ -16,14 +16,6 @@ void create_new_puzzle() {
 	}
 }
 
-void try_save(std::vector<u16>& puzzle, int index, bool valid_save) {
-	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S) && valid_save) {
-		std::cout << "trying to save!" << std::endl;
-		overwrite_puzzle_in_puzzles(puzzle, index);
-		save_puzzles_to_file();
-	}
-}
-
 void move(std::vector<u16>& puzzle) {
 	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
 		//this will double count a position when you push into a wall
@@ -81,7 +73,7 @@ void switch_to_play_mode(RenderTexture2D& game_texture) {
 	}
 }
 
-void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_width, int edit_puzzle_height) {
+void switch_to_edit_mode(int edit_puzzle_width, int edit_puzzle_height) {
 	if (IsKeyPressed(KEY_E)) {
 		mode = Mode::Edit;
 		
@@ -89,9 +81,14 @@ void switch_to_edit_mode(std::vector<u16>& current_edit_puzzle, int edit_puzzle_
 			canvas[i] = 0xffff;
 		}
 
+		restart_level();
+		history.clear();
+
+		std::vector<u16> current_puzzle = get_current_puzzle();
+
 		//this can actually be done once when we select a puzzle,
 		// then we can just display the canvas on mode switch...
-		load_puzzle_into_canvas(canvas, current_edit_puzzle, edit_puzzle_width, edit_puzzle_height);
+		load_puzzle_into_canvas(canvas, current_puzzle, edit_puzzle_width, edit_puzzle_height);
 	}
 
 }
@@ -115,6 +112,14 @@ void switch_to_level_menu() {
 ////////////
 
 std::vector<std::vector<u16>> editor_history;
+
+void try_save(std::vector<u16>& puzzle, int index, bool valid_save) {
+	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S) && valid_save) {
+		std::cout << "trying to save!" << std::endl;
+		overwrite_puzzle_in_puzzles(puzzle, index);
+		save_puzzles_to_file();
+	}
+}
 
 void editor_undo() {
 	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_Z)) {
