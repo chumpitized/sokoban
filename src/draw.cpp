@@ -251,8 +251,8 @@ RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle) {
 	//u8 texture_width 	= 160;
 	//u8 texture_height 	= 160;
 
-	u8 texture_width 	= 120;
-	u8 texture_height 	= 120;
+	u8 texture_width 	= 128;
+	u8 texture_height 	= 128;
 
 	RenderTexture2D texture = LoadRenderTexture(texture_width, texture_height);
 	

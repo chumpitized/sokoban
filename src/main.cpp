@@ -15,7 +15,7 @@ int main() {
 	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
 	InitWindow(screenWidth, screenHeight, "Sokoban!");
-	//SetExitKey(KEY_NULL);
+	SetExitKey(KEY_NULL);
 
 	load_sprites();
 	load_editor_sprites();
@@ -34,10 +34,12 @@ int main() {
 		////////////
 		//  Play  //
 		////////////
+
+		switch_to_edit_mode(current_puzzle_width, current_puzzle_height);
+		switch_to_play_mode(game_texture);
+		switch_to_level_menu();
 		
 		if (mode == Mode::Play) {
-			switch_to_edit_mode(current_puzzle_width, current_puzzle_height);
-
 			go_next_puzzle(game_texture);
 			go_prev_puzzle(game_texture);
 			undo();
@@ -64,9 +66,6 @@ int main() {
 
 		if (mode == Mode::Edit) {
 			//Input
-			switch_to_play_mode(game_texture);
-			switch_to_level_menu();
-
 			handle_left_mouse_click();
 			handle_left_mouse_held();
 			handle_left_mouse_release();
@@ -81,7 +80,6 @@ int main() {
 
 			create_new_puzzle();
 
-			//update the edit puzzle
 			set_current_puzzle_to_edit_puzzle(canvas, canvasTileWidth);
 
 			//if we want, we can call this only when update...
@@ -110,8 +108,6 @@ int main() {
 		//////////////////
 
 		if (mode == Mode::Level_Menu) {
-			switch_to_edit_mode(current_puzzle_width, current_puzzle_height);
-
 			int xOffset = screenWidth / 10;
 			int yOffset = screenHeight / 10;
 
@@ -121,7 +117,7 @@ int main() {
 				ClearBackground(WHITE);
 			
 				for (int i = 0; i < puzzle_previews.size(); ++i) {
-					DrawTextureRec(puzzle_previews[i].texture, (Rectangle){0, 0, (float)puzzle_previews[i].texture.width, -(float)puzzle_previews[i].texture.height}, (Vector2){(float)xOffset + (130 * i), (float)yOffset}, WHITE);
+					DrawTextureRec(puzzle_previews[i].texture, (Rectangle){0, 0, (float)puzzle_previews[i].texture.width, -(float)puzzle_previews[i].texture.height}, (Vector2){(float)xOffset + (138 * i), (float)yOffset}, WHITE);
 				}
 
 			EndDrawing();

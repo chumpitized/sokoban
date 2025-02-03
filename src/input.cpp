@@ -27,8 +27,6 @@ void move(std::vector<u16>& puzzle) {
 		if (history.empty() || history.back() != puzzle) history.push_back(puzzle);		
 		int input 					= GetKeyPressed();
 		int newPos 					= try_move(input, player_index);
-		//puzzle[puzzle.size() - 2] 	= (u16)newPos;
-		//puzzleInfo.playerIndex 		= newPos;
 	}
 }
 
@@ -65,7 +63,7 @@ void restart() {
 }
 
 void switch_to_play_mode(RenderTexture2D& game_texture) {
-	if (IsKeyPressed(KEY_E)) {
+	if (IsKeyPressed(KEY_P)) {
 		mode = Mode::Play;
 		clear_background(game_texture);
 		restart_level();
@@ -94,7 +92,8 @@ void switch_to_edit_mode(int edit_puzzle_width, int edit_puzzle_height) {
 }
 
 void switch_to_level_menu() {
-	if (IsKeyPressed(KEY_L)) {
+	//need to return to previous mode on second press...
+	if (IsKeyPressed(KEY_ESCAPE)) {
 		mode = Mode::Level_Menu;
 		
 		std::vector<std::vector<u16>> puzzles = get_puzzles();
