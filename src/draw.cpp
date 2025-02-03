@@ -247,6 +247,13 @@ std::vector<RenderTexture2D> get_puzzle_previews() {
 	return puzzle_previews;
 }
 
+void draw_selected_puzzle_outline(int selected_index) {
+	float y = selected_index / 12;
+	float x = selected_index % 12;
+
+	DrawRectangleLinesEx((Rectangle){x * 160, y * 160, (float)160, (float)160}, 6.0, RED);
+}
+
 RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle) {
 	u8 texture_width 	= 160;
 	u8 texture_height 	= 160;

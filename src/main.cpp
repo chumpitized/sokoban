@@ -128,6 +128,8 @@ int main() {
 
 					DrawTextureRec(puzzle_previews[i].texture, (Rectangle){0, 0, (float)puzzle_previews[i].texture.width, -(float)puzzle_previews[i].texture.height}, (Vector2){(float)x_additional_offset, (float)y_additional_offset}, WHITE);
 				}
+
+				draw_selected_puzzle_outline(get_puzzle_index());
 			EndDrawing();
 		}
 
