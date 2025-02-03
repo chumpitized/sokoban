@@ -97,13 +97,9 @@ void switch_to_level_menu() {
 	if (IsKeyPressed(KEY_L)) {
 		mode = Mode::Level_Menu;
 		
-		//std::vector<Texture2D> puzzle_previews;
-		//std::vector<u16> first_puzzle = get_puzzles()[0];
+		std::vector<std::vector<u16>> puzzles = get_puzzles();
 
-		//int xOffset = screenWidth / 10;
-		//int yOffset = screenHeight / 10;
-
-		//DrawRectangle(xOffset, yOffset, 100, 100, RED);
+		reload_puzzle_previews(puzzles);
 	}
 }
 

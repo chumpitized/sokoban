@@ -236,3 +236,33 @@ void draw_palette(std::vector<Texture2D>& palette, int width, int x, int y, int 
 		DrawTextureEx(palette[i], Vector2{xTileOffset, yTileOffset}, (float)0, (float)4, RAYWHITE);
 	}	
 }
+
+//////////////////
+//  Level Menu  //
+//////////////////
+
+std::vector<RenderTexture2D> puzzle_previews;
+
+std::vector<RenderTexture2D> get_puzzle_previews() {
+	return puzzle_previews;
+}
+
+RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle) {
+	RenderTexture2D texture = LoadRenderTexture(100, 100);
+	
+	BeginTextureMode(texture);
+		ClearBackground(RED);
+	EndTextureMode();
+	
+	return texture;
+}
+
+std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles) {
+	puzzle_previews.clear();
+	
+	for (auto puzzle : puzzles) {
+		puzzle_previews.push_back(load_puzzle_preview(puzzle));
+	}
+
+	return puzzle_previews;
+}

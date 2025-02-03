@@ -47,4 +47,13 @@ void load_puzzle_into_canvas(std::vector<u16>& canvas, std::vector<u16>& puzzle,
 void draw_canvas(RenderTexture2D& texture, std::vector<u16>& canvas, int width, int x, int y, int tileSize);
 void draw_palette(std::vector<Texture2D>& palette, int width, int x, int y, int tileSize);
 
+//////////////////
+//  Level Menu  //
+//////////////////
+
+extern std::vector<RenderTexture2D> puzzle_previews;
+
+std::vector<RenderTexture2D> get_puzzle_previews();
+RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle);
+std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles);
 #endif

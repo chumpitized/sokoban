@@ -27,16 +27,14 @@ int main() {
 	while(!WindowShouldClose()) {
 		int current_puzzle_index 		= get_puzzle_index();
 
-		std::vector<u16> currPuzzle 	= get_current_puzzle();
-
+		std::vector<u16> current_puzzle = get_current_puzzle();
 		u8 current_puzzle_width 		= get_current_puzzle_width();
 		u8 current_puzzle_height 		= get_current_puzzle_height();
-
-		std::vector<u16> constPuzzle 	= get_const_puzzle();
 
 		////////////
 		//  Play  //
 		////////////
+		
 		if (mode == Mode::Play) {
 			switch_to_edit_mode(current_puzzle_width, current_puzzle_height);
 
@@ -44,12 +42,12 @@ int main() {
 			go_prev_puzzle(game_texture);
 			undo();
 			restart();
-			move(currPuzzle);
+			move(current_puzzle);
 			
 			draw_puzzle_to_texture(game_texture, screenWidth, screenHeight);
 
 			BeginDrawing();
-				DrawTextureRec(game_texture.texture, (Rectangle){0, 0, (float)game_texture.texture.width, -(float)game_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+				DrawTextureRec(game_texture.texture, (Rectangle){0, 0, (float)game_texture.texture.width, -(float)game_texture.texture.height}, (Vector2){0, 0}, WHITE);
 				DrawFPS(0, 0);
 
 				int puzzleidx = get_puzzle_index();
@@ -63,6 +61,7 @@ int main() {
 		////////////
 		// Editor //
 		////////////
+
 		if (mode == Mode::Edit) {
 			//Input
 			switch_to_play_mode(game_texture);
@@ -78,7 +77,7 @@ int main() {
 
 			bool is_edit_valid = is_edit_puzzle_valid(canvas, canvasTileWidth);
 			bool save_status = is_edit_valid && is_edit_puzzle_same_as_saved_puzzle();
-			try_save(currPuzzle, current_puzzle_index, is_edit_valid);
+			try_save(current_puzzle, current_puzzle_index, is_edit_valid);
 
 			create_new_puzzle();
 
@@ -89,7 +88,7 @@ int main() {
 			draw_canvas(edit_texture, canvas, canvasTileWidth, xOffset, yOffset, tileSize);
 
 			BeginDrawing();
-				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+				DrawTextureRec(edit_texture.texture, (Rectangle){0, 0, (float)edit_texture.texture.width, -(float)edit_texture.texture.height}, (Vector2){0, 0}, WHITE);
 
 				draw_save_status(save_status);
 
@@ -107,22 +106,25 @@ int main() {
 		}
 
 		//////////////////
-		//  Level Menu  // UNFINISHED
+		//  Level Menu  //
 		//////////////////
+
 		if (mode == Mode::Level_Menu) {
 			switch_to_edit_mode(current_puzzle_width, current_puzzle_height);
-
-			std::vector<std::vector<u16>> puzzles = get_puzzles();
 
 			int xOffset = screenWidth / 10;
 			int yOffset = screenHeight / 10;
 
-			BeginDrawing();
-				DrawTextureRec(menu_texture.texture, (Rectangle){0, 0, (float)menu_texture.texture.width, -(float)menu_texture.texture.height}, (Vector2){0, 0}, RAYWHITE);
+			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
 
-				for (int i = 0; i < puzzles.size(); i++) {
-					DrawRectangle(xOffset + (100 * i), yOffset, 100, 100, RED);
+
+			BeginDrawing();
+				ClearBackground(WHITE);
+			
+				for (int i = 0; i < puzzle_previews.size(); ++i) {
+					DrawTexture(puzzle_previews[i].texture, xOffset + (100 * i), yOffset, WHITE);
 				}
+
 			EndDrawing();
 		}
 
