@@ -278,20 +278,15 @@ int in_palette(std::vector<Texture2D>& palette, int xOffset, int yOffset, Vector
 //  Level Menu  //
 //////////////////
 
-void select_puzzle() {
+void select_puzzle(int index) {
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 		Vector2 mouse_position = GetMousePosition();
-
-		int x_coord = mouse_position.x / 160;
-		int y_coord = mouse_position.y / 160;
-
-		int index = (y_coord * 12) + x_coord;
 
 		set_current_puzzle_and_index(index);
 	}
 }
 
-void select_puzzle_and_move() {
+void select_puzzle_and_move(int index) {
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
 		int x = GetMouseX();
 		int y = GetMouseY();
@@ -300,22 +295,46 @@ void select_puzzle_and_move() {
 
 		int puzzles_size = puzzles.size();
 
-		int x_coord = x / 160;
-		int y_coord = y / 160;
-
-		int index = (y_coord * 12) + x_coord;
-
 		if (index != get_puzzle_index()) {
 			int x_local = x % 160;
+
 			if (x_local <= 80) {
+				//Left
 				if (index >= 0 && index < puzzles_size) {
 					draw_move_puzzle_overlay(index, true);
 				}
 			} else {
+				//Right
 				if (index >= 0 && index < puzzles_size) {
 					draw_move_puzzle_overlay(index, false);
 				}
 			}
+		}
+	}
+}
+
+//Doesn't save yet...
+void move_puzzle(int index) {
+	int current_index 			= get_puzzle_index();
+	std::vector<u16> sliding 	= get_current_puzzle();
+
+	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && index != current_index) {
+		if (get_puzzle_index() > index) {
+			for (int i = index + 1; i <= current_index; ++i) {
+				std::vector<u16> temp = puzzles[i];
+				puzzles[i] = sliding;
+				sliding = temp;
+			}
+
+			set_current_puzzle_and_index(index + 1);
+		} else {
+			for (int i = index; i >= current_index; --i) {
+				std::vector<u16> temp = puzzles[i];
+				puzzles[i] = sliding;
+				sliding = temp;
+			}
+
+			set_current_puzzle_and_index(index);
 		}
 	}
 }

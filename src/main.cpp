@@ -111,11 +111,17 @@ int main() {
 			//int xOffset = screenWidth / 10;
 			//int yOffset = screenHeight / 10;
 
+			Vector2 mouse_position = GetMousePosition();
+
+			int x_coord = mouse_position.x / 160;
+			int y_coord = mouse_position.y / 160;
+			int index 	= (y_coord * 12) + x_coord;
+
 			int x_offset = 0;
 			int y_offset = 0;
 			int texture_size = 160;
 
-			select_puzzle();
+			select_puzzle(index);
 			//select_puzzle_and_move();
 
 			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
@@ -131,8 +137,10 @@ int main() {
 				}
 
 				draw_selected_puzzle_outline(get_puzzle_index());
-				select_puzzle_and_move();
+				select_puzzle_and_move(index);
 			EndDrawing();
+
+			move_puzzle(index);
 		}
 
 	}
