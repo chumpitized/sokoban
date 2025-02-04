@@ -22,7 +22,7 @@ int main() {
 	load_puzzles_from_file();
 	RenderTexture2D game_texture 		= create_texture(screenWidth, screenHeight);
 	RenderTexture2D edit_texture 		= draw_editor_setup(screenWidth, screenHeight);
-	//RenderTexture2D level_menu_texture 	= draw_menu_setup(screenWidth, screenHeight);	
+	//RenderTexture2D level_menu_texture 	= draw_menu_setup(screenWidth, screenHeight);
 	RenderTexture2D main_menu_texture 	= draw_main_menu_setup(screenWidth, screenHeight);
 
 	while(!WindowShouldClose()) {
@@ -142,6 +142,7 @@ int main() {
 
 				draw_selected_puzzle_outline(get_puzzle_index());
 				select_puzzle_and_move(index);
+				DrawFPS(0, 0);
 			EndDrawing();
 		}
 
@@ -157,6 +158,7 @@ int main() {
 
 			BeginDrawing();
 				DrawTextureRec(main_menu_texture.texture, (Rectangle){0, 0, (float)main_menu_texture.texture.width, -(float)main_menu_texture.texture.height}, (Vector2){0,0}, WHITE);
+				DrawFPS(0, 0);
 			EndDrawing();
 		}
 	}

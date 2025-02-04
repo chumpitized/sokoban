@@ -10,26 +10,26 @@
 ///////////////
 
 void switch_to_play_on_key(RenderTexture2D& game_texture) {
-	if (IsKeyPressed(KEY_P)) {
+	if (IsKeyPressed(KEY_P) && mode != Mode::Play) {
 		switch_to_play(game_texture);
 	}
 }
 
 void switch_to_editor_on_key() {
-	if (IsKeyPressed(KEY_E)) {
+	if (IsKeyPressed(KEY_E) && mode != Mode::Edit) {
 		switch_to_editor();
 	}
 }
 
 void switch_to_level_menu_on_key() {
-	if (IsKeyPressed(KEY_L)) {
+	if (IsKeyPressed(KEY_L) && mode != Mode::Level_Menu) {
 		switch_to_level_menu();
 	}
 }
 
 void switch_to_main_menu_on_key() {
 	//need to return to previous mode on second press...
-	if (IsKeyPressed(KEY_ESCAPE)) {
+	if (IsKeyPressed(KEY_ESCAPE) && mode != Mode::Main_Menu) {
 		mode = Mode::Main_Menu;
 	}
 }
