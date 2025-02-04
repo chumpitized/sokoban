@@ -36,9 +36,10 @@ int main() {
 		//  Play  //
 		////////////
 
-		switch_to_edit_mode(current_puzzle_width, current_puzzle_height);
-		switch_to_play_mode(game_texture);
-		switch_to_level_menu();
+		//switch_to_edit_mode();
+		//switch_to_play_mode(game_texture);
+		//switch_to_level_menu();
+		switch_to_main_menu();
 		
 		if (mode == Mode::Play) {
 			go_next_puzzle(game_texture);
@@ -109,13 +110,11 @@ int main() {
 		//////////////////
 
 		if (mode == Mode::Level_Menu) {
-			//int xOffset = screenWidth / 10;
-			//int yOffset = screenHeight / 10;
-
 			Vector2 mouse_position = GetMousePosition();
 
 			int x_coord = mouse_position.x / 160;
 			int y_coord = mouse_position.y / 160;
+			//index can be invalid
 			int index 	= (y_coord * 12) + x_coord;
 
 			int x_offset = 0;
@@ -123,7 +122,7 @@ int main() {
 			int texture_size = 160;
 
 			select_puzzle(index);
-			//select_puzzle_and_move();
+			move_puzzle(index);
 
 			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
 
@@ -140,8 +139,6 @@ int main() {
 				draw_selected_puzzle_outline(get_puzzle_index());
 				select_puzzle_and_move(index);
 			EndDrawing();
-
-			move_puzzle(index);
 		}
 
 		/////////////////
@@ -151,13 +148,13 @@ int main() {
 		if (mode == Mode::Main_Menu) {
 			draw_game_title(main_menu_texture);
 			draw_main_menu_buttons(main_menu_texture);
+			click_button(game_texture);
+
 
 			BeginDrawing();
 				DrawTextureRec(main_menu_texture.texture, (Rectangle){0, 0, (float)main_menu_texture.texture.width, -(float)main_menu_texture.texture.height}, (Vector2){0,0}, WHITE);
 			EndDrawing();
-
 		}
-
 	}
 
 	CloseWindow();	

@@ -367,13 +367,16 @@ void draw_main_menu_buttons(RenderTexture2D& texture) {
 	int menu_width = MeasureText("Level Menu", font_size);
 
 	BeginTextureMode(texture);
-	DrawRectangle(x_offset - 300, y_offset * 7, 600, 100, ORANGE);
-		DrawText("Play", x_offset - (play_width / 2), y_offset * 7 + (100 - font_size) / 2, font_size, BLACK); 
+		DrawRectangle(x_offset - 300, y_offset * 7, 600, 100, GRAY);
+		DrawText("Play", x_offset - (play_width / 2), y_offset * 7 + (100 - font_size) / 2, font_size, BLACK);
+		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 7, 600, 100}, 5.0, DARKGRAY);
 
-		DrawRectangle(x_offset - 300, y_offset * 10, 600, 100, ORANGE);
+		DrawRectangle(x_offset - 300, y_offset * 10, 600, 100, GRAY);
 		DrawText("Editor", x_offset - (edit_width / 2), y_offset * 10 + (100 - font_size) / 2, font_size, BLACK);
+		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 10, 600, 100}, 5.0, DARKGRAY);
 
-		DrawRectangle(x_offset - 300,  y_offset * 13, 600, 100, ORANGE);
+		DrawRectangle(x_offset - 300,  y_offset * 13, 600, 100, GRAY);
 		DrawText("Level Menu", x_offset - (menu_width / 2), y_offset * 13 + (100 - font_size) / 2, font_size, BLACK);
+		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 13, 600, 100}, 5.0, DARKGRAY);
 	EndTextureMode();
 }

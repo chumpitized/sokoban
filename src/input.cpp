@@ -63,18 +63,21 @@ void restart() {
 }
 
 void switch_to_play_mode(RenderTexture2D& game_texture) {
-	if (IsKeyPressed(KEY_P)) {
+	//if (IsKeyPressed(KEY_P)) {
 		mode = Mode::Play;
 		clear_background(game_texture);
 		restart_level();
 		history.clear();
-	}
+	//}
 }
 
-void switch_to_edit_mode(int edit_puzzle_width, int edit_puzzle_height) {
-	if (IsKeyPressed(KEY_E)) {
+void switch_to_edit_mode() {
+	//if (IsKeyPressed(KEY_E)) {
 		mode = Mode::Edit;
 		
+		int edit_puzzle_width 	= get_current_puzzle_width();
+		int edit_puzzle_height 	= get_current_puzzle_height(); 
+
 		for (int i = 0; i < canvas.size(); ++i) {
 			canvas[i] = 0xffff;
 		}
@@ -87,20 +90,28 @@ void switch_to_edit_mode(int edit_puzzle_width, int edit_puzzle_height) {
 		//this can actually be done once when we select a puzzle,
 		// then we can just display the canvas on mode switch...
 		load_puzzle_into_canvas(canvas, current_puzzle, edit_puzzle_width, edit_puzzle_height);
-	}
+	//}
 
 }
 
 void switch_to_level_menu() {
 	//need to return to previous mode on second press...
-	if (IsKeyPressed(KEY_ESCAPE)) {
+	//if (IsKeyPressed(KEY_L)) {
 		mode = Mode::Level_Menu;
 		
 		std::vector<std::vector<u16>> puzzles = get_puzzles();
 
 		reload_puzzle_previews(puzzles);
+	//}
+}
+
+void switch_to_main_menu() {
+	//need to return to previous mode on second press...
+	if (IsKeyPressed(KEY_ESCAPE)) {
+		mode = Mode::Main_Menu;
 	}
 }
+
 
 ////////////
 // Editor //
@@ -295,34 +306,30 @@ void select_puzzle_and_move(int index) {
 
 		int puzzles_size = puzzles.size();
 
-		if (index != get_puzzle_index()) {
+		if (index != get_puzzle_index() && index >= 0 && index < puzzles_size) {
 			int x_local = x % 160;
 
 			if (x_local <= 80) {
 				//Left
-				if (index >= 0 && index < puzzles_size) {
-					draw_move_puzzle_overlay(index, true);
-				}
+				draw_move_puzzle_overlay(index, true);
 			} else {
 				//Right
-				if (index >= 0 && index < puzzles_size) {
-					draw_move_puzzle_overlay(index, false);
-				}
+				draw_move_puzzle_overlay(index, false);
 			}
 		}
 	}
 }
 
-//Doesn't save yet...
 void move_puzzle(int index) {
-	int x = GetMouseX();
-	bool left = x % 160 <= 80 ? true : false;
+	int current_index = get_puzzle_index();
+	if (index < 0 || index >= puzzles.size() || index == current_index) return;
 
-	int current_index 			= get_puzzle_index();
+	int x 						= GetMouseX();
+	bool left 					= x % 160 <= 80 ? true : false;
 	std::vector<u16> sliding 	= get_current_puzzle();
 
-	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && index != current_index) {
-		if (get_puzzle_index() > index) {
+	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+		if (current_index > index) {
 			index = left ? index : index + 1;
 			
 			for (int i = index; i <= current_index; ++i) {
@@ -349,5 +356,40 @@ void move_puzzle(int index) {
 		}
 
 		save_puzzles_to_file();
+	}
+}
+
+
+/////////////////
+//  Main Menu  //
+/////////////////
+
+void click_button(RenderTexture2D& game_texture) {
+	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+		int mouse_x = GetMouseX();
+		int mouse_y = GetMouseY();
+
+		int x_offset = (screenWidth / 2) - 300;
+
+		if (mouse_x >= x_offset && mouse_x <= x_offset + 600) {
+
+			//Play	
+			int play_y = (screenHeight / 20) * 7;
+			if (mouse_y >= play_y && mouse_y <= play_y + 100) {
+				switch_to_play_mode(game_texture);
+			}
+
+			//Editor
+			int edit_y = (screenHeight / 20) * 10;
+			if (mouse_y >= edit_y && mouse_y <= edit_y + 100) {
+				switch_to_edit_mode();
+			}
+
+			//Level Menu
+			int menu_y = (screenHeight / 20) * 13;
+			if (mouse_y >= menu_y && mouse_y <= menu_y + 100) {	
+				switch_to_level_menu();
+			}
+		}
 	}
 }

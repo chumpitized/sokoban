@@ -18,8 +18,9 @@ void undo();
 void restart();
 
 void switch_to_play_mode(RenderTexture2D& game_texture);
-void switch_to_edit_mode(int edit_puzzle_width, int edit_puzzle_height);
+void switch_to_edit_mode();
 void switch_to_level_menu();
+void switch_to_main_menu();
 
 ////////////
 // Editor //
@@ -49,5 +50,11 @@ int in_palette(std::vector<Texture2D>& palette, int xOffset, int yOffset, Vector
 void select_puzzle(int index);
 void select_puzzle_and_move(int index);
 void move_puzzle(int index);
+
+/////////////////
+//  Main Menu  //
+/////////////////
+
+void click_button(RenderTexture2D& game_texture);
 
 #endif
