@@ -53,6 +53,7 @@ void draw_palette(std::vector<Texture2D>& palette, int width, int x, int y, int 
 
 extern std::vector<RenderTexture2D> puzzle_previews;
 
+void draw_move_puzzle_overlay(int hover_index, bool left);
 void draw_selected_puzzle_outline(int selected_index);
 std::vector<RenderTexture2D> get_puzzle_previews();
 RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle);

@@ -278,7 +278,7 @@ int in_palette(std::vector<Texture2D>& palette, int xOffset, int yOffset, Vector
 //  Level Menu  //
 //////////////////
 
-void select_puzzle_from_menu() {
+void select_puzzle() {
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 		Vector2 mouse_position = GetMousePosition();
 
@@ -288,8 +288,34 @@ void select_puzzle_from_menu() {
 		int index = (y_coord * 12) + x_coord;
 
 		set_current_puzzle_and_index(index);
-
-		std::cout << "selected puzzle index: " << index << std::endl;
 	}
-	
+}
+
+void select_puzzle_and_move() {
+	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+		int x = GetMouseX();
+		int y = GetMouseY();
+
+		if (x > screenWidth || x < 0 || y > screenHeight || y < 0) return;
+
+		int puzzles_size = puzzles.size();
+
+		int x_coord = x / 160;
+		int y_coord = y / 160;
+
+		int index = (y_coord * 12) + x_coord;
+
+		if (index != get_puzzle_index()) {
+			int x_local = x % 160;
+			if (x_local <= 80) {
+				if (index >= 0 && index < puzzles_size) {
+					draw_move_puzzle_overlay(index, true);
+				}
+			} else {
+				if (index >= 0 && index < puzzles_size) {
+					draw_move_puzzle_overlay(index, false);
+				}
+			}
+		}
+	}
 }

@@ -48,6 +48,7 @@ void set_current_puzzle_and_index(int index) {
 	if (index < puzzles.size() && index >= 0) {
 		puzzle_index = index;
 		current_puzzle = puzzles[puzzle_index];
+		std::cout << "selected puzzle index: " << index << std::endl;
 	}
 }
 

@@ -46,6 +46,7 @@ int in_palette(std::vector<Texture2D>& palette, int xOffset, int yOffset, Vector
 //  Level Menu  //
 //////////////////
 
-void select_puzzle_from_menu();
+void select_puzzle();
+void select_puzzle_and_move();
 
 #endif

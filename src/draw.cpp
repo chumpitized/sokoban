@@ -247,6 +247,17 @@ std::vector<RenderTexture2D> get_puzzle_previews() {
 	return puzzle_previews;
 }
 
+void draw_move_puzzle_overlay(int hover_index, bool left) {
+	float y = hover_index / 12;
+	float x = hover_index % 12;
+
+	if (left) {
+		DrawRectangleRec((Rectangle){x * 160, y * 160, (float)80, (float)160}, GREEN);
+	} else {
+		DrawRectangleRec((Rectangle){(x * 160) + 80, y * 160, (float)80, (float)160}, GREEN);
+	}
+}
+
 void draw_selected_puzzle_outline(int selected_index) {
 	float y = selected_index / 12;
 	float x = selected_index % 12;

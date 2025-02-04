@@ -115,7 +115,8 @@ int main() {
 			int y_offset = 0;
 			int texture_size = 160;
 
-			select_puzzle_from_menu();
+			select_puzzle();
+			//select_puzzle_and_move();
 
 			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
 
@@ -130,6 +131,7 @@ int main() {
 				}
 
 				draw_selected_puzzle_outline(get_puzzle_index());
+				select_puzzle_and_move();
 			EndDrawing();
 		}
 
