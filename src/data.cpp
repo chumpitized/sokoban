@@ -1,6 +1,6 @@
 #include "data.h"
 
-Mode mode = Mode::Play;
+Mode mode = Mode::Main_Menu;
 
 //Window
 const int spriteSize 	= 16;

@@ -327,3 +327,53 @@ void draw_puzzle_to_preview_texture(RenderTexture2D& texture, int texture_width,
 
 	EndTextureMode();
 };
+
+/////////////////
+//  Main Menu  //
+/////////////////
+
+RenderTexture2D draw_main_menu_setup(int screenWidth, int screenHeight) {
+	RenderTexture2D texture = LoadRenderTexture(screenWidth, screenHeight);
+		BeginTextureMode(texture);
+		ClearBackground(BLACK);
+		EndTextureMode();
+	return texture;
+}
+
+void draw_game_title(RenderTexture2D& texture) {
+	int x = texture.texture.width;
+	int y = texture.texture.height;
+
+	int font_size = 130;
+	int textWidth = MeasureText("So-key-ban!", font_size);
+
+	
+	BeginTextureMode(texture);
+		DrawText("So-key-ban!", (x / 2) - (textWidth / 2), y / 10, font_size, WHITE);
+	EndTextureMode();
+}
+
+void draw_main_menu_buttons(RenderTexture2D& texture) {
+	int x = texture.texture.width;
+	int y = texture.texture.height;
+
+	int y_offset = y / 20;
+	int x_offset = (x / 2);
+
+	int font_size = 80;
+
+	int play_width = MeasureText("Play", font_size);
+	int edit_width = MeasureText("Editor", font_size);
+	int menu_width = MeasureText("Level Menu", font_size);
+
+	BeginTextureMode(texture);
+	DrawRectangle(x_offset - 300, y_offset * 7, 600, 100, ORANGE);
+		DrawText("Play", x_offset - (play_width / 2), y_offset * 7 + (100 - font_size) / 2, font_size, BLACK); 
+
+		DrawRectangle(x_offset - 300, y_offset * 10, 600, 100, ORANGE);
+		DrawText("Editor", x_offset - (edit_width / 2), y_offset * 10 + (100 - font_size) / 2, font_size, BLACK);
+
+		DrawRectangle(x_offset - 300,  y_offset * 13, 600, 100, ORANGE);
+		DrawText("Level Menu", x_offset - (menu_width / 2), y_offset * 13 + (100 - font_size) / 2, font_size, BLACK);
+	EndTextureMode();
+}

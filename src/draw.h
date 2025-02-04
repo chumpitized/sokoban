@@ -60,4 +60,13 @@ RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle);
 std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles);
 void draw_puzzle_to_preview_texture(RenderTexture2D& texture, int texture_width, int texture_height, std::vector<u16> puzzle);
 
+/////////////////
+//  Main Menu  //
+/////////////////
+
+RenderTexture2D draw_main_menu_setup(int screenWidth, int screenHeight);
+void draw_game_title(RenderTexture2D& texture);
+void draw_main_menu_buttons(RenderTexture2D& texture);
+
+
 #endif
