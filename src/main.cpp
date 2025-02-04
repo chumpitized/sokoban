@@ -155,7 +155,6 @@ int main() {
 			draw_main_menu_buttons(main_menu_texture);
 			click_button(game_texture);
 
-
 			BeginDrawing();
 				DrawTextureRec(main_menu_texture.texture, (Rectangle){0, 0, (float)main_menu_texture.texture.width, -(float)main_menu_texture.texture.height}, (Vector2){0,0}, WHITE);
 				DrawFPS(0, 0);

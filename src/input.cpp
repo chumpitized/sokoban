@@ -42,7 +42,6 @@ void switch_to_play(RenderTexture2D& game_texture) {
 }
 
 void switch_to_editor() {
-	//if (IsKeyPressed(KEY_E)) {
 	mode = Mode::Edit;
 		
 	int edit_puzzle_width 	= get_current_puzzle_width();
@@ -60,8 +59,6 @@ void switch_to_editor() {
 	//this can actually be done once when we select a puzzle,
 	// then we can just display the canvas on mode switch...
 	load_puzzle_into_canvas(canvas, current_puzzle, edit_puzzle_width, edit_puzzle_height);
-	//}
-
 }
 
 void switch_to_level_menu() {
@@ -403,6 +400,11 @@ void click_button(RenderTexture2D& game_texture) {
 			int menu_y = (screenHeight / 20) * 13;
 			if (mouse_y >= menu_y && mouse_y <= menu_y + 100) {	
 				switch_to_level_menu();
+			}
+
+			int quit_y = (screenHeight / 20) * 16;
+			if (mouse_y >= quit_y && mouse_y <= quit_y + 100) {	
+				CloseWindow();
 			}
 		}
 	}
