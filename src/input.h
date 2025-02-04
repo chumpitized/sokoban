@@ -4,6 +4,19 @@
 #include "puzzles.h"
 #include <raylib.h>
 
+///////////////
+//  General  //
+///////////////
+
+void switch_to_play_on_key(RenderTexture2D& game_texture);
+void switch_to_editor_on_key();
+void switch_to_level_menu_on_key();
+void switch_to_main_menu_on_key();
+
+void switch_to_play(RenderTexture2D& game_texture);
+void switch_to_editor();
+void switch_to_level_menu();
+
 ////////////
 //  Play  //
 ////////////
@@ -16,11 +29,6 @@ void go_next_puzzle(RenderTexture2D& game_texture);
 void go_prev_puzzle(RenderTexture2D& game_texture);
 void undo();
 void restart();
-
-void switch_to_play_mode(RenderTexture2D& game_texture);
-void switch_to_edit_mode();
-void switch_to_level_menu();
-void switch_to_main_menu();
 
 ////////////
 // Editor //

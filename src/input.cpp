@@ -5,6 +5,71 @@
 #include <vector>
 #include <iostream>
 
+///////////////
+//  General  //
+///////////////
+
+void switch_to_play_on_key(RenderTexture2D& game_texture) {
+	if (IsKeyPressed(KEY_P)) {
+		switch_to_play(game_texture);
+	}
+}
+
+void switch_to_editor_on_key() {
+	if (IsKeyPressed(KEY_E)) {
+		switch_to_editor();
+	}
+}
+
+void switch_to_level_menu_on_key() {
+	if (IsKeyPressed(KEY_L)) {
+		switch_to_level_menu();
+	}
+}
+
+void switch_to_main_menu_on_key() {
+	//need to return to previous mode on second press...
+	if (IsKeyPressed(KEY_ESCAPE)) {
+		mode = Mode::Main_Menu;
+	}
+}
+
+void switch_to_play(RenderTexture2D& game_texture) {
+	mode = Mode::Play;
+	clear_background(game_texture);
+	restart_level();
+	history.clear();
+}
+
+void switch_to_editor() {
+	//if (IsKeyPressed(KEY_E)) {
+	mode = Mode::Edit;
+		
+	int edit_puzzle_width 	= get_current_puzzle_width();
+	int edit_puzzle_height 	= get_current_puzzle_height(); 
+
+	for (int i = 0; i < canvas.size(); ++i) {
+		canvas[i] = 0xffff;
+	}
+
+	restart_level();
+	history.clear();
+
+	std::vector<u16> current_puzzle = get_current_puzzle();
+
+	//this can actually be done once when we select a puzzle,
+	// then we can just display the canvas on mode switch...
+	load_puzzle_into_canvas(canvas, current_puzzle, edit_puzzle_width, edit_puzzle_height);
+	//}
+
+}
+
+void switch_to_level_menu() {
+	mode = Mode::Level_Menu;		
+	std::vector<std::vector<u16>> puzzles = get_puzzles();	
+	reload_puzzle_previews(puzzles);
+}
+
 ////////////
 //  Play  //
 ////////////
@@ -61,57 +126,6 @@ void restart() {
 		history.clear();
 	}
 }
-
-void switch_to_play_mode(RenderTexture2D& game_texture) {
-	//if (IsKeyPressed(KEY_P)) {
-		mode = Mode::Play;
-		clear_background(game_texture);
-		restart_level();
-		history.clear();
-	//}
-}
-
-void switch_to_edit_mode() {
-	//if (IsKeyPressed(KEY_E)) {
-		mode = Mode::Edit;
-		
-		int edit_puzzle_width 	= get_current_puzzle_width();
-		int edit_puzzle_height 	= get_current_puzzle_height(); 
-
-		for (int i = 0; i < canvas.size(); ++i) {
-			canvas[i] = 0xffff;
-		}
-
-		restart_level();
-		history.clear();
-
-		std::vector<u16> current_puzzle = get_current_puzzle();
-
-		//this can actually be done once when we select a puzzle,
-		// then we can just display the canvas on mode switch...
-		load_puzzle_into_canvas(canvas, current_puzzle, edit_puzzle_width, edit_puzzle_height);
-	//}
-
-}
-
-void switch_to_level_menu() {
-	//need to return to previous mode on second press...
-	//if (IsKeyPressed(KEY_L)) {
-		mode = Mode::Level_Menu;
-		
-		std::vector<std::vector<u16>> puzzles = get_puzzles();
-
-		reload_puzzle_previews(puzzles);
-	//}
-}
-
-void switch_to_main_menu() {
-	//need to return to previous mode on second press...
-	if (IsKeyPressed(KEY_ESCAPE)) {
-		mode = Mode::Main_Menu;
-	}
-}
-
 
 ////////////
 // Editor //
@@ -376,13 +390,13 @@ void click_button(RenderTexture2D& game_texture) {
 			//Play	
 			int play_y = (screenHeight / 20) * 7;
 			if (mouse_y >= play_y && mouse_y <= play_y + 100) {
-				switch_to_play_mode(game_texture);
+				switch_to_play(game_texture);
 			}
 
 			//Editor
 			int edit_y = (screenHeight / 20) * 10;
 			if (mouse_y >= edit_y && mouse_y <= edit_y + 100) {
-				switch_to_edit_mode();
+				switch_to_editor();
 			}
 
 			//Level Menu

@@ -32,14 +32,18 @@ int main() {
 		u8 current_puzzle_width 		= get_current_puzzle_width();
 		u8 current_puzzle_height 		= get_current_puzzle_height();
 
+		/////////////
+		// General //
+		/////////////
+
+		switch_to_play_on_key(game_texture);
+		switch_to_editor_on_key();
+		switch_to_level_menu_on_key();
+		switch_to_main_menu_on_key();
+
 		////////////
 		//  Play  //
 		////////////
-
-		//switch_to_edit_mode();
-		//switch_to_play_mode(game_texture);
-		//switch_to_level_menu();
-		switch_to_main_menu();
 		
 		if (mode == Mode::Play) {
 			go_next_puzzle(game_texture);
