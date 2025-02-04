@@ -127,7 +127,7 @@ int main() {
 			std::vector<RenderTexture2D> puzzle_previews = get_puzzle_previews();
 
 			BeginDrawing();
-				ClearBackground(WHITE);
+				ClearBackground(GRAY);
 			
 				for (int i = 0; i < puzzle_previews.size(); ++i) {
 					int y_additional_offset = (y_offset + (texture_size * i) / screenWidth) * texture_size;

@@ -315,19 +315,28 @@ void select_puzzle_and_move(int index) {
 
 //Doesn't save yet...
 void move_puzzle(int index) {
+	int x = GetMouseX();
+	bool left = x % 160 <= 80 ? true : false;
+
 	int current_index 			= get_puzzle_index();
 	std::vector<u16> sliding 	= get_current_puzzle();
 
 	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && index != current_index) {
 		if (get_puzzle_index() > index) {
-			for (int i = index + 1; i <= current_index; ++i) {
+			index = left ? index : index + 1;
+			
+			for (int i = index; i <= current_index; ++i) {
 				std::vector<u16> temp = puzzles[i];
 				puzzles[i] = sliding;
 				sliding = temp;
 			}
 
-			set_current_puzzle_and_index(index + 1);
+			set_current_puzzle_and_index(index);
+
+			reload_puzzle_previews(get_puzzles());
 		} else {
+			index = left ? index - 1 : index;
+
 			for (int i = index; i >= current_index; --i) {
 				std::vector<u16> temp = puzzles[i];
 				puzzles[i] = sliding;
@@ -335,6 +344,10 @@ void move_puzzle(int index) {
 			}
 
 			set_current_puzzle_and_index(index);
+
+			reload_puzzle_previews(get_puzzles());
 		}
+
+		save_puzzles_to_file();
 	}
 }
