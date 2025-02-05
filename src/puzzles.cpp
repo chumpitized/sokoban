@@ -55,10 +55,10 @@ bool is_edit_puzzle_same_as_saved_puzzle() {
 	return current_puzzle == puzzles[puzzle_index];
 }
 
-//this DOES NOT save
 void create_new_puzzle_and_update_vals() {
 	puzzles.push_back(current_puzzle);
 	puzzle_index = puzzles.size() - 1;
+	save_puzzles_to_file();
 }
 
 bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width) {
