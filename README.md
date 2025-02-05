@@ -1,6 +1,6 @@
 # So-key-ban
 
-A thrown-together "engine" for Sokoban games. Uses keys instead of crates.
+A thrown-together "engine" for Sokoban games. Uses keys instead of crates. My second Raylib project.
 
 <img src="https://github.com/user-attachments/assets/89bdc662-1e53-4ee5-8986-49e5ef5fa23f" alt="Alt Text" width="480" height="270">
 <img src="https://github.com/user-attachments/assets/c5c0557c-056e-46bb-bc09-d13ed73735e5" alt="Alt Text" width="480" height="270">
