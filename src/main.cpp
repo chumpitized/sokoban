@@ -51,6 +51,7 @@ int main() {
 		////////////
 		
 		if (mode == Mode::Play) {
+			complete_puzzle();
 			go_next_puzzle(game_texture);
 			go_prev_puzzle(game_texture);
 			undo();

@@ -315,3 +315,18 @@ int try_move(int input, int currentCellIndex) {
 
 	return currentCellIndex;
 }
+
+void complete_puzzle() {
+	int locked_doors = 0;
+
+	for (auto cell : current_puzzle) {
+		u8 high = cell >> 8;
+		u8 low	= cell;
+
+		if (low == 0x4 && high != 0x1) {
+			locked_doors++;
+		}
+	}
+
+	if (locked_doors == 0) try_increment_puzzle();
+}
