@@ -241,6 +241,7 @@ void load_progress() {
 	file.close();
 
 	puzzle_index = buffer[0];
+	current_puzzle = puzzles[puzzle_index];
 }
 
 void save_progress() {
@@ -257,6 +258,8 @@ void save_progress() {
 
 	file.write(reinterpret_cast<char*>(buffer), 1);
 	file.close();
+
+	std::cout << "saved progress!" << std::endl;
 }
 
 bool try_increment_puzzle() {

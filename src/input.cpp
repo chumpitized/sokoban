@@ -375,6 +375,12 @@ void move_puzzle(int index) {
 //  Main Menu  //
 /////////////////
 
+void exit() {
+	if (IsKeyPressed(KEY_ESCAPE)) {
+		CloseWindow();
+	}
+}
+
 void hover_button(Color& play_button, Color& edit_button, Color& level_button, Color& quit_button) {
 	Color click = Color{33, 33, 33, 255};
 	if (ColorIsEqual(play_button, click) || ColorIsEqual(edit_button, click) || ColorIsEqual(level_button, click) || ColorIsEqual(quit_button, click)) return;
