@@ -279,6 +279,14 @@ RenderTexture2D load_puzzle_preview(std::vector<u16> puzzle) {
 	return texture;
 }
 
+void load_puzzle_previews(std::vector<std::vector<u16>> puzzles) {
+	for (auto puzzle : puzzles) {
+		puzzle_previews.push_back(load_puzzle_preview(puzzle));
+	}
+
+	//return puzzle_previews;
+}
+
 std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles) {
 	for (auto preview : puzzle_previews) {
 		UnloadRenderTexture(preview);

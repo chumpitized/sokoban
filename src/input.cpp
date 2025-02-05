@@ -64,7 +64,7 @@ void switch_to_editor() {
 void switch_to_level_menu() {
 	mode = Mode::Level_Menu;		
 	std::vector<std::vector<u16>> puzzles = get_puzzles();	
-	reload_puzzle_previews(puzzles);
+	//reload_puzzle_previews(puzzles);
 }
 
 ////////////
@@ -95,7 +95,6 @@ void move(std::vector<u16>& puzzle) {
 void go_next_puzzle(RenderTexture2D& game_texture) {
 	if (IsKeyPressed(KEY_EQUAL)) {
 		if (try_increment_puzzle()) {
-			//history.clear();
 			clear_background(game_texture);
 		}
 	}
@@ -335,41 +334,48 @@ void move_puzzle(int index) {
 	int current_index = get_puzzle_index();
 	if (index < 0 || index >= puzzles.size() || index == current_index) return;
 
-	int x 						= GetMouseX();
-	bool left 					= x % 160 <= 80 ? true : false;
-	std::vector<u16> sliding 	= get_current_puzzle();
+	int x 								= GetMouseX();
+	bool left 							= x % 160 <= 80 ? true : false;
+	std::vector<u16> sliding_puzzle 	= get_current_puzzle();
+	RenderTexture2D sliding_preview 	= puzzle_previews[puzzle_index];
 
 	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
 		if (current_index > index) {
 			index = left ? index : index + 1;
 			
 			for (int i = index; i <= current_index; ++i) {
-				std::vector<u16> temp = puzzles[i];
-				puzzles[i] = sliding;
-				sliding = temp;
+				std::vector<u16> temp_puzzle 	= puzzles[i];
+				RenderTexture2D temp_preview 	= puzzle_previews[i];
+				puzzle_previews[i] 				= sliding_preview; 
+				puzzles[i] 						= sliding_puzzle;
+				sliding_preview 				= temp_preview; 
+				sliding_puzzle 					= temp_puzzle;
+
 			}
 
 			set_current_puzzle_and_index(index);
 
-			reload_puzzle_previews(get_puzzles());
+			//reload_puzzle_previews(get_puzzles());
 		} else {
 			index = left ? index - 1 : index;
 
 			for (int i = index; i >= current_index; --i) {
-				std::vector<u16> temp = puzzles[i];
-				puzzles[i] = sliding;
-				sliding = temp;
+				std::vector<u16> temp_puzzle 	= puzzles[i];
+				RenderTexture2D temp_preview 	= puzzle_previews[i];
+				puzzle_previews[i] 				= sliding_preview; 
+				puzzles[i] 						= sliding_puzzle;
+				sliding_preview 				= temp_preview; 
+				sliding_puzzle 					= temp_puzzle;
 			}
 
 			set_current_puzzle_and_index(index);
 
-			reload_puzzle_previews(get_puzzles());
+			//reload_puzzle_previews(get_puzzles());
 		}
 
 		save_puzzles_to_file();
 	}
 }
-
 
 /////////////////
 //  Main Menu  //

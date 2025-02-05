@@ -22,6 +22,7 @@ int main() {
 	load_editor_sprites();
 	load_puzzles_from_file();
 	load_progress();
+	load_puzzle_previews(get_puzzles());
 
 	RenderTexture2D game_texture 		= create_texture(screenWidth, screenHeight);
 	RenderTexture2D edit_texture 		= draw_editor_setup(screenWidth, screenHeight);
