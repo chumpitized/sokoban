@@ -49,6 +49,7 @@ int main() {
 		auto now = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapsed = now - last_save;
 
+
         if (elapsed.count() >= 5.0) {
             save_progress();
             last_save = now;
