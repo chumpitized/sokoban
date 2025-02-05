@@ -223,6 +223,13 @@ void save_puzzles_to_file() {
 	file.close();
 }
 
+//save the current puzzle index to file
+//read from the file on startup
+//void save_progress() {
+	
+
+//}
+
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
 		puzzle_index++;

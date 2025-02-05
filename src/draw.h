@@ -66,7 +66,7 @@ void draw_puzzle_to_preview_texture(RenderTexture2D& texture, int texture_width,
 
 RenderTexture2D draw_main_menu_setup(int screenWidth, int screenHeight);
 void draw_game_title(RenderTexture2D& texture);
-void draw_main_menu_buttons(RenderTexture2D& texture);
+void draw_main_menu_buttons(RenderTexture2D& texture, Color play_button, Color edit_button, Color level_button, Color quit_button);
 
 
 #endif

@@ -25,6 +25,11 @@ int main() {
 	//RenderTexture2D level_menu_texture 	= draw_menu_setup(screenWidth, screenHeight);
 	RenderTexture2D main_menu_texture 	= draw_main_menu_setup(screenWidth, screenHeight);
 
+	Color play_button = GRAY;
+	Color edit_button = GRAY;
+	Color level_button = GRAY;
+	Color quit_button = GRAY;
+
 	while(!WindowShouldClose()) {
 		int current_puzzle_index 		= get_puzzle_index();
 
@@ -152,8 +157,12 @@ int main() {
 
 		if (mode == Mode::Main_Menu) {
 			draw_game_title(main_menu_texture);
-			draw_main_menu_buttons(main_menu_texture);
-			click_button(game_texture);
+
+			//draw_main_menu_buttons(main_menu_texture, play_button);
+			hover_button(play_button, edit_button, level_button, quit_button);
+			click_button(play_button, edit_button, level_button, quit_button);
+			release_button(game_texture, play_button, edit_button, level_button, quit_button);
+			draw_main_menu_buttons(main_menu_texture, play_button, edit_button, level_button, quit_button);
 
 			BeginDrawing();
 				DrawTextureRec(main_menu_texture.texture, (Rectangle){0, 0, (float)main_menu_texture.texture.width, -(float)main_menu_texture.texture.height}, (Vector2){0,0}, WHITE);

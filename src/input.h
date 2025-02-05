@@ -63,6 +63,8 @@ void move_puzzle(int index);
 //  Main Menu  //
 /////////////////
 
-void click_button(RenderTexture2D& game_texture);
+void hover_button(Color& play_button, Color& edit_button, Color& level_button, Color& quit_button);
+void click_button(Color& play_button, Color& edit_button, Color& level_button, Color& quit_button);
+void release_button(RenderTexture2D& game_texture, Color& play_button, Color& edit_button, Color& level_button, Color& quit_button);
 
 #endif

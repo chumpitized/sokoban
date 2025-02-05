@@ -375,12 +375,97 @@ void move_puzzle(int index) {
 //  Main Menu  //
 /////////////////
 
-void click_button(RenderTexture2D& game_texture) {
+void hover_button(Color& play_button, Color& edit_button, Color& level_button, Color& quit_button) {
+	Color click = Color{33, 33, 33, 255};
+	if (ColorIsEqual(play_button, click) || ColorIsEqual(edit_button, click) || ColorIsEqual(level_button, click) || ColorIsEqual(quit_button, click)) return;
+	
+	int mouse_x = GetMouseX();
+	int mouse_y = GetMouseY();
+	
+	int x_offset = (screenWidth / 2) - 300; 
+
+	play_button 	= ColorIsEqual(play_button, DARKGRAY) ? GRAY : play_button;
+	edit_button 	= ColorIsEqual(edit_button, DARKGRAY) ? GRAY : edit_button;
+	level_button 	= ColorIsEqual(level_button, DARKGRAY) ? GRAY : level_button;
+	quit_button 	= ColorIsEqual(quit_button, DARKGRAY) ? GRAY : quit_button;
+	
+	if (mouse_x >= x_offset && mouse_x <= x_offset + 600) {
+	
+		//Play	
+		int play_y = (screenHeight / 20) * 7;
+		if (mouse_y >= play_y && mouse_y <= play_y + 100) {
+			if (ColorIsEqual(play_button, GRAY)) play_button = DARKGRAY;
+		}
+	
+		//Editor
+		int edit_y = (screenHeight / 20) * 10;
+		if (mouse_y >= edit_y && mouse_y <= edit_y + 100) {
+			if (ColorIsEqual(edit_button, GRAY)) edit_button = DARKGRAY;
+		}
+	
+		//Level Menu
+		int menu_y = (screenHeight / 20) * 13;
+		if (mouse_y >= menu_y && mouse_y <= menu_y + 100) {	
+			if (ColorIsEqual(level_button, GRAY)) level_button = DARKGRAY;
+		}
+	
+		//Quit
+		int quit_y = (screenHeight / 20) * 16;
+		if (mouse_y >= quit_y && mouse_y <= quit_y + 100) {	
+			if (ColorIsEqual(quit_button, GRAY)) quit_button = DARKGRAY;
+		}
+	}
+}
+
+void click_button(Color& play_button, Color& edit_button, Color& level_button, Color& quit_button) {
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 		int mouse_x = GetMouseX();
 		int mouse_y = GetMouseY();
 
 		int x_offset = (screenWidth / 2) - 300;
+
+		Color click_color = Color{33, 33, 33, 255};
+
+		if (mouse_x >= x_offset && mouse_x <= x_offset + 600) {
+
+			//Play	
+			int play_y = (screenHeight / 20) * 7;
+			if (mouse_y >= play_y && mouse_y <= play_y + 100) {
+				play_button = click_color;
+			}
+
+			//Editor
+			int edit_y = (screenHeight / 20) * 10;
+			if (mouse_y >= edit_y && mouse_y <= edit_y + 100) {
+				edit_button = click_color;
+			}
+
+			//Level Menu
+			int menu_y = (screenHeight / 20) * 13;
+			if (mouse_y >= menu_y && mouse_y <= menu_y + 100) {	
+				level_button = click_color;
+			}
+
+			//Quit
+			int quit_y = (screenHeight / 20) * 16;
+			if (mouse_y >= quit_y && mouse_y <= quit_y + 100) {	
+				quit_button = click_color;
+			}
+		}
+	}
+}
+
+void release_button(RenderTexture2D& game_texture, Color& play_button, Color& edit_button, Color& level_button, Color& quit_button) {
+	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+		int mouse_x = GetMouseX();
+		int mouse_y = GetMouseY();
+
+		int x_offset = (screenWidth / 2) - 300;
+
+		play_button 	= GRAY;
+		edit_button 	= GRAY;
+		level_button 	= GRAY;
+		quit_button 	= GRAY;
 
 		if (mouse_x >= x_offset && mouse_x <= x_offset + 600) {
 
@@ -402,6 +487,7 @@ void click_button(RenderTexture2D& game_texture) {
 				switch_to_level_menu();
 			}
 
+			//Quit
 			int quit_y = (screenHeight / 20) * 16;
 			if (mouse_y >= quit_y && mouse_y <= quit_y + 100) {	
 				CloseWindow();

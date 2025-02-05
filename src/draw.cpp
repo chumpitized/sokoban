@@ -353,7 +353,19 @@ void draw_game_title(RenderTexture2D& texture) {
 	EndTextureMode();
 }
 
-void draw_main_menu_buttons(RenderTexture2D& texture) {
+struct Button {
+	char* name;
+	int x;
+	int y;
+	int width;
+	int height;
+	Color plain_color;
+	Color hover_color;
+	Color click_color;
+};
+
+
+void draw_main_menu_buttons(RenderTexture2D& texture, Color play_button, Color edit_button, Color level_button, Color quit_button) {
 	int x = texture.texture.width;
 	int y = texture.texture.height;
 
@@ -368,19 +380,19 @@ void draw_main_menu_buttons(RenderTexture2D& texture) {
 	int quit_width = MeasureText("Quit", font_size);
 
 	BeginTextureMode(texture);
-		DrawRectangle(x_offset - 300, y_offset * 7, 600, 100, GRAY);
+		DrawRectangle(x_offset - 300, y_offset * 7, 600, 100, play_button);
 		DrawText("Play", x_offset - (play_width / 2), y_offset * 7 + (100 - font_size) / 2, font_size, BLACK);
 		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 7, 600, 100}, 5.0, DARKGRAY);
 
-		DrawRectangle(x_offset - 300, y_offset * 10, 600, 100, GRAY);
+		DrawRectangle(x_offset - 300, y_offset * 10, 600, 100, edit_button);
 		DrawText("Editor", x_offset - (edit_width / 2), y_offset * 10 + (100 - font_size) / 2, font_size, BLACK);
 		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 10, 600, 100}, 5.0, DARKGRAY);
 
-		DrawRectangle(x_offset - 300,  y_offset * 13, 600, 100, GRAY);
+		DrawRectangle(x_offset - 300,  y_offset * 13, 600, 100, level_button);
 		DrawText("Level Menu", x_offset - (menu_width / 2), y_offset * 13 + (100 - font_size) / 2, font_size, BLACK);
 		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 13, 600, 100}, 5.0, DARKGRAY);
 
-		DrawRectangle(x_offset - 300,  y_offset * 16, 600, 100, GRAY);
+		DrawRectangle(x_offset - 300,  y_offset * 16, 600, 100, quit_button);
 		DrawText("Quit", x_offset - (quit_width / 2), y_offset * 16 + (100 - font_size) / 2, font_size, BLACK);
 		DrawRectangleLinesEx((Rectangle){(float)x_offset - 300, (float)y_offset * 16, 600, 100}, 5.0, DARKGRAY);
 	EndTextureMode();
