@@ -233,7 +233,8 @@ void save_puzzles_to_file() {
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {
 		puzzle_index++;
-		current_puzzle 				= puzzles[puzzle_index];
+		current_puzzle = puzzles[puzzle_index];
+		history.clear();
 		return true;
 	} else {
 		std::cerr << "INCREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -244,7 +245,8 @@ bool try_increment_puzzle() {
 bool try_decrement_puzzle() {
 	if (puzzle_index - 1 >= 0) {
 		puzzle_index--;
-		current_puzzle 				= puzzles[puzzle_index];
+		current_puzzle = puzzles[puzzle_index];
+		history.clear();
 		return true;
 	} else {
 		std::cerr << "DECREMENTED INDEX OUT OF RANGE!" << std::endl;
@@ -316,7 +318,7 @@ int try_move(int input, int currentCellIndex) {
 	return currentCellIndex;
 }
 
-void complete_puzzle() {
+bool complete_puzzle() {
 	int locked_doors = 0;
 
 	for (auto cell : current_puzzle) {
@@ -328,5 +330,5 @@ void complete_puzzle() {
 		}
 	}
 
-	if (locked_doors == 0) try_increment_puzzle();
+	return locked_doors == 0;
 }

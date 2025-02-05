@@ -60,6 +60,6 @@ void restart_level();
 bool is_possible_move(int move);
 int try_move(int input, int currentCellIndex);
 
-void complete_puzzle();
+bool complete_puzzle();
 
 #endif

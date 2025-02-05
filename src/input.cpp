@@ -95,7 +95,7 @@ void move(std::vector<u16>& puzzle) {
 void go_next_puzzle(RenderTexture2D& game_texture) {
 	if (IsKeyPressed(KEY_EQUAL)) {
 		if (try_increment_puzzle()) {
-			history.clear();
+			//history.clear();
 			clear_background(game_texture);
 		}
 	}
