@@ -43,7 +43,6 @@ u8 get_current_puzzle_player_index() {
 	return current_puzzle[current_puzzle.size() - 2];
 }
 
-//this doesn't update the puzzle index...
 void set_current_puzzle_and_index(int index) {
 	if (index < puzzles.size() && index >= 0) {
 		puzzle_index = index;
@@ -223,12 +222,42 @@ void save_puzzles_to_file() {
 	file.close();
 }
 
-//save the current puzzle index to file
-//read from the file on startup
-//void save_progress() {
-	
+void load_progress() {
+	std::fstream file;
+	file.open("data/saves/saved_progress", std::ios::in | std::ios::binary);
 
-//}
+	if (!file) {
+		std::cerr << "ERROR: FAILED TO OPEN FILE" << std::endl;
+		return;
+	}
+
+	file.seekg(0, file.end);
+	int length = file.tellg();
+	file.seekg(0, file.beg);
+
+	u8 buffer[length];
+
+	file.read(reinterpret_cast<char*>(buffer), length);
+	file.close();
+
+	puzzle_index = buffer[0];
+}
+
+void save_progress() {
+	std::fstream file;
+	file.open("data/saves/saved_progress", std::ios::out | std::ios::binary);
+
+	if (!file) {
+		std::cerr << "ERROR: FAILED TO OPEN FILE" << std::endl;
+		return;
+	}
+
+	//possible we will want to save more info at some point...
+	u8 buffer[1] = {(u8)puzzle_index};
+
+	file.write(reinterpret_cast<char*>(buffer), 1);
+	file.close();
+}
 
 bool try_increment_puzzle() {
 	if (puzzle_index + 1 < puzzles.size()) {

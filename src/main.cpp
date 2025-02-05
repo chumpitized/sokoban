@@ -20,6 +20,8 @@ int main() {
 	load_sprites();
 	load_editor_sprites();
 	load_puzzles_from_file();
+	load_progress();
+
 	RenderTexture2D game_texture 		= create_texture(screenWidth, screenHeight);
 	RenderTexture2D edit_texture 		= draw_editor_setup(screenWidth, screenHeight);
 	//RenderTexture2D level_menu_texture 	= draw_menu_setup(screenWidth, screenHeight);
@@ -51,6 +53,10 @@ int main() {
 		////////////
 		
 		if (mode == Mode::Play) {
+			if (IsKeyPressed(KEY_K)) {
+				save_progress();
+			}
+
 			if (complete_puzzle()) { 
 				clear_background(game_texture);
 				try_increment_puzzle();

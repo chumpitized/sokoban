@@ -50,6 +50,8 @@ bool is_edit_puzzle_valid(std::vector<u16>& canvas, int canvas_tile_width);
 void overwrite_puzzle_in_puzzles(std::vector<u16>& puzzle, int index);
 void load_puzzles_from_file();
 void save_puzzles_to_file();
+void load_progress();
+void save_progress();
 
 bool try_increment_puzzle();
 bool try_decrement_puzzle();
