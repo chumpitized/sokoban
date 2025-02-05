@@ -283,8 +283,14 @@ void load_puzzle_previews(std::vector<std::vector<u16>> puzzles) {
 	for (auto puzzle : puzzles) {
 		puzzle_previews.push_back(load_puzzle_preview(puzzle));
 	}
+}
 
-	//return puzzle_previews;
+void reload_puzzle_preview(std::vector<std::vector<u16>> puzzles, int puzzle_index) {
+	RenderTexture2D old_preview = puzzle_previews[puzzle_index];
+	RenderTexture2D new_preview = load_puzzle_preview(puzzles[puzzle_index]);
+
+	puzzle_previews[puzzle_index] = new_preview;
+	UnloadRenderTexture(old_preview);
 }
 
 std::vector<RenderTexture2D> reload_puzzle_previews(std::vector<std::vector<u16>> puzzles) {

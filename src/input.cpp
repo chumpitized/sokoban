@@ -71,13 +71,6 @@ void switch_to_level_menu() {
 //  Play  //
 ////////////
 
-void create_new_puzzle() {
-	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_N)) {
-		std::cout << "creating new puzzle" << std::endl;
-		create_new_puzzle_and_update_vals();
-	}
-}
-
 void move(std::vector<u16>& puzzle) {
 	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_D)) {
 		//this will double count a position when you push into a wall
@@ -133,6 +126,7 @@ void try_save(std::vector<u16>& puzzle, int index, bool valid_save) {
 	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_S) && valid_save) {
 		std::cout << "trying to save!" << std::endl;
 		overwrite_puzzle_in_puzzles(puzzle, index);
+		reload_puzzle_preview(get_puzzles(), get_puzzle_index());
 		save_puzzles_to_file();
 	}
 }
@@ -152,6 +146,16 @@ void reset_canvas() {
 			canvas[i] = 0xffff;
 		}
 		editor_history.clear();
+	}
+}
+
+void create_new_puzzle() {
+	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_N)) {
+		RenderTexture2D new_preview = load_puzzle_preview(current_puzzle);
+		puzzle_previews.push_back(new_preview);
+
+		std::cout << "creating new puzzle" << std::endl;
+		create_new_puzzle_and_update_vals();
 	}
 }
 
@@ -381,11 +385,12 @@ void move_puzzle(int index) {
 //  Main Menu  //
 /////////////////
 
-void exit() {
-	if (IsKeyPressed(KEY_ESCAPE)) {
-		CloseWindow();
-	}
-}
+//void exit() {
+//	if (IsKeyPressed(KEY_ESCAPE) && mode == Mode::Main_Menu) {
+//		std::cout << "called somehow?" << std::endl;
+//		CloseWindow();
+//	}
+//}
 
 void hover_button(Color& play_button, Color& edit_button, Color& level_button, Color& quit_button) {
 	Color click = Color{33, 33, 33, 255};

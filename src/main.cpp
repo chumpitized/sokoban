@@ -185,8 +185,7 @@ int main() {
 			click_button(play_button, edit_button, level_button, quit_button);
 			release_button(game_texture, play_button, edit_button, level_button, quit_button);
 			draw_main_menu_buttons(main_menu_texture, play_button, edit_button, level_button, quit_button);
-
-			exit();
+			//exit();
 
 			BeginDrawing();
 				DrawTextureRec(main_menu_texture.texture, (Rectangle){0, 0, (float)main_menu_texture.texture.width, -(float)main_menu_texture.texture.height}, (Vector2){0,0}, WHITE);
